@@ -11,7 +11,7 @@ class Application extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'job_id', 'jobseeker_id', 'application_date', 'application_status'
+        'postjob_id', 'jobseeker_id', 'application_date', 'application_status'
     ];
 
     public function job()

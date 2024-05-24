@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('job_seekers', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');
-            $table->string('resume');
+            $table->string('resume')->nullable();
             $table->string('cover_letter')->nullable();
-            $table->text('contact_info');
+            $table->text('contact_info')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -2,11 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Base;
 use App\Models\User;
+use App\Repositories\ApplicationRepository;
+use App\Repositories\CompanyRepository;
+use App\Repositories\EmployerRepositoryRepository;
+use App\Repositories\JobSeekerRepositoryRepository;
+use App\Repositories\PostJobsRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    protected $userRepository;
+    protected $employerRepository;
+    protected $jobSeekerRepository;
+    protected $companyRepository;
+    protected $applicationRepository;
+    protected $postJobsRepository;
+    public function __construct(UserRepository $userRepository, EmployerRepositoryRepository $employerRepository,
+                                JobSeekerRepositoryRepository $jobSeekerRepository, CompanyRepository $companyRepository,
+                                ApplicationRepository $applicationRepository, PostJobsRepository $postJobsRepository)
+    {
+        $this->userRepository = $userRepository;
+        $this->employerRepository = $employerRepository;
+        $this->jobSeekerRepository = $jobSeekerRepository;
+        $this->companyRepository = $companyRepository;
+        $this->applicationRepository = $applicationRepository;
+        $this->postJobsRepository = $postJobsRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +39,28 @@ class UserController extends Controller
      */
     public function index_ad()
     {
-        return view('adminMain');
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        $totalUsers = $this->userRepository->getTotalUsers();
+        $totalEmployers = $this->employerRepository->getTotalEmployers();
+        $totalJobSeekers = $this->jobSeekerRepository->getTotalJobSeekers();
+        $totalCompanies = $this->companyRepository->getTotalCompanies();
+        $totalApplications = $this->applicationRepository->getTotalApplications();
+        $totalPostJobs = $this->postJobsRepository->getTotalPostJobs();
+        $users = $this->userRepository->getAllUsers();
+        return view('admin.adminMain',compact('role_id','users','totalUsers','totalEmployers','totalJobSeekers','totalCompanies','totalApplications','totalPostJobs'));
     }
 
+    public function employer(){
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        $employers = $this->employerRepository->paginate(Base::PAGE);
+        return view('admin.employerList.index',compact('employers','role_id'));
+    }
     /**
      * Show the form for creating a new resource.
      *

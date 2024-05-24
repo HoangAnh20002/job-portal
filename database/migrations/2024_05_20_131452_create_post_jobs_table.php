@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('job_title',255);
             $table->text('job_description');
             $table->text('job_requirement');
-            $table->unsignedInteger('company_id');
+            $table->unsignedInteger('employer_id');
             $table->decimal('salary');
             $table->string('employment_type',50);
             $table->date('post_date');

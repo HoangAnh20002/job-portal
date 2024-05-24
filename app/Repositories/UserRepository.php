@@ -20,4 +20,13 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return $this->model->create($userData);
     }
+
+    public function getAllUsers()
+    {
+        return $this->model->all();
+    }
+    public function getTotalUsers()
+    {
+        return $this->model->count();
+    }
 }

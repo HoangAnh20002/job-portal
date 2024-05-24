@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('employers', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('company_id');
-            $table->unsignedInteger('postjob_id');
-            $table->text('contact_info');
+            $table->unsignedInteger('company_id')->nullable();
+            $table->text('contact_info')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

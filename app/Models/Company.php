@@ -13,9 +13,8 @@ class Company extends Model
     protected $fillable = [
         'company_name', 'industry', 'description', 'location', 'website', 'phone', 'logo'
     ];
-
-    public function job()
+    public function employer()
     {
-        return $this->hasOne(PostJob::class);
+        return $this->hasOne(Employer::class);
     }
 }

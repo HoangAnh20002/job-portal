@@ -23,17 +23,48 @@ class LoginController extends Controller
     }
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ], [
+            'email.required' => 'The email field is required.',
+            'email.email' => 'Please enter a valid email address.',
+            'password.required' => 'The password field is required.',
+            'password.min' => 'The password must be at least 8 characters long.',
+        ]);
         if ($this->authRepository->authenticate($request->only('email', 'password'))) {
             if(Auth::user()->role_id == Base::ADMIN){
-                return redirect('adminMain');
+                return redirect()->intended();
             }
             if(Auth::user()->role_id == Base::EMPLOYER){
-                return redirect('employerMain');
+                return redirect()->intended();
             }
-            return redirect('jobSeekerMain');
+            return redirect()->intended();
         }
         return redirect('login')->withInput()->withErrors([
             'email' => 'Invalid email or password.'
         ]);
+    }
+    public function showRegistrationForm()
+    {
+        return view('auth.register');
+    }
+    public function register(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required',
+        ]);
+
+        $user = $this->authRepository->registerUser($request->all());
+
+        return redirect()->route('login')->with('success', 'Tạo tài khoản thành công');
+    }
+    public function logout(){
+        Auth::logout();
+
+        return redirect('/');
     }
 }

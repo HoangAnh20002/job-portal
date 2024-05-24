@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\JobSeeker;
+use App\Models\PostJob;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,10 @@ class ApplicationFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'postjob_id' => PostJob::inRandomOrder()->first()->id,
+            'jobseeker_id' => JobSeeker::inRandomOrder()->first()->id,
+            'application_date' => $this->faker->date,
+            'application_status' => $this->faker->randomElement(['Accepted', 'Rejected']),
         ];
     }
 }
