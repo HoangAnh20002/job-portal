@@ -6,8 +6,8 @@ use App\Enums\Base;
 use App\Models\User;
 use App\Repositories\ApplicationRepository;
 use App\Repositories\CompanyRepository;
-use App\Repositories\EmployerRepositoryRepository;
-use App\Repositories\JobSeekerRepositoryRepository;
+use App\Repositories\EmployerRepository;
+use App\Repositories\JobSeekerRepository;
 use App\Repositories\PostJobsRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -21,8 +21,8 @@ class UserController extends Controller
     protected $companyRepository;
     protected $applicationRepository;
     protected $postJobsRepository;
-    public function __construct(UserRepository $userRepository, EmployerRepositoryRepository $employerRepository,
-                                JobSeekerRepositoryRepository $jobSeekerRepository, CompanyRepository $companyRepository,
+    public function __construct(UserRepository        $userRepository, EmployerRepository $employerRepository,
+                                JobSeekerRepository   $jobSeekerRepository, CompanyRepository $companyRepository,
                                 ApplicationRepository $applicationRepository, PostJobsRepository $postJobsRepository)
     {
         $this->userRepository = $userRepository;
@@ -53,14 +53,6 @@ class UserController extends Controller
         return view('admin.adminMain',compact('role_id','users','totalUsers','totalEmployers','totalJobSeekers','totalCompanies','totalApplications','totalPostJobs'));
     }
 
-    public function employer(){
-        $role_id = null;
-        if (Auth::check()) {
-            $role_id = Auth::user()->role_id;
-        }
-        $employers = $this->employerRepository->paginate(Base::PAGE);
-        return view('admin.employerList.index',compact('employers','role_id'));
-    }
     /**
      * Show the form for creating a new resource.
      *

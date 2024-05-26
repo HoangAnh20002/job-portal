@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->string('company_name',255);
-            $table->string('industry',255);
-            $table->text('description');
-            $table->string('location',255);
-            $table->string('website',255);
-            $table->string('phone',20);
+            $table->string('company_name',255)->nullable();
+            $table->string('industry',255)->nullable();
+            $table->text('description')->nullable();
+            $table->string('location',255)->nullable();
+            $table->string('website',255)->nullable();
+            $table->string('phone',20)->nullable();
             $table->string('logo',255)->nullable();
             $table->timestamps();
             $table->softDeletes();

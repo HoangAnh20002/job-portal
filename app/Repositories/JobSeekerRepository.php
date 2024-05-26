@@ -4,7 +4,7 @@ use App\Models\JobSeeker;
 use App\Repositories\Interfaces\JobSeekerRepositoryInterface;
 
 
-class JobSeekerRepositoryRepository extends BaseRepository implements JobSeekerRepositoryInterface
+class JobSeekerRepository extends BaseRepository implements JobSeekerRepositoryInterface
 {
     public function __construct()
     {

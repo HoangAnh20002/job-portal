@@ -4,7 +4,7 @@ use App\Models\Employer;
 use App\Repositories\Interfaces\EmployerRepositoryInterfaces;
 
 
-class EmployerRepositoryRepository extends BaseRepository implements EmployerRepositoryInterfaces
+class EmployerRepository extends BaseRepository implements EmployerRepositoryInterfaces
 {
     public function __construct()
     {

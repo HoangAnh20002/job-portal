@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\JobSeekerController;
 use App\Http\Controllers\LoginController;
@@ -26,12 +27,13 @@ Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name(
 Route::post('/register', [LoginController::class, 'register']);
 
 Route::get('/adminMain', [UserController::class, 'index_ad'])->name('adminMain');
-Route::get('/employerMain', [UserController::class, 'index_employer'])->name('employerMain');
-Route::get('/jobseekerMain', [UserController::class, 'index_jobseeker'])->name('jobseekerMain');
+Route::get('/employerMain', [EmployerController::class, 'show'])->name('employerMain');
+Route::get('/jobseekerMain', [JobSeekerController::class, 'show'])->name('jobseekerMain');
 
 
-Route::resource('users', UserController::class);
-Route::get('adminMain/employer',[UserController::class,'employer'])->name('user.employer');
-Route::get('adminMain/jobseeker',[UserController::class,'jobseeker'])->name('user.jobseeker');
-Route::resource('employers', EmployerController::class);
-Route::resource('jobseekers', JobSeekerController::class);
+Route::resource('user', UserController::class);
+
+
+Route::resource('employer', EmployerController::class);
+Route::resource('jobseeker', JobSeekerController::class);
+Route::resource('company', CompanyController::class);

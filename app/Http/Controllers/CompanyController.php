@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Base;
 use App\Models\Company;
+use App\Repositories\CompanyRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
+    protected $companyRepository;
+
+    public function __construct(CompanyRepository $companyRepository){
+
+        $this->companyRepository = $companyRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,12 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        $companies = $this->companyRepository->paginate(Base::PAGE);
+        return view('company.index',compact('companies','role_id'));
     }
 
     /**
