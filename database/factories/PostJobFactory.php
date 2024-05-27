@@ -28,6 +28,7 @@ class PostJobFactory extends Factory
             'post_date' => $this->faker->date,
             'expiration_date' => $this->faker->date,
             'is_highlighted' => $this->faker->boolean,
+            'status' => $this->faker->randomElement([1, 2]),
         ];
     }
 }

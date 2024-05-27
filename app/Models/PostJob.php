@@ -11,7 +11,7 @@ class PostJob extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'job_title', 'job_description', 'job_requirement', 'employer_id', 'salary', 'employment_type', 'post_date', 'expiration_date', 'is_highlighted'
+        'job_title', 'job_description', 'job_requirement', 'employer_id', 'salary', 'employment_type', 'post_date', 'expiration_date', 'is_highlighted','status',
     ];
 
     public function employer()

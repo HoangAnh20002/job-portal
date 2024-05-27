@@ -18,4 +18,12 @@ class PostJobsRepository extends BaseRepository implements PostJobRepositoryInte
     {
         return $this->model->count();
     }
+    public function updateStatus($id, $status)
+    {
+        $postJob = $this->model->find($id);
+        $postJob->status = $status;
+        $postJob->save();
+
+        return $postJob;
+    }
 }

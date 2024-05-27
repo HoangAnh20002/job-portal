@@ -19,6 +19,9 @@
         <div class="border border-white p-3">
             <a href="{{ route('company.index') }}" class="text-decoration-none text-white ml-3">Danh sách công ty</a>
         </div>
+        <div class="border border-white p-3">
+            <a href="{{ route('postjob.index') }}" class="text-decoration-none text-white ml-3">Quản lí bài đăng</a>
+        </div>
 {{--    @if($role == Base::ADMIN)--}}
 {{--        <div class="border border-white p-3">--}}
 {{--            <a href="{{route('student.index')}}" class="text-decoration-none text-white">Student</a>--}}

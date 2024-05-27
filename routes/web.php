@@ -4,6 +4,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\JobSeekerController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PostJobController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,3 +38,6 @@ Route::resource('user', UserController::class);
 Route::resource('employer', EmployerController::class);
 Route::resource('jobseeker', JobSeekerController::class);
 Route::resource('company', CompanyController::class);
+Route::resource('postjob', PostJobController::class);
+Route::patch('/postjob/{id}/update_status', [PostJobController::class, 'update_status'])
+    ->name('postjob.update_status');
