@@ -118,7 +118,14 @@ class EmployerController extends Controller
      */
     public function show(Employer $employer)
     {
-        return view('employer.employerMain');
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        $user = Auth::user();
+        $employer = $this->employerRepository->find($user->employer->id);
+
+        return view('employer.employerMain',compact('role_id','employer'));
     }
 
     /**

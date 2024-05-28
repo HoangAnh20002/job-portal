@@ -5,6 +5,15 @@
 @endsection
 
 @section('content')
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -58,42 +67,56 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    @if($employer == null) <th>ID</th>@endif
+                    @if($employer)<th>Chi tiết</th> @endif
                     <th>Trạng thái</th>
                     <th>Tiêu đề công việc</th>
                     <th>Mô tả công việc</th>
                     <th>Yêu cầu công việc</th>
-                    <th>ID Nhà tuyển dụng</th>
+                     @if($employer == null) <th>ID Nhà tuyển dụng</th>@endif
                     <th>Lương</th>
                     <th>Loại công việc</th>
                     <th>Ngày đăng</th>
                     <th>Ngày hết hạn</th>
                     <th>Nổi bật</th>
+                    @if($employer)<th>Thao tác</th> @endif
 
-                    @if($role_id == \App\Enums\Base::EMPLOYER)<th>Thao tác</th> @endif
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($post_jobs as $post_job)
-                    @if($employer->id == $post_job->employer_id)
+
+                    @if($employer && $employer->id == $post_job->employer_id)
                         <tr>
-                        <td>{{ $post_job->id }}</td>
                         <td>
                             <a href="{{ route('postjob.show', ['postjob' => $post_job->id]) }}" class="btn btn-info">
-                                {{ $post_job->status == 1 ? 'Được duyệt' : 'Chưa duyệt' }}
+                               Chi tiết
                             </a>
                         </td>
+                        <td>{{ $post_job->status == 1 ? 'Được duyệt' : 'Chưa duyệt' }}  </td>
                         <td class="truncate">{{ $post_job->job_title }}</td>
                         <td class="truncate">{{ $post_job->job_description }}</td>
                         <td class="truncate">{{ $post_job->job_requirement }}</td>
-                        <td>{{ $post_job->employer_id }}</td>
                         <td>{{ $post_job->salary }}</td>
-                        <td>{{ $post_job->employment_type }}</td>
+                            <td>
+                                @switch($post_job->employment_type)
+                                    @case(1)
+                                        Toàn thời gian
+                                        @break
+                                    @case(2)
+                                        Bán thời gian
+                                        @break
+                                    @case(3)
+                                        Thỏa thuận
+                                        @break
+                                    @default
+                                        Không xác định
+                                @endswitch
+                            </td>
                         <td>{{ $post_job->post_date }}</td>
                         <td>{{ $post_job->expiration_date }}</td>
                         <td>{{ $post_job->is_highlighted ? 'Có' : 'Không' }}</td>
-
-                       @if($role_id == \App\Enums\Base::EMPLOYER)<td>
+                       <td>
                             <div class="d-flex">
                                 <a href="{{ route('postjob.edit', ['postjob' => $post_job->id]) }}">
                                     <button class="bg-success text-white btn">Sửa</button>
@@ -130,16 +153,49 @@
                                     </div>
                                 </div>
                             </div>
-                        </td> @endif
-                    </tr>@endif
+                        </td>
+                    </tr>@elseif($employer == null)
+                        <tr>
+                            <td>{{ $post_job->id }}</td>
+                            <td>
+                                <a href="{{ route('postjob.show', ['postjob' => $post_job->id]) }}" class="btn btn-info">
+                                    {{ $post_job->status == 1 ? 'Được duyệt' : 'Chưa duyệt' }}
+                                </a>
+                            </td>
+                            <td class="truncate">{{ $post_job->job_title }}</td>
+                            <td class="truncate">{{ $post_job->job_description }}</td>
+                            <td class="truncate">{{ $post_job->job_requirement }}</td>
+                            <td>{{ $post_job->employer_id }}</td>
+                            <td>{{ $post_job->salary }}</td>
+                            <td>
+                                @switch($post_job->employment_type)
+                                    @case(1)
+                                        Toàn thời gian
+                                        @break
+                                    @case(2)
+                                        Bán thời gian
+                                        @break
+                                    @case(3)
+                                        Thỏa thuận
+                                        @break
+                                    @default
+                                        Không xác định
+                                @endswitch
+                            </td>
+                            <td>{{ $post_job->post_date }}</td>
+                            <td>{{ $post_job->expiration_date }}</td>
+                            <td>{{ $post_job->is_highlighted ? 'Có' : 'Không' }}</td>
+                        </tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+    @if($employer == null)
     <div class="mb-5 mt-5">
         {{ $post_jobs->appends(request()->query())->setPath(route('postjob.index'))->links('vendor.pagination.bootstrap-5') }}
-    </div>
+    </div> @endif
 @endsection
 
 <script>

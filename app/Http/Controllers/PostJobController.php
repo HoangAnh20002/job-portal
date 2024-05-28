@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Base;
+use App\Http\Requests\PostjobRequest;
 use App\Models\PostJob;
 use App\Repositories\ApplicationRepository;
 use App\Repositories\CompanyRepository;
@@ -50,22 +51,55 @@ class PostJobController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function create()
     {
-        //
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        $user = Auth::user();
+
+        $employer = $user->employer;
+        $company = $employer->company;
+
+        $employerAttributes = ['company_id','contact_info'];
+        $companyAttributes = ['company_name', 'industry', 'description', 'location', 'website', 'phone'];
+
+        foreach ($employerAttributes as $attribute) {
+            if (empty($employer->$attribute)) {
+                return redirect()->back()->with('error', 'Bạn cần hoàn thiện thông tin cá nhân trước khi tạo mới.');
+            }
+        }
+
+        foreach ($companyAttributes as $attribute) {
+            if (empty($company->$attribute)) {
+                return redirect()->back()->with('error', 'Bạn cần hoàn thiện thông tin công ty trước khi tạo mới.');
+            }
+        }
+
+        return view('postjob.create',compact('role_id'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PostjobRequest $request)
     {
-        //
+        $user = Auth::user();
+
+        $validatedData = $request->validated();
+
+        $validatedData['employer_id'] = $user->employer->id;
+        $validatedData['post_date'] = now();
+        $validatedData['is_highlighted'] = 0;
+        $this->postJobsRepository->create($validatedData);
+
+        return redirect()->route('postjob.index')->with('success', 'Bài đăng tuyển dụng đã được tạo thành công.');
     }
 
     /**
@@ -89,11 +123,20 @@ class PostJobController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\PostJob  $job
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(PostJob $job)
+    public function edit($id)
     {
-        //
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+
+        $postjob = $this->postJobsRepository->find($id);
+        if (!$postjob) {
+            return redirect()->route('postjob.index')->with('error', 'Bài đăng không tồn tại.');
+        }
+        return view('postjob.edit', compact('postjob','role_id'));
     }
 
     /**
@@ -111,19 +154,30 @@ class PostJobController extends Controller
         return redirect()->route('postjob.show', ['postjob' => $postJob->id])
             ->with('success', 'Trạng thái bài đăng đã được cập nhật thành công.');
     }
-    public function update(Request $request, PostJob $job)
+    public function update(PostjobRequest $request, $id)
     {
-        //
+        $validatedData = $request->validated();
+        $this->postJobsRepository->update($id, $validatedData);
+
+        return redirect()->route('postjob.index')->with('success', 'Bài đăng tuyển dụng đã được cập nhật thành công.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\PostJob  $job
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(PostJob $job)
+    public function destroy($id)
     {
-        //
+        $postjob = $this->postJobsRepository->find($id);
+
+        if (!$postjob) {
+            return redirect()->route('postjob.index')->with('error', 'Bài đăng không tồn tại.');
+        }
+
+        $this->postJobsRepository->delete($id);
+
+        return redirect()->route('postjob.index')->with('success', 'Bài đăng tuyển dụng đã được xóa thành công.');
     }
 }

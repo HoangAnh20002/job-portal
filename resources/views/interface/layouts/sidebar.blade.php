@@ -3,6 +3,20 @@
 @endphp
 
 <div class="bg-dark h-100 text-white">
+    @if($role_id == Base::ADMIN)
+        <div class="border border-white p-3">
+            <a href="{{ route('adminMain') }}" class="text-decoration-none text-white ml-3">Bảng điều khiển</a>
+        </div>
+    @elseif($role_id == Base::EMPLOYER)
+        <div class="border border-white p-3">
+            <a href="{{ route('employerMain') }}" class="text-decoration-none text-white ml-3">Hồ sơ cá nhân</a>
+        </div>
+    @elseif($role_id == Base::JOBSEEKER)
+        <div class="border border-white p-3">
+            <a href="{{ route('jobseekerMain') }}" class="text-decoration-none text-white ml-3">Hồ sơ cá nhân</a>
+        </div>
+    @endif
+    @if($role_id == Base::ADMIN)
     <div class="border border-white p-3">
         <div class="nav-item has-submenu">
             <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenuCollapse" aria-expanded="false" aria-controls="submenuCollapse">
@@ -16,6 +30,7 @@
             </ul>
         </div>
     </div>
+    @endif
         <div class="border border-white p-3">
             <a href="{{ route('company.index') }}" class="text-decoration-none text-white ml-3">Danh sách công ty</a>
         </div>

@@ -24,7 +24,7 @@ class PostJobFactory extends Factory
             'job_requirement' => $this->faker->text,
             'employer_id' => Employer::inRandomOrder()->first()->id,
             'salary' => $this->faker->randomFloat(2, 30000, 100000),
-            'employment_type' => $this->faker->randomElement(['Full-time', 'Part-time', 'Contract']),
+            'employment_type' => $this->faker->randomElement([1,2,3]),
             'post_date' => $this->faker->date,
             'expiration_date' => $this->faker->date,
             'is_highlighted' => $this->faker->boolean,

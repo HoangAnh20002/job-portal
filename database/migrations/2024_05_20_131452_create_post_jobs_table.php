@@ -20,11 +20,11 @@ return new class extends Migration
             $table->text('job_requirement');
             $table->unsignedInteger('employer_id');
             $table->decimal('salary');
-            $table->string('employment_type',50);
+            $table->unsignedTinyInteger('employment_type')->comment('1:fulltime|2:parttime|3:contract');
             $table->date('post_date');
             $table->date('expiration_date');
             $table->boolean('is_highlighted')->default(false);
-            $table->unsignedTinyInteger('status')->default(2);
+            $table->unsignedTinyInteger('status')->default(2)->comment('1:yes|2:no');
             $table->timestamps();
             $table->softDeletes();
         });

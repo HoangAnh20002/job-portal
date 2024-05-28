@@ -64,7 +64,7 @@
                             <label for="role">Bạn là?</label>
                             <select id="role" class="form-control @error('role') is-invalid @enderror" name="role" required>
                                 <option value="2">Nhà tuyển dụng</option>
-                                <option value="3">Người ứng tuyển</option>
+                                <option value="3">Người tìm việc</option>
                             </select>
                             @error('role')
                             <span class="invalid-feedback" role="alert">
