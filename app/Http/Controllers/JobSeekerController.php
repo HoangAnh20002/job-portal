@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\Base;
 use App\Http\Requests\JobseekerRequest;
-use App\Models\JobSeeker;
 use App\Repositories\JobSeekerRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
@@ -27,12 +26,9 @@ class JobSeekerController extends Controller
      */
     public function index()
     {
-        $role_id = null;
-        if (Auth::check()) {
-            $role_id = Auth::user()->role_id;
-        }
+        $role_id = Auth::check() ? Auth::user()->role_id : null;
         $jobseekers = $this->jobseekerRepository->paginate(Base::PAGE);
-        return view('jobseeker.index',compact('jobseekers','role_id'));
+        return view('jobseeker.index', compact('jobseekers', 'role_id'));
     }
 
     /**

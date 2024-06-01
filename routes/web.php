@@ -37,6 +37,17 @@ Route::resource('user', UserController::class);
 
 Route::resource('employer', EmployerController::class);
 Route::resource('jobseeker', JobSeekerController::class);
+
+Route::middleware(['auth', 'checkAccess'])->group(function () {
+    // Route cho người dùng quản trị viên
+    Route::resource('jobseeker', JobseekerController::class)->except([ 'create', 'store']);
+
+    // Route cho người dùng tìm việc
+    Route::get('/jobseeker/create', [JobseekerController::class, 'create'])->name('jobseeker.create');
+    Route::get('/jobseeker/{jobseeker}', [JobseekerController::class, 'show'])->name('jobseeker.show');
+    Route::get('/jobseeker/{jobseeker}/edit', [JobseekerController::class, 'edit'])->name('jobseeker.edit');
+    Route::delete('/jobseeker/{jobseeker}', [JobseekerController::class, 'destroy'])->name('jobseeker.destroy');
+});
 Route::resource('company', CompanyController::class);
 Route::resource('postjob', PostJobController::class);
 Route::patch('/postjob/{id}/update_status', [PostJobController::class, 'update_status'])
