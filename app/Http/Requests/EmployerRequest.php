@@ -32,6 +32,7 @@ class EmployerRequest extends FormRequest
             'location' => 'nullable|string|max:255',
             'website' => 'nullable|url|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'phone' => 'nullable|string|max:15',
         ];
 
@@ -82,6 +83,10 @@ class EmployerRequest extends FormRequest
             'logo.image' => 'Logo phải là một file ảnh.',
             'logo.mimes' => 'Logo phải là một trong các định dạng: jpeg, png, jpg, gif, svg.',
             'logo.max' => 'Logo không được vượt quá 2MB.',
+
+            'avatar.image' => 'Logo phải là một file ảnh.',
+            'avatar.mimes' => 'Logo phải là một trong các định dạng: jpeg, png, jpg, gif, svg.',
+            'avatar.max' => 'Logo không được vượt quá 2MB.',
 
             'phone.string' => 'Số điện thoại phải là một chuỗi ký tự.',
             'phone.max' => 'Số điện thoại không được vượt quá 15 ký tự.',

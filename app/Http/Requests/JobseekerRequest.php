@@ -25,6 +25,7 @@ class JobseekerRequest extends FormRequest
     {
         $rules = [
             'username' => 'required|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'resume' => 'nullable|file|mimes:pdf|max:2048',
             'cover_letter' => 'nullable|string',
             'contact_info' => 'nullable|string',
@@ -47,18 +48,26 @@ class JobseekerRequest extends FormRequest
             'username.required' => 'Tên là bắt buộc.',
             'username.string' => 'Tên phải là một chuỗi ký tự.',
             'username.max' => 'Tên không được vượt quá 255 ký tự.',
+
             'email.required' => 'Email là bắt buộc.',
             'email.string' => 'Email phải là một chuỗi ký tự.',
             'email.email' => 'Email không hợp lệ.',
             'email.max' => 'Email không được vượt quá 255 ký tự.',
+
             'password.required' => 'Mật khẩu là bắt buộc.',
             'password.string' => 'Mật khẩu phải là một chuỗi ký tự.',
             'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự.',
+
             'resume.file' => 'CV phải là một tệp.',
             'resume.mimes' => 'CV phải có định dạng PDF.',
             'resume.max' => 'Kích thước của CV không được vượt quá 2MB.',
+
             'cover_letter.string' => 'Lời nhắn phải là một chuỗi ký tự.',
             'contact_info.string' => 'Thông tin liên hệ phải là một chuỗi ký tự.',
+
+            'avatar.image' => 'Logo phải là một file ảnh.',
+            'avatar.mimes' => 'Logo phải là một trong các định dạng: jpeg, png, jpg, gif, svg.',
+            'avatar.max' => 'Logo không được vượt quá 2MB.',
         ];
     }
 }

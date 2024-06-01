@@ -85,11 +85,19 @@ class JobSeekerController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\JobSeeker  $jobSeeker
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show(JobSeeker $jobSeeker)
+
+    public function show()
     {
-        //
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        $user = Auth::user();
+        $jobseeker = $this->jobseekerRepository->find($user->jobseeker->id);
+
+        return view('jobseeker.jobseekerMain', compact('jobseeker','role_id'));
     }
 
     /**
@@ -127,6 +135,12 @@ class JobSeekerController extends Controller
         }
 
         $user = $jobseeker->user;
+        $file_name_avatar = $user->avatar;
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $file_name_avatar = $file->getClientOriginalName();
+            $file->storeAs('avatars', $file_name_avatar, 'public');
+        }
 
         $resumeName = $jobseeker->resume;
         if ($request->hasFile('resume')) {
@@ -142,6 +156,8 @@ class JobSeekerController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => $request->password ? bcrypt($request->password) : $user->password,
+            'avatar' => $file_name_avatar,
+
         ]);
 
         $jobseeker->update([
