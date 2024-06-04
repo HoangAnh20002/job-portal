@@ -96,7 +96,7 @@ class PostJobController extends Controller
 
         $validatedData['employer_id'] = $user->employer->id;
         $validatedData['post_date'] = now();
-        $validatedData['is_highlighted'] = 0;
+        $validatedData['service_id'] = null;
         $this->postJobsRepository->create($validatedData);
 
         return redirect()->route('postjob.index')->with('success', 'Bài đăng tuyển dụng đã được tạo thành công.');

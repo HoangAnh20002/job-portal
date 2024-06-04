@@ -15,12 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(ServiceSeeder::class);
         $this->call(CompanySeeder::class);
         $this->call(EmployerSeeder::class);
         $this->call(PostJobSeeder::class);
         $this->call(JobSeekerSeeder::class);
-        $this->call(ApplicationSeeder::class);
-        $this->call(ServiceSeeder::class);
+        $this->call(ApplicationSeeder::class);       
         $this->call(PaymentSeeder::class);
 
     }

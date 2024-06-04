@@ -22,7 +22,6 @@ class ApplicationFactory extends Factory
             'postjob_id' => PostJob::inRandomOrder()->first()->id,
             'jobseeker_id' => JobSeeker::inRandomOrder()->first()->id,
             'application_date' => $this->faker->date,
-            'application_status' => $this->faker->randomElement(['Accepted', 'Rejected']),
         ];
     }
 }

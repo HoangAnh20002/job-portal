@@ -33,18 +33,20 @@ Route::get('/employerMain', [EmployerController::class, 'show'])->name('employer
 Route::get('/jobseekerMain', [JobSeekerController::class, 'show'])->name('jobseekerMain');
 
 Route::resource('user', UserController::class);
+// Routes cho jobseeker
+Route::resource('jobseeker', JobseekerController::class);
+Route::resource('employer', EmployerController::class);
+// Route::middleware(['auth', 'checkAccess'])->group(function () {
+    
+    
+//     Route::get('/jobseeker/create', [JobseekerController::class, 'create'])->name('jobseeker.create');
+//     Route::post('/jobseeker', [JobseekerController::class, 'store'])->name('jobseeker.store');
 
-Route::middleware(['auth', 'checkAccess'])->group(function () {
-    // Routes cho jobseeker
-    Route::resource('jobseeker', JobseekerController::class)->except(['create', 'store']);
-    Route::get('/jobseeker/create', [JobseekerController::class, 'create'])->name('jobseeker.create');
-    Route::post('/jobseeker', [JobseekerController::class, 'store'])->name('jobseeker.store');
-
-    // Routes cho employer
-    Route::resource('employer', EmployerController::class)->except(['create', 'store']);
-    Route::get('/employer/create', [EmployerController::class, 'create'])->name('employer.create');
-    Route::post('/employer', [EmployerController::class, 'store'])->name('employer.store');
-});
+//     // Routes cho employer
+   
+//     Route::get('/employer/create', [EmployerController::class, 'create'])->name('employer.create');
+//     Route::post('/employer', [EmployerController::class, 'store'])->name('employer.store');
+// });
 
 Route::resource('company', CompanyController::class);
 Route::resource('postjob', PostJobController::class);

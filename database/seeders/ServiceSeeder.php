@@ -15,7 +15,7 @@ class ServiceSeeder extends Seeder
      */
     public function run()
     {
-        Service::factory()->count(10)->create();
+        Service::factory()->count(2)->create();
 
     }
 }
