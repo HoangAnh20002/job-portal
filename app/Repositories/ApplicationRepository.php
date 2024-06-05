@@ -18,4 +18,5 @@ class ApplicationRepository extends BaseRepository implements ApplicationReposit
     {
         return $this->model->count();
     }
+    
 }
