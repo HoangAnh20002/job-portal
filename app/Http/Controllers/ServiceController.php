@@ -3,18 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
+use App\Repositories\ServiceRepository;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
+    protected $serviceRepo;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(ServiceRepository $serviceRepo)
+    {
+       $this->serviceRepo= $serviceRepo;
+    }
+    
     public function index()
     {
-        //
+        //Hien thi tat cac s
     }
 
     /**
@@ -47,6 +54,8 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         //
+        $service = $service;
+        return $service;
     }
 
     /**

@@ -3,12 +3,12 @@
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\BaseRepositoryInterface;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 
 abstract class BaseRepository implements BaseRepositoryInterface
 {
+    protected $model;
     public function __construct()
     {
         $this->setModel();
