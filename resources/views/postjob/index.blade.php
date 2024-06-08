@@ -154,7 +154,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if($employer)<a href="{{ route('service.index') }}">
+                                @if($employer)<a href="{{ route('servicesroute.index') }}">
                                     <button class="bg-primary text-white btn">Làm nổi bật bài đăng của bạn</button>
                                 </a>@endif
                             </div>

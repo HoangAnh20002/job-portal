@@ -19,7 +19,7 @@ class PaymentController extends Controller
         $this->paymentRepo=$paymentRepo;
     }
     
-    public function index()
+    public function index(Request $request)
     {
        
         $transactionInfo = session('transaction_info');
@@ -30,10 +30,11 @@ class PaymentController extends Controller
             print_r($info_Payment);
              //'employer_id', 'amount', 'payment_date', 'service_id', 'postjob_id', 'payment_status'
             $data = $transactionInfo + $info_Payment;
+            $result = $this->paymentRepo;
         } else {
             echo 'khong co'; 
         }
-        return view('testvnPay');
+        return redirect('/create-payment/?amount'.$request->amount);
         
     }
 

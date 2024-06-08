@@ -39,7 +39,7 @@
         </div>
         @if($role_id == Base::ADMIN)
             <div class="border border-white p-3">
-                <a href="{{ route('service.index') }}" class="text-decoration-none text-white ml-3">Dịch vụ</a>
+                <a href="{{ route('servicesroute.index') }}" class="text-decoration-none text-white ml-3">Dịch vụ</a>
             </div>
         @endif
 
