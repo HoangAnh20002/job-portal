@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\ApplicationController;
@@ -5,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\JobSeekerController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PostJobController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
@@ -74,9 +76,9 @@ Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name(
 Route::post('/register', [LoginController::class, 'register']);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/adminMain', [UserController::class, 'index_ad'])->name('adminMain');
-    Route::get('/employerMain', [EmployerController::class, 'show'])->name('employerMain');
-    Route::get('/jobseekerMain', [JobSeekerController::class, 'show'])->name('jobseekerMain');
+    Route::get('/adminMain', [UserController::class, 'index_ad'])->middleware('checkAdmin')->name('adminMain');
+    Route::get('/employerMain', [EmployerController::class, 'show'])->middleware('checkEmployer')->name('employerMain');
+    Route::get('/jobseekerMain', [JobSeekerController::class, 'show'])->middleware('checkJobSeeker')->name('jobseekerMain');
 
     Route::resource('user', UserController::class);
 
@@ -88,7 +90,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('postjob', PostJobController::class);
     Route::patch('/postjob/{id}/update_status', [PostJobController::class, 'update_status'])->name('postjob.update_status');
 
-    Route::get('/create-payment', [VNpayController::class, 'create'])->name('create-payment');
+    Route::get('/create-payment', [VNpayController::class, 'create']);
     Route::get('/return-vnpay', [VNpayController::class, 'return']);
 
     // Application
@@ -96,5 +98,21 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/application/update-status/{application}', [ApplicationController::class, 'updateStatus']);
 
     // Service
-    Route::resource('service', ServiceController::class);
+    Route::resource('services', ServiceController::class)->names('servicesroute1');
+
+    //VNPAY
+    // Route::get('/create-payment', [VNpayController::class, 'create']);
+    Route::get('create-payment', [VNpayController::class, 'create'])->name('createPayment');
+
+    Route::get('/return-vnpay', [VNpayController::class, 'return']);
+    //Get all apply
+    Route::get('/get-my-apply',[UserController::class,'showApply']);
+// Trong file routes/web.php
+    Route::view('/test-vn', 'testvnPay'); // Chỉ cần tên view không cần đuôi .blade.php
+
+    //Search job
+    Route::get('/filter-postjob',[PostJobController::class,'filterStatus'])->middleware('checkAdmin');
+    Route::resource('/payment', PaymentController::class)->names('payment');
+
+
 });
