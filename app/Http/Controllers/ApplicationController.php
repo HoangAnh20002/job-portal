@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Base;
 use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Repositories\ApplicationRepository;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class ApplicationController extends Controller
@@ -66,6 +68,7 @@ class ApplicationController extends Controller
     //xem Chi tiet
     public function show(Application $application)
     {
+      
         return $application;
     }
 
@@ -100,10 +103,19 @@ class ApplicationController extends Controller
      */
     public function destroy(Application $application)
     {
-        //
-        $result =  $application->delete();
+        $result=false;
+        dd( Auth::user());
+        $user = Auth::user();
+        if(($user->role_id==Base::JOBSEEKER && $user->jobseeker==$application->jobseeker_id&&$application->application_status=="Pending")||$user->role_id==Base::ADMIN)
+            {
+               if($application){
+                $result =$application->delete();
+               }
+               else{
+                return (['message' => 'not find application']);
+               }
+            }
         if($result){
-
         return (['message' => 'Application deleted successfully']);
         }
         else{

@@ -18,9 +18,12 @@ class PostJob extends Model
     {
         return $this->belongsTo(Employer::class);
     }
-
-    public function applications()
+    public function applications()  ///?????
     {
         return $this->hasMany(Application::class);
+    }
+    
+    public function jobseekers() {
+        return $this->belongsToMany(JobSeeker::class,'applications');
     }
 }

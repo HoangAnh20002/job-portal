@@ -98,7 +98,12 @@ Route::middleware(['auth'])->group(function () {
     // Service 
     Route::resource('services', ServiceController::class)->names('servicesroute1');
 
-
+    //VNPAY
     Route::get('/create-payment', [VNpayController::class, 'create']);
     Route::get('/return-vnpay', [VNpayController::class, 'return']);
+    //Get all apply
+    Route::get('/get-my-apply',[UserController::class,'showApply']);
+    //Search job
+    Route::get('/filter-postjob',[PostJobController::class,'filterStatus'])->middleware('checkAdmin');
 });
+

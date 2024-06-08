@@ -26,4 +26,8 @@ class PostJobsRepository extends BaseRepository implements PostJobRepositoryInte
 
         return $postJob;
     }
-}
+    public function filterStatus($status) {
+        $result = $this->model->where('status',$status)->get();
+        return $result;
+    }
+} 

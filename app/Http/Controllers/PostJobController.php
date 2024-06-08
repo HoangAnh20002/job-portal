@@ -179,4 +179,9 @@ class PostJobController extends Controller
 
         return redirect()->route('postjob.index')->with('success', 'Bài đăng tuyển dụng đã được xóa thành công.');
     }
+    public function filterStatus(Request $request){
+        $status = $request->status;
+        $result = $this->postJobsRepository->filterStatus($request->status);
+        return view('test',compact('result'));
+    }
 }

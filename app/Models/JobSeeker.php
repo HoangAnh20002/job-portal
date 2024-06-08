@@ -14,12 +14,12 @@ class JobSeeker extends Model
         'user_id', 'resume', 'cover_letter', 'contact_info'
     ];
 
-    public function user()
+    public function user() //????
     {
         return $this->belongsTo(User::class);
     }
-    public function applications()
+    public function post_jobs()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(PostJob::class,'applications','postjob_id','jobseeker_id');
     }
 }

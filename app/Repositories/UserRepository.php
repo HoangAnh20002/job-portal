@@ -29,4 +29,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return $this->model->count();
     }
+    public function showApply() {
+        $user = Auth::user();
+        return $user->jobseeker->post_jobs;
+    }
 }
