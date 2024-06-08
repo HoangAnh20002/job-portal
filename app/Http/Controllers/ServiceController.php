@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Base;
 use App\Models\Service;
 use App\Repositories\ServiceRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -18,10 +20,15 @@ class ServiceController extends Controller
     {
        $this->serviceRepo= $serviceRepo;
     }
-    
+
     public function index()
     {
-        //Hien thi tat cac s
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        $services = $this->serviceRepo->paginate(Base::PAGE);
+        return view('service.index', compact('services', 'role_id'));
     }
 
     /**

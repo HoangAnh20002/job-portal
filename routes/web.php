@@ -39,13 +39,13 @@ use Illuminate\Support\Facades\Route;
 // Route::resource('jobseeker', JobseekerController::class);
 // Route::resource('employer', EmployerController::class);
 // // Route::middleware(['auth', 'checkAccess'])->group(function () {
-    
-    
+
+
 // //     Route::get('/jobseeker/create', [JobseekerController::class, 'create'])->name('jobseeker.create');
 // //     Route::post('/jobseeker', [JobseekerController::class, 'store'])->name('jobseeker.store');
 
 // //     // Routes cho employer
-   
+
 // //     Route::get('/employer/create', [EmployerController::class, 'create'])->name('employer.create');
 // //     Route::post('/employer', [EmployerController::class, 'store'])->name('employer.store');
 // // });
@@ -62,7 +62,7 @@ use Illuminate\Support\Facades\Route;
 // Route::patch('/application/update-status/{application}',[ApplicationController::class,'updateStatus']);
 
 
-// //Service 
+// //Service
 
 // Route::resource('services',ServiceController::class)->names('servicesroute1');
 
@@ -88,13 +88,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('postjob', PostJobController::class);
     Route::patch('/postjob/{id}/update_status', [PostJobController::class, 'update_status'])->name('postjob.update_status');
 
-    Route::get('/create-payment', [VNpayController::class, 'create']);
+    Route::get('/create-payment', [VNpayController::class, 'create'])->name('create-payment');
     Route::get('/return-vnpay', [VNpayController::class, 'return']);
 
     // Application
     Route::resource('application', ApplicationController::class);
     Route::patch('/application/update-status/{application}', [ApplicationController::class, 'updateStatus']);
 
-    // Service 
-    Route::resource('services', ServiceController::class)->names('servicesroute1');
+    // Service
+    Route::resource('service', ServiceController::class);
 });

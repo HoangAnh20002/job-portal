@@ -37,6 +37,12 @@
         <div class="border border-white p-3">
             <a href="{{ route('postjob.index') }}" class="text-decoration-none text-white ml-3">Quản lí bài đăng</a>
         </div>
+        @if($role_id == Base::ADMIN)
+            <div class="border border-white p-3">
+                <a href="{{ route('service.index') }}" class="text-decoration-none text-white ml-3">Dịch vụ</a>
+            </div>
+        @endif
+
 {{--    @if($role == Base::ADMIN)--}}
 {{--        <div class="border border-white p-3">--}}
 {{--            <a href="{{route('student.index')}}" class="text-decoration-none text-white">Student</a>--}}

@@ -117,41 +117,46 @@
                         <td>{{ $post_job->expiration_date }}</td>
                         <td>{{ $post_job->is_highlighted ? 'Có' : 'Không' }}</td>
                        <td>
-                            <div class="d-flex">
-                                <a href="{{ route('postjob.edit', ['postjob' => $post_job->id]) }}">
-                                    <button class="bg-success text-white btn">Sửa</button>
-                                </a>
-                                <button type="button" class="ml-2 bg-danger text-white btn" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal{{ $post_job->id }}">
-                                    Xóa
-                                </button>
-                                <div class="modal fade" id="exampleModal{{ $post_job->id }}" tabindex="-1"
-                                     aria-labelledby="exampleModalLabel{{ $post_job->id }}" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel{{ $post_job->id }}">
-                                                    Xóa bài đăng {{$post_job->job_title}}</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Bạn có chắc chắn muốn xóa bài đăng này?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                    Đóng
-                                                </button>
-                                                <form action="{{ route('postjob.destroy', ['postjob' => $post_job->id]) }}"
-                                                      method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Xóa</button>
-                                                </form>
+                            <div>
+                                <div class="d-flex mb-2">
+                                    <a href="{{ route('postjob.edit', ['postjob' => $post_job->id]) }}">
+                                        <button class="bg-success text-white btn">Sửa</button>
+                                    </a>
+                                    <button type="button" class="ml-2 bg-danger text-white btn" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal{{ $post_job->id }}">
+                                        Xóa
+                                    </button>
+                                    <div class="modal fade" id="exampleModal{{ $post_job->id }}" tabindex="-1"
+                                         aria-labelledby="exampleModalLabel{{ $post_job->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel{{ $post_job->id }}">
+                                                        Xóa bài đăng {{$post_job->job_title}}</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Bạn có chắc chắn muốn xóa bài đăng này?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                        Đóng
+                                                    </button>
+                                                    <form action="{{ route('postjob.destroy', ['postjob' => $post_job->id]) }}"
+                                                          method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                @if($employer)<a href="{{ route('service.index') }}">
+                                    <button class="bg-primary text-white btn">Làm nổi bật bài đăng của bạn</button>
+                                </a>@endif
                             </div>
                         </td>
                     </tr>@elseif($employer == null)
