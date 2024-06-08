@@ -28,7 +28,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(JobSeeker::class);
     }
-
-
 }
 

@@ -118,4 +118,9 @@ class UserController extends Controller
     {
         //
     }
+    //Hien thi tat ca job da apply
+    public function showApply(){
+        $result = $this->userRepository->showApply();
+        return view('test',compact('result'));
+    }
 }
