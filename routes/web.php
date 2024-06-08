@@ -5,6 +5,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\JobSeekerController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PostJobController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
@@ -99,11 +100,19 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('services', ServiceController::class)->names('servicesroute1');
 
     //VNPAY
-    Route::get('/create-payment', [VNpayController::class, 'create']);
+    // Route::get('/create-payment', [VNpayController::class, 'create']);
+    Route::get('create-payment', [VNpayController::class, 'create'])->name('createPayment');
+
     Route::get('/return-vnpay', [VNpayController::class, 'return']);
     //Get all apply
     Route::get('/get-my-apply',[UserController::class,'showApply']);
+// Trong file routes/web.php
+    Route::view('/test-vn', 'testvnPay'); // Chỉ cần tên view không cần đuôi .blade.php
+
     //Search job
     Route::get('/filter-postjob',[PostJobController::class,'filterStatus'])->middleware('checkAdmin');
+    Route::resource('/payment', PaymentController::class)->names('payment');
+
+
 });
 
