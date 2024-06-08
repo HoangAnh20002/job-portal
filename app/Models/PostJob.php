@@ -16,7 +16,7 @@ class PostJob extends Model
 
     public function employer()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Employer::class);
     }
 
     public function applications()

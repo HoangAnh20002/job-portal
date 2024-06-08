@@ -6,7 +6,6 @@ use App\Enums\Base;
 use App\Http\Requests\PostjobRequest;
 use App\Models\PostJob;
 use App\Repositories\ApplicationRepository;
-use App\Repositories\CompanyRepository;
 use App\Repositories\EmployerRepository;
 use App\Repositories\PostJobsRepository;
 use App\Repositories\UserRepository;
@@ -20,9 +19,8 @@ class PostJobController extends Controller
     protected $applicationRepository;
     protected $postJobsRepository;
     public function __construct(UserRepository $userRepository, EmployerRepository $employerRepository,
-                                ApplicationRepository $applicationRepository,
-                                PostJobsRepository $postJobsRepository)
-    {
+        ApplicationRepository $applicationRepository,
+        PostJobsRepository $postJobsRepository) {
         $this->userRepository = $userRepository;
         $this->employerRepository = $employerRepository;
         $this->applicationRepository = $applicationRepository;
@@ -40,12 +38,12 @@ class PostJobController extends Controller
         if (Auth::check()) {
             $role_id = Auth::user()->role_id;
         }
-        if($role_id == Base::EMPLOYER){
+        if ($role_id == Base::EMPLOYER) {
             $user = Auth::user();
             $employer = $user->employer;
         }
         $post_jobs = $this->postJobsRepository->paginate(Base::PAGE);
-        return view('postjob.index',compact('post_jobs','role_id','employer'));
+        return view('postjob.index', compact('post_jobs', 'role_id', 'employer'));
     }
 
     /**
@@ -64,7 +62,7 @@ class PostJobController extends Controller
         $employer = $user->employer;
         $company = $employer->company;
 
-        $employerAttributes = ['company_id','contact_info'];
+        $employerAttributes = ['company_id', 'contact_info'];
         $companyAttributes = ['company_name', 'industry', 'description', 'location', 'website', 'phone'];
 
         foreach ($employerAttributes as $attribute) {
@@ -79,7 +77,7 @@ class PostJobController extends Controller
             }
         }
 
-        return view('postjob.create',compact('role_id'));
+        return view('postjob.create', compact('role_id'));
     }
 
     /**
@@ -111,12 +109,15 @@ class PostJobController extends Controller
     public function show($id)
     {
         $role_id = null;
-        if (Auth::check()) {
-            $role_id = Auth::user()->role_id;
-        }
-
+        $role_id = Auth::user()->role_id;
         $postjob = $this->postJobsRepository->find($id);
-        return view('postjob.detail',compact('postjob','role_id'));
+        if (!$postjob) {
+            return redirect('/postjob')->with('error', 'Không tìm thấy công việc.');
+        }
+        if (($postjob->employer->user_id == Auth::user()->id && $role_id == Base::EMPLOYER) || $role_id == Base::ADMIN) {
+            return view('postjob.detail', compact('postjob', 'role_id'));
+        }
+        return redirect('/postjob')->with('error', 'Bạn không có quyền truy cập');
     }
 
     /**
@@ -136,7 +137,7 @@ class PostJobController extends Controller
         if (!$postjob) {
             return redirect()->route('postjob.index')->with('error', 'Bài đăng không tồn tại.');
         }
-        return view('postjob.edit', compact('postjob','role_id'));
+        return view('postjob.edit', compact('postjob', 'role_id'));
     }
 
     /**
@@ -146,7 +147,7 @@ class PostJobController extends Controller
      * @param  \App\Models\PostJob  $job
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update_status(Request $request,$id)
+    public function update_status(Request $request, $id)
     {
         $status = $request->input('status');
         $postJob = $this->postJobsRepository->updateStatus($id, $status);
@@ -171,11 +172,9 @@ class PostJobController extends Controller
     public function destroy($id)
     {
         $postjob = $this->postJobsRepository->find($id);
-
         if (!$postjob) {
             return redirect()->route('postjob.index')->with('error', 'Bài đăng không tồn tại.');
         }
-
         $this->postJobsRepository->delete($id);
 
         return redirect()->route('postjob.index')->with('success', 'Bài đăng tuyển dụng đã được xóa thành công.');

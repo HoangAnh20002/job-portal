@@ -74,9 +74,9 @@ Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name(
 Route::post('/register', [LoginController::class, 'register']);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/adminMain', [UserController::class, 'index_ad'])->name('adminMain');
-    Route::get('/employerMain', [EmployerController::class, 'show'])->name('employerMain');
-    Route::get('/jobseekerMain', [JobSeekerController::class, 'show'])->name('jobseekerMain');
+    Route::get('/adminMain', [UserController::class, 'index_ad'])->middleware('checkAdmin')->name('adminMain');
+    Route::get('/employerMain', [EmployerController::class, 'show'])->middleware('checkEmployer')->name('employerMain');
+    Route::get('/jobseekerMain', [JobSeekerController::class, 'show'])->middleware('checkJobSeeker')->name('jobseekerMain');
 
     Route::resource('user', UserController::class);
 
@@ -97,4 +97,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Service 
     Route::resource('services', ServiceController::class)->names('servicesroute1');
+
+
+    Route::get('/create-payment', [VNpayController::class, 'create']);
+    Route::get('/return-vnpay', [VNpayController::class, 'return']);
 });

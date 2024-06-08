@@ -19,12 +19,11 @@ class VNpayController extends Controller
         $vnp_TxnRef = date("YmdHis");
         $vnp_OrderInfo = "Thanh toán hóa đơn phí dịch vụ";
         $vnp_OrderType = 'billpayment';
-        $vnp_Amount = 50000 * 100;
+        $vnp_Amount = 50000 * 100; // Số tiền thanh toán (theo đơn vị VND, nhân với 100)
         $vnp_Locale = 'vn';
         $vnp_IpAddr = $request->ip();
         $startTime = date("YmdHis");
-        $expire = date('YmdHis',strtotime('+15 minutes',strtotime($startTime)));
-
+        $expire = date('YmdHis', strtotime('+15 minutes', strtotime($startTime)));
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -39,7 +38,7 @@ class VNpayController extends Controller
             "vnp_OrderType" => $vnp_OrderType,
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
-             "vnp_ExpireDate"=>$expire
+            "vnp_ExpireDate" => $expire,
         );
 
         if ($request->has('bank_code')) {
@@ -71,12 +70,42 @@ class VNpayController extends Controller
 
     public function return (Request $request)
     {
+        // Lấy URL trước đó từ session hoặc mặc định là '/'
         $url = session('url_prev', '/');
-        if ($request->vnp_ResponseCode == "00") {
+
+        // Lấy thông tin từ request
+        $vnp_TxnRef = $request->input('vnp_TxnRef');
+        $vnp_Amount = $request->input('vnp_Amount');
+        $vnp_ResponseCode = $request->input('vnp_ResponseCode');
+        $vnp_OrderInfo = $request->input('vnp_OrderInfo');
+
+        // Kiểm tra mã phản hồi từ VNPAY
+        if ($vnp_ResponseCode == "00") {
+            // Xóa thông tin cost_id khỏi session nếu thanh toán thành công
             session()->forget('cost_id');
+            dd([
+                'vnp_TxnRef' => $vnp_TxnRef,
+                'vnp_Amount' => $vnp_Amount,
+                'vnp_ResponseCode' => $vnp_ResponseCode,
+                'vnp_OrderInfo' => $vnp_OrderInfo,
+                'url_prev' => $url,
+                'all' => $request->all(),
+            ]);
+            // Lưu các thông tin giao dịch vào session hoặc cơ sở dữ liệu nếu cần thiết
+            session(['transaction_info' => [
+                'txn_ref' => $vnp_TxnRef,
+                'amount' => $vnp_Amount,
+                'order_info' => $vnp_OrderInfo,
+            ]]);
+
+            // Điều hướng về URL trước đó và thông báo thành công
             return redirect($url)->with('success', 'Đã thanh toán phí dịch vụ');
         }
+
+        // Xóa thông tin url_prev khỏi session nếu thanh toán không thành công
         session()->forget('url_prev');
+        // Điều hướng trở lại trang trước và thông báo lỗi
         return redirect()->back()->with('error', 'Lỗi trong quá trình thanh toán phí dịch vụ');
     }
+
 }
