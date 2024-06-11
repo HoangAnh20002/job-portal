@@ -61,7 +61,7 @@
                                 </table>
                                 @if($role_id == \App\Enums\Base::EMPLOYER)
                                 <div class="d-flex justify-content-center mt-3">
-                                    <a href="{{ route('create-payment') }}">
+                                    <a href="{{ route('payment.index', ['amount'=>200000]) }}">
                                         <button class="bg-primary text-white btn">Thanh toán dịch vụ</button>
                                     </a>
                                 </div>
@@ -91,7 +91,7 @@
                                 </table>
                                 @if($role_id ==  \App\Enums\Base::EMPLOYER)
                                 <div class="d-flex justify-content-center mt-3">
-                                    <a href="{{ route('create-payment') }}">
+                                    <a href="{{ route('payment.index', ['amount'=>100000]) }}">
                                         <button class="bg-primary text-white btn">Thanh toán dịch vụ</button>
                                     </a>
                                 </div>

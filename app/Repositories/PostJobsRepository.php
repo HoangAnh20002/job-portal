@@ -26,8 +26,10 @@ class PostJobsRepository extends BaseRepository implements PostJobRepositoryInte
 
         return $postJob;
     }
-    public function getByServiceId($serviceId)
-    {
-        return $this->model->where('service_id', $serviceId)->get();
+
+    public function filterStatus($status) {
+        $result = $this->model->where('status',$status)->get();
+        return $result;
     }
-}
+} 
+

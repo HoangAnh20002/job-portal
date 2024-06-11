@@ -120,8 +120,7 @@ class EmployerController extends Controller
             $role_id = Auth::user()->role_id;
         }
         $user = Auth::user();
-        $employer = $this->employerRepository->find($user->employer->id);
-
+        $employer = $this->employerRepository->find($user->employer->id);       
         return view('employer.employerMain', compact('role_id', 'employer'));
     }
 

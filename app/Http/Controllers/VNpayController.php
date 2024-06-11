@@ -1,17 +1,17 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-
 class VNpayController extends Controller
 {
+  
     public function create(Request $request)
     {
+        session()->forget('transaction_info');
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         session(['cost_id' => $request->id]);
         session(['url_prev' => url()->previous()]);
-
         $vnp_TmnCode = "8MYXNMCB"; //Mã website tại VNPAY
         $vnp_HashSecret = trim("1PR0O9C66K81MS8IQU5RPH9YT5004A0T"); //Chuỗi bí mật
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -19,12 +19,11 @@ class VNpayController extends Controller
         $vnp_TxnRef = date("YmdHis");
         $vnp_OrderInfo = "Thanh toán hóa đơn phí dịch vụ";
         $vnp_OrderType = 'billpayment';
-        $vnp_Amount = 50000 * 100;
+        $vnp_Amount = 50000 * 100; // Số tiền thanh toán (theo đơn vị VND, nhân với 100)
         $vnp_Locale = 'vn';
         $vnp_IpAddr = $request->ip();
         $startTime = date("YmdHis");
-        $expire = date('YmdHis',strtotime('+15 minutes',strtotime($startTime)));
-
+        $expire = date('YmdHis', strtotime('+15 minutes', strtotime($startTime)));
 
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -39,7 +38,7 @@ class VNpayController extends Controller
             "vnp_OrderType" => $vnp_OrderType,
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
-             "vnp_ExpireDate"=>$expire
+            "vnp_ExpireDate" => $expire,
         );
 
         if ($request->has('bank_code')) {
@@ -71,12 +70,34 @@ class VNpayController extends Controller
 
     public function return (Request $request)
     {
+        // Lấy URL trước đó từ session hoặc mặc định là '/'
         $url = session('url_prev', '/');
-        if ($request->vnp_ResponseCode == "00") {
+
+        // Lấy thông tin từ request
+        $vnp_TxnRef = $request->input('vnp_TxnRef');
+        $vnp_Amount = $request->input('vnp_Amount');
+        $vnp_ResponseCode = $request->input('vnp_ResponseCode');
+        $vnp_OrderInfo = $request->input('vnp_OrderInfo');
+        Carbon::setLocale('vi');
+        Carbon::setToStringFormat('Y-m-d H:i:s');
+        if ($vnp_ResponseCode == "00") {
+            $currentDateTime = Carbon::now()->timezone('Asia/Ho_Chi_Minh');
+            $formattedDateTime = $currentDateTime->format('d/m/Y H:i:s');
+            $formattedAmount = number_format($vnp_Amount, 0, ',', '.');
             session()->forget('cost_id');
+            // Lưu các thông tin giao dịch vào session 
+            session(['transaction_info' => [
+                'txn_ref' => $vnp_TxnRef,
+                'amount' => $formattedAmount,
+                'order_info' => $vnp_OrderInfo,
+                'created_at' => $formattedDateTime, // Thời gian tạo giao dịch
+            ]]);
             return redirect($url)->with('success', 'Đã thanh toán phí dịch vụ');
         }
+
+        // Xóa thông tin url_prev khỏi session nếu thanh toán không thành công
         session()->forget('url_prev');
         return redirect()->back()->with('error', 'Lỗi trong quá trình thanh toán phí dịch vụ');
     }
+
 }

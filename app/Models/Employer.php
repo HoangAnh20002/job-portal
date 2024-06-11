@@ -25,10 +25,10 @@ class Employer extends Model
 
     public function payments()
     {
-        return $this->hasMany(Company::class);
+        return $this->hasMany(Payment::class);
     }
-    public function jobs()
+    public function post_jobs()
     {
-        return $this->hasMany(Company::class);
+        return $this->hasMany(PostJob::class);
     }
 }
