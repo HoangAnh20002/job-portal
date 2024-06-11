@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->enum("name",["Hiển thị bảng tin, Làm nổi bật tìm kiếm"]);
+            $table->enum("name",["Hiển thị bảng tin", "Làm nổi bật tìm kiếm"]);
             $table->text('description');
             $table->decimal('price');
             $table->timestamps();
