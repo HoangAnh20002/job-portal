@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\interface;
 
+use App\Enums\Base;
+use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Repositories\PostJobsRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,11 +13,13 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     protected $userRepository;
+    protected $postJobsRepository;
 
-
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository,
+                                PostJobsRepository $postJobsRepository)
     {
         $this->userRepository = $userRepository;
+        $this->postJobsRepository = $postJobsRepository;
     }
     /**
      * Display a listing of the resource.
@@ -27,8 +32,13 @@ class HomeController extends Controller
         if (Auth::check()) {
             $role_id = Auth::user()->role_id;
         }
-        return view('interface.welcome', compact('role_id'));
+        $postJobsWithFirstService = $this->postJobsRepository->getByServiceId(1);
+
+        $backgroundImages = ['bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg'];
+
+        return view('interface.welcome', compact('role_id', 'postJobsWithFirstService', 'backgroundImages'));
     }
+
 
     /**
      * Show the form for creating a new resource.

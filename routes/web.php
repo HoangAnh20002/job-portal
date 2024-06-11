@@ -68,7 +68,7 @@ use Illuminate\Support\Facades\Route;
 
 // Route::resource('services',ServiceController::class)->names('servicesroute1');
 
-Route::get('/', [\App\Http\Controllers\HomeController::class,'index'])->name('home');
+Route::get('/', [\App\Http\Controllers\interface\HomeController::class,'index'])->name('home');
 Route::get('/login', [\App\Http\Controllers\LoginController::class,'showLoginForm'])->name('login');
 Route::post('/login', [\App\Http\Controllers\LoginController::class,'login']);
 Route::get('/logout',[\App\Http\Controllers\LoginController::class,'logout'])->name('logout');
