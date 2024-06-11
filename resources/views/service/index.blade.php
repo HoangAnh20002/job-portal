@@ -61,7 +61,7 @@
                                 </table>
                                 @if($role_id == \App\Enums\Base::EMPLOYER)
                                 <div class="d-flex justify-content-center mt-3">
-                                    <a href="{{ route('payment.index', ['amount'=>200000]) }}">
+                                    <a href="{{ route('createPayment', ['amount' => 500000, 'service_id' => 1, 'postjob_id' => 1]) }}">
                                         <button class="bg-primary text-white btn">Thanh toán dịch vụ</button>
                                     </a>
                                 </div>

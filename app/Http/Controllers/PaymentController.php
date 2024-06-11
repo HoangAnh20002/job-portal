@@ -22,19 +22,7 @@ class PaymentController extends Controller
     public function index(Request $request)
     {
        
-        $transactionInfo = session('transaction_info');
-        $info_Payment= session('info_Payment'); 
-        if ($transactionInfo && $info_Payment) {
-            print_r($transactionInfo) ;
-            echo("<br>");
-            print_r($info_Payment);
-             //'employer_id', 'amount', 'payment_date', 'service_id', 'postjob_id', 'payment_status'
-            $data = $transactionInfo + $info_Payment;
-            $result = $this->paymentRepo;
-        } else {
-            echo 'khong co'; 
-        }
-        return redirect('/create-payment/?amount'.$request->amount);
+       
         
     }
 
