@@ -17,7 +17,7 @@ class ServiceFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->randomElement(["Hiển thị bảng tin, Làm nổi bật tìm kiếm"]),
+            'name' => $this->faker->randomElement(["Hiển thị bảng tin", "Làm nổi bật tìm kiếm"]),
             'description' => $this->faker->paragraph,
             'price' => $this->faker->randomFloat(2, 10, 100),
         ];

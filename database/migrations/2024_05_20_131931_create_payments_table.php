@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('employer_id');
             $table->decimal('amount');
-            $table->date('payment_date');
+            $table->string('payment_date');
             $table->unsignedBigInteger('service_id');
             $table->unsignedBigInteger('postjob_id');
             $table->string('payment_status',50);
