@@ -18,9 +18,9 @@
 <body>
 <div>
     <div class="d-block">@include('interface.layouts.header')</div>
-    <div class="row bg-dark-subtle no-gutters">
-        <div class="col-2">@yield('sidebar')</div>
-        <div class="col-10">
+    <div class="body row bg-dark-subtle no-gutters">
+        <div class="side-bar col-2">@yield('sidebar')</div>
+        <div class="content col-10">
             <div class="d-block" style="min-height: 650px">@yield('content')</div>
         </div>
     </div>
