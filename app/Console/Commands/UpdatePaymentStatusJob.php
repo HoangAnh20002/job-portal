@@ -29,9 +29,18 @@ class UpdatePaymentStatusJob extends Command
      */
     public function handle()
     {
-        $threeMonthsAgo = Carbon::now()->subMonths(3);
-        Payment::where('created_at', '<', $threeMonthsAgo)
-            ->where('payment_status', 'Completed')
-            ->update(['payment_status' => 'false']);
+        $oneMonthAgo = Carbon::now()->subMonth();
+        $twoWeekAgo = Carbon::now()->subWeek(2);
+
+        Payment::where(function ($query) use ($oneMonthAgo, $twoWeekAgo) {
+            $query->where('service_id', 2)
+                ->where('created_at', '<', $oneMonthAgo);
+        })
+            ->orWhere(function ($query) use ($twoWeekAgo) {
+                $query->where('service_id', 1)
+                    ->where('created_at', '<', $twoWeekAgo);
+            })
+            ->where('payment_status', 'Success')
+            ->update(['payment_status' => 'Completed']);
     }
 }

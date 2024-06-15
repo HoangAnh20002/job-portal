@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('job_description');
             $table->text('job_requirement');
             $table->unsignedInteger('employer_id');
-            $table->decimal('salary');
+            $table->bigInteger('salary');
             $table->unsignedTinyInteger('employment_type')->comment('1:fulltime|2:parttime|3:contract');
             $table->date('post_date');
             $table->date('expiration_date');

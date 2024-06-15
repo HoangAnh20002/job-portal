@@ -184,4 +184,10 @@ class PostJobController extends Controller
         $result = $this->postJobsRepository->filterStatus($request->status);
         return view('test',compact('result'));
     }
+
+    public function searchTitleJob(Request $request)
+    {
+        $result = $this->postJobsRepository->searchTitleJob($request);
+        return response()->json($result);
+    }
 }

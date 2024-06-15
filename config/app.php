@@ -212,4 +212,6 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    //VNPay Key
+    'vnp_HashSecret'=>env('VNP_HASHSECRET')
 ];

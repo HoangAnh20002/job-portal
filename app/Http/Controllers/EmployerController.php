@@ -120,7 +120,7 @@ class EmployerController extends Controller
             $role_id = Auth::user()->role_id;
         }
         $user = Auth::user();
-        $employer = $this->employerRepository->find($user->employer->id);       
+        $employer = $this->employerRepository->find($user->employer->id);
         return view('employer.employerMain', compact('role_id', 'employer'));
     }
 
@@ -136,19 +136,14 @@ class EmployerController extends Controller
         if (Auth::check()) {
             $role_id = Auth::user()->role_id;
         }
-        // Kiểm tra nếu là admin thì cho chỉnh sửa tất cả
-        // Các trường hợp còn lại chỉ xem được hồ sơ cá nhân
         if (Auth::user()->role_id == Base::ADMIN) {
             $employer = $this->employerRepository->find($id);
         } elseif (Auth::user()->role_id != Base::ADMIN) {
             $employer = $this->employerRepository->getModel()->where('id', $id)->where('user_id', Auth::user()->id)->first();
 
         } else {
-            // Không có quyền truy cập, hoặc không tìm thấy nhà tuyển dụng
             $employer = null;
         }
-
-        // Kiểm tra nếu không tìm thấy nhà tuyển dụng
         if ($employer == null) {
             return redirect()->route('employer.index')->with('error', 'Không tìm thấy nhà tuyển dụng.');
         }
@@ -166,6 +161,9 @@ class EmployerController extends Controller
     public function update(EmployerRequest $request, $id)
     {
         $employer = $this->employerRepository->find($id);
+        if (!$employer) {
+            return redirect()->route('employer.index')->with('error', 'Không tìm thấy nhà tuyển dụng.');
+        }
         $user = $employer->user;
         $company = $employer->company;
 
