@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
     ];
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('payment:update_status')->dailyAt('09:35');
+        $schedule->command('payment:update_status')->dailyAt('11:10');
         // $schedule->command('inspire')->hourly();
     }
 

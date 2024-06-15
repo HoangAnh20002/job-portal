@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('postjob_id');
             $table->unsignedInteger('jobseeker_id');
-            $table->date('application_date');
             $table->enum('application_status',['Accepted','Rejected','Pending'])->default('Pending');
             $table->timestamps();
             $table->softDeletes();

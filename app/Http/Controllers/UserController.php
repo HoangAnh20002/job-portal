@@ -8,6 +8,7 @@ use App\Repositories\ApplicationRepository;
 use App\Repositories\CompanyRepository;
 use App\Repositories\EmployerRepository;
 use App\Repositories\JobSeekerRepository;
+use App\Repositories\PaymentRepository;
 use App\Repositories\PostJobsRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -21,9 +22,12 @@ class UserController extends Controller
     protected $companyRepository;
     protected $applicationRepository;
     protected $postJobsRepository;
+
+    protected $paymentRepository;
     public function __construct(UserRepository        $userRepository, EmployerRepository $employerRepository,
                                 JobSeekerRepository   $jobSeekerRepository, CompanyRepository $companyRepository,
-                                ApplicationRepository $applicationRepository, PostJobsRepository $postJobsRepository)
+                                ApplicationRepository $applicationRepository, PostJobsRepository $postJobsRepository,
+                                PaymentRepository $paymentRepository)
     {
         $this->userRepository = $userRepository;
         $this->employerRepository = $employerRepository;
@@ -31,6 +35,7 @@ class UserController extends Controller
         $this->companyRepository = $companyRepository;
         $this->applicationRepository = $applicationRepository;
         $this->postJobsRepository = $postJobsRepository;
+        $this->paymentRepository=$paymentRepository;
     }
     /**
      * Display a listing of the resource.
@@ -122,5 +127,25 @@ class UserController extends Controller
     public function showApply(){
         $result = $this->userRepository->showApply();
         return view('test',compact('result'));
+    }
+
+    public function showMyPayment()
+    {
+        $payment = $this->paymentRepository->showPaymentUser(Auth::user()->employer->id);
+        return ($payment);
+    }
+
+    public function searchEmployers(Request $request)
+    {
+        $content = $request->input('content');
+        $result = $this->userRepository->searchEmployers($content);
+        return $result;
+
+    }
+    public function searchJobSeekers(Request $request)
+    {
+        $content = $request->input('content');
+        $result = $this->userRepository->searchJobSeekers($content);
+        return $result;
     }
 }

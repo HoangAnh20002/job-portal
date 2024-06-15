@@ -24,5 +24,20 @@ class PaymentRepository extends BaseRepository{
             ->where('payment_status', 'Completed')
             ->update(['payment_status' => 'false']);
     }
+    public function showPaymentUser($employer_id){
+        $payments =  $this->model->where('employer_id',$employer_id)->get();
+        return $payments;
+    }
+
+    public function limitServicePayment()
+    {
+        $paymentCount = $this->model->where('payment_status', 'Success')->where('service_id',1)->count();
+        if($paymentCount>5){
+            return false;
+        }
+        return true;
+    }
+
+
 }
 ?>

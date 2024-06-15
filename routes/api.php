@@ -22,9 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('/applications', ApplicationController::class);
-Route::resource('/services',ServiceController::class);
-Route::patch('/application/update-status/{application}',[ApplicationController::class,'updateStatus']);
-
-Route::get('/filter-postjob',[PostJobController::class,'filterStatus']);
-Route::resource('/payment-test', PaymentController::class);
+Route::get('/postjob/search',[PostJobController::class,'searchTitleJob']);
