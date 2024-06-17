@@ -14,6 +14,7 @@ use Illuminate\Validation\ValidationException;
 class ApplicationController extends Controller
 {
     protected $applicationRepo;
+
     /**
      * Display a listing of the resource.
      *
@@ -23,6 +24,7 @@ class ApplicationController extends Controller
     {
         $this->applicationRepo = $applicationRepo;
     }
+
     public function index()
     {
         //xem tat cac application
@@ -43,39 +45,44 @@ class ApplicationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(ApplicationRequest $request)
     {
-        try {
-            // Validate the incoming request
-            $validatedData = $request->validated();
-            // Nếu dữ liệu hợp lệ, tiếp tục xử lý và lưu trữ
-            $this->applicationRepo->create($validatedData);
-            return ['message' => 'thanh cong'];
-        } catch (ValidationException $e) {
-            return redirect()->back()->withErrors($e->errors())->withInput();
+        $jobseeker = Auth::user()->jobseeker;
+        if (!empty($jobseeker->resume) && !empty($jobseeker->cover_letter) && !empty($jobseeker->contact_info)) {
+            $data = [
+                'postjob_id'=>$request->postjob_id,
+                'application_status'=>$request->application_status,
+                'jobseeker_id'=>$jobseeker->id,
+            ];
+            $result = $this->applicationRepo->create($data);
+            if ($result){
+                return redirect()->back()->with(['success' => 'Apply thành công']);
+            }
+            return redirect()->back()->with( ['error'=>"Apply không thành công"]);
         }
+        return redirect()->back()->with( ['error'=>"Apply không thành công vui lòng điền đủ thông tin cá nhân"]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Application  $application
+     * @param \App\Models\Application $application
      * @return \Illuminate\Http\Response
      */
     //xem Chi tiet
     public function show(Application $application)
     {
-      
+
         return $application;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Application  $application
+     * @param \App\Models\Application $application
      * @return \Illuminate\Http\Response
      */
     public function edit(Application $application)
@@ -86,8 +93,8 @@ class ApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Application  $application
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Application $application
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Application $application)
@@ -98,37 +105,35 @@ class ApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Application  $application
+     * @param \App\Models\Application $application
      * @return \Illuminate\Http\Response
      */
     public function destroy(Application $application)
     {
-        $result=false;
-        dd( Auth::user());
+        $result = false;
+        dd(Auth::user());
         $user = Auth::user();
-        if(($user->role_id==Base::JOBSEEKER && $user->jobseeker==$application->jobseeker_id&&$application->application_status=="Pending")||$user->role_id==Base::ADMIN)
-            {
-               if($application){
-                $result =$application->delete();
-               }
-               else{
+        if (($user->role_id == Base::JOBSEEKER && $user->jobseeker == $application->jobseeker_id && $application->application_status == "Pending") || $user->role_id == Base::ADMIN) {
+            if ($application) {
+                $result = $application->delete();
+            } else {
                 return (['message' => 'not find application']);
-               }
             }
-        if($result){
-        return (['message' => 'Application deleted successfully']);
         }
-        else{
+        if ($result) {
+            return (['message' => 'Application deleted successfully']);
+        } else {
             return (['message' => 'Failed to delete application']);
         }
     }
+
     public function updateStatus(Request $request, Application $application)
     {
         // Validate the request data
         $validatedData = $request->validate([
             'application_status' => 'required|string|in:Accepted,Rejected,Pending',
         ]);
-        if($validatedData){
+        if ($validatedData) {
             $application->application_status = $request->application_status;
             $application->save();
             return (['message' => 'thanh cong', 'application' => $application]);

@@ -98,45 +98,49 @@
     </div>
 {{--    search --}}
     <div class="container mt-5 border border-primary-subtle p-4 shadow rounded bg-body-tertiary">
-        <div class="row">
-            <div class="col-md-4">
-                <input type="text" class="form-control mb-3" placeholder="Nhập tiêu đề công việc">
+        <form method="POST" >
+            @csrf
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="text" name="job_title" class="form-control mb-3" placeholder="Nhập tiêu đề công việc">
+                </div>
+                <div class="col-md-2">
+                    <select id="locationDropdown" name="location[]" class="form-control mb-3" multiple>
+                        @foreach($companies as $company)
+                            <option value="{{ $company->location }}">{{ $company->location }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="salary" class="form-control mb-3">
+                        <option value="">Mức lương</option>
+                        <option value="5-10">5-10 triệu</option>
+                        <option value="10-20">10-20 triệu</option>
+                        <option value="20+">Trên 20 triệu</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="employment_type" class="form-control mb-3">
+                        <option value="">Loại hình công việc</option>
+                        <option value="full-time">Full time</option>
+                        <option value="part-time">Part time</option>
+                        <option value="contract">Hợp đồng</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="industryDropdown" name="industry[]" class="form-control mb-3" multiple>
+                        @foreach($companies as $company)
+                            <option value="{{ $company->industry }}">{{ $company->industry }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </div>
             </div>
-            <div class="col-md-2">
-                <select id="locationDropdown" class="form-control mb-3" multiple>
-                    @foreach($companies as $company)
-                        <option value="{{ $company->location }}">{{ $company->location }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select class="form-control mb-3">
-                    <option value="">Mức lương</option>
-                    <option value="5-10">5-10 triệu</option>
-                    <option value="10-20">10-20 triệu</option>
-                    <option value="20+">Trên 20 triệu</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select class="form-control mb-3">
-                    <option value="">Loại hình công việc</option>
-                    <option value="full-time">Full time</option>
-                    <option value="part-time">Part time</option>
-                    <option value="contract">Hợp đồng</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select id="industryDropdown" class="form-control mb-3" multiple>
-                    @foreach($companies as $company)
-                        <option value="{{ $company->industry }}">{{ $company->industry }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-12">
-                <button type="button" class="btn btn-primary search-button">Tìm kiếm</button>
-            </div>
-        </div>
+        </form>
     </div>
+
     <script>
         $(document).ready(function() {
             $('#industryDropdown').select2({

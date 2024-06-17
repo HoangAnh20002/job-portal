@@ -40,13 +40,13 @@ use Illuminate\Support\Facades\Route;
 // Route::resource('jobseeker', JobseekerController::class);
 // Route::resource('employer', EmployerController::class);
 // // Route::middleware(['auth', 'checkAccess'])->group(function () {
-    
-    
+
+
 // //     Route::get('/jobseeker/create', [JobseekerController::class, 'create'])->name('jobseeker.create');
 // //     Route::post('/jobseeker', [JobseekerController::class, 'store'])->name('jobseeker.store');
 
 // //     // Routes cho employer
-   
+
 // //     Route::get('/employer/create', [EmployerController::class, 'create'])->name('employer.create');
 // //     Route::post('/employer', [EmployerController::class, 'store'])->name('employer.store');
 // // });
@@ -63,7 +63,7 @@ use Illuminate\Support\Facades\Route;
 // Route::patch('/application/update-status/{application}',[ApplicationController::class,'updateStatus']);
 
 
-// //Service 
+// //Service
 
 // Route::resource('services',ServiceController::class)->names('servicesroute1');
 
@@ -76,10 +76,13 @@ Route::post('/register', [LoginController::class, 'register']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/adminMain', [UserController::class, 'index_ad'])->middleware('checkAdmin')->name('adminMain');
+    Route::get('/admin/search-employer',[UserController::class,'searchEmployers'])->middleware('checkAdmin');
+    Route::get('/admin/search-jobseeker',[UserController::class,'searchJobSeekers'])->middleware('checkAdmin');
     Route::get('/employerMain', [EmployerController::class, 'show'])->middleware('checkEmployer')->name('employerMain');
     Route::get('/jobseekerMain', [JobSeekerController::class, 'show'])->middleware('checkJobSeeker')->name('jobseekerMain');
 
     Route::resource('user', UserController::class);
+    Route::get('/my/payment',[UserController::class,'showMyPayment']);
 
     // Routes cho jobseeker
     Route::resource('jobseeker', JobseekerController::class);
@@ -96,7 +99,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('application', ApplicationController::class);
     Route::patch('/application/update-status/{application}', [ApplicationController::class, 'updateStatus']);
 
-    // Service 
+    // Service
     Route::resource('services', ServiceController::class)->names('servicesroute');
 
     //VNPAY
@@ -112,7 +115,6 @@ Route::middleware(['auth'])->group(function () {
     //Search job
     Route::get('/filter-postjob',[PostJobController::class,'filterStatus'])->middleware('checkAdmin');
     Route::resource('/payment', PaymentController::class)->names('payment');
-
-
+    Route::get('/payment-all',[PaymentController::class,'showAllPayment'])->middleware('checkAdmin')->name('paymentAll');
 });
 

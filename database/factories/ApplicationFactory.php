@@ -21,7 +21,6 @@ class ApplicationFactory extends Factory
         return [
             'postjob_id' => PostJob::inRandomOrder()->first()->id,
             'jobseeker_id' => JobSeeker::inRandomOrder()->first()->id,
-            'application_date' => $this->faker->date,
         ];
     }
 }

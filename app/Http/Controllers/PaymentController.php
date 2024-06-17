@@ -13,17 +13,17 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected $paymentRepo;
+    protected $paymentRepository;
     public function __construct(PaymentRepository $paymentRepo)
     {
-        $this->paymentRepo=$paymentRepo;
+        $this->paymentRepository=$paymentRepo;
     }
-    
+
     public function index(Request $request)
     {
-       
-       
-        
+
+
+
     }
 
     /**
@@ -91,4 +91,10 @@ class PaymentController extends Controller
     {
         //
     }
+    public function showAllPayment()
+    {
+        $payments = $this->paymentRepository->all();
+        return($payments);
+    }
+
 }

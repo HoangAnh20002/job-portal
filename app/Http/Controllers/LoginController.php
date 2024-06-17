@@ -19,6 +19,15 @@ class LoginController extends Controller
     }
     public function showLoginForm()
     {
+        if (Auth::check()) {
+            if(Auth::user()->role_id == Base::ADMIN){
+                return redirect()->intended();
+            }
+            if(Auth::user()->role_id == Base::EMPLOYER){
+                return redirect()->intended();
+            }
+            return redirect()->intended();
+        }
         return view('auth.login');
     }
     public function login(Request $request)
@@ -62,9 +71,16 @@ class LoginController extends Controller
 
         return redirect()->route('login')->with('success', 'Tạo tài khoản thành công');
     }
-    public function logout(){
+    public function logout()
+    {
+        // Đăng xuất người dùng
         Auth::logout();
 
+        // Xoá tất cả dữ liệu trong session
+        session()->flush();
+
+        // Chuyển hướng người dùng về trang chủ
         return redirect('/');
     }
+
 }
