@@ -33,22 +33,4 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $user = Auth::user();
         return $user->jobseeker->post_jobs;
     }
-
-    public function searchEmployers($content)
-    {
-        $lowercaseContent = strtolower($content);
-        return $this->model->whereRaw('LOWER(email) LIKE ?', ['%' . $lowercaseContent . '%'])
-            ->orWhereRaw('LOWER(username) LIKE ?', ['%' . $lowercaseContent . '%'])
-            ->where('role_id','2')
-            ->get();
-    }
-
-    public function searchJobSeekers($content)
-    {
-        $lowercaseContent = strtolower($content);
-        return $this->model->whereRaw('LOWER(email) LIKE ?', ['%' . $lowercaseContent . '%'])
-            ->orWhereRaw('LOWER(username) LIKE ?', ['%' . $lowercaseContent . '%'])
-            ->where('role_id','3')
-            ->get();
-    }
 }
