@@ -1,5 +1,6 @@
 <?php
 namespace App\Repositories;
+use App\Enums\Base;
 use App\Models\PostJob;
 use App\Repositories\Interfaces\PostJobRepositoryInterface;
 use Carbon\Carbon;
@@ -29,12 +30,15 @@ class PostJobsRepository extends BaseRepository implements PostJobRepositoryInte
     }
 
     public function filterStatus($status) {
-        $result = $this->model->where('status',$status)->get();
+        $result = $this->model->where('status',$status)->paginate(Base::PAGE);
         return $result;
     }
     public function getByServiceId($serviceId)
     {
         return $this->model->where('service_id', $serviceId)->get();
+    }
+    public function getlist(){
+        return $this->model->where('status', 1)->orderBy('id', 'desc')->paginate(9);
     }
     public function searchTitleJob($request)
     {
@@ -82,7 +86,9 @@ class PostJobsRepository extends BaseRepository implements PostJobRepositoryInte
                 $q->whereIn('industry', $industry);
             });
         }
-        return $query->orderByRaw("service_id = 2 DESC, created_at ASC")->get();
+        return $query->where('status', 1)
+            ->orderByRaw("service_id = 2 DESC, created_at ASC")
+            ->get();
     }
 
 }

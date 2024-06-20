@@ -51,7 +51,17 @@
                 </form>
             </div>
         </div>
-
+        <div class="row mt-4">
+            <div class="col">
+                <form action="{{ route('searchEmployers') }}" method="GET" class="form-inline">
+                    <div class="form-group mb-2">
+                        <label for="searchInput" class="sr-only">Tìm kiếm nhà tuyển dụng</label>
+                        <input type="text" class="form-control" id="searchInput" name="content" placeholder="Nhập từ khóa...">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2 ml-2">Tìm kiếm</button>
+                </form>
+            </div>
+        </div>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>

@@ -18,6 +18,4 @@ class EmployerRepository extends BaseRepository implements EmployerRepositoryInt
     {
         return $this->model->count();
     }
-
-
 }

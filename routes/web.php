@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\interface\HomeController;
 use App\Http\Controllers\JobSeekerController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentController;
@@ -68,15 +69,18 @@ use Illuminate\Support\Facades\Route;
 // Route::resource('services',ServiceController::class)->names('servicesroute1');
 
 Route::get('/', [\App\Http\Controllers\interface\HomeController::class,'index'])->name('home');
+//Route::post('/search', [HomeController::class, 'search'])->name('home.search');
+Route::get('/postjob/search',[PostJobController::class,'searchTitleJob'])->name('home.search');
+
 Route::get('/login', [\App\Http\Controllers\LoginController::class,'showLoginForm'])->name('login');
 Route::post('/login', [\App\Http\Controllers\LoginController::class,'login']);
 Route::get('/logout',[\App\Http\Controllers\LoginController::class,'logout'])->name('logout');
 Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [LoginController::class, 'register']);
-
+Route::get('/postjobs/{id}', [PostJobController::class, 'showPublic'])->name('showPublic');
 Route::middleware(['auth'])->group(function () {
     Route::get('/adminMain', [UserController::class, 'index_ad'])->middleware('checkAdmin')->name('adminMain');
-    Route::get('/admin/search-employer',[UserController::class,'searchEmployers'])->middleware('checkAdmin');
+    Route::get('/admin/search-employer',[UserController::class,'searchEmployers'])->name('searchEmployers')->middleware('checkAdmin');
     Route::get('/admin/search-jobseeker',[UserController::class,'searchJobSeekers'])->middleware('checkAdmin');
     Route::get('/employerMain', [EmployerController::class, 'show'])->middleware('checkEmployer')->name('employerMain');
     Route::get('/jobseekerMain', [JobSeekerController::class, 'show'])->middleware('checkJobSeeker')->name('jobseekerMain');
@@ -113,7 +117,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/test-vn', 'testvnPay'); // Chỉ cần tên view không cần đuôi .blade.php
 
     //Search job
-    Route::get('/filter-postjob',[PostJobController::class,'filterStatus'])->middleware('checkAdmin');
+    Route::get('/filter-postjob',[PostJobController::class,'filterStatus'])->name('filterStatus')->middleware('checkAdmin');
     Route::resource('/payment', PaymentController::class)->names('payment');
     Route::get('/payment-all',[PaymentController::class,'showAllPayment'])->middleware('checkAdmin')->name('paymentAll');
 });

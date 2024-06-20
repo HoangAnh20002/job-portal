@@ -137,10 +137,13 @@ class UserController extends Controller
 
     public function searchEmployers(Request $request)
     {
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
         $content = $request->input('content');
-        $result = $this->userRepository->searchEmployers($content);
-        return $result;
-
+        $employers = $this->userRepository->searchEmployers($content);
+        return view('employer.index',compact('employers','role_id'));
     }
     public function searchJobSeekers(Request $request)
     {

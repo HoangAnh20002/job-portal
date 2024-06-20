@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Employer;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -27,7 +28,7 @@ class PostJobFactory extends Factory
             'salary' => $this->faker->randomDigit(2, 30000, 100000),
             'employment_type' => $this->faker->randomElement([1,2,3]),
             'post_date' => $this->faker->date,
-            'expiration_date' => $this->faker->date,
+            'expiration_date' =>Carbon::now()->addMonths(3),
             'status' => $this->faker->randomElement([1, 2]),
         ];
     }

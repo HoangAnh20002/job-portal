@@ -62,8 +62,20 @@
                 </div>
             @endif
         </div>
-
-        <div class="table-responsive">
+        <div class="row mt-4">
+            <div class="d-flex">
+                <form action="{{ route('filterStatus') }}" method="get">
+                    <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                        <button type="submit" class="btn btn-primary" name="status" value="1">Lọc bài đăng đã duyệt</button>
+                        <button type="submit" class="btn btn-success ml-2" name="status" value="2">Lọc bài đăng chưa duyệt</button>
+                    </div>
+                </form>
+                <form action="{{ route('postjob.index') }}" method="get">
+                        <button type="submit" class="btn btn-warning ml-2" name="status" value="2">Bỏ lọc bài viết</button>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive mt-4">
             <table class="table table-bordered">
                 <thead>
                 <tr>

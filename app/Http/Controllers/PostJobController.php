@@ -119,6 +119,16 @@ class PostJobController extends Controller
         }
         return redirect('/postjob')->with('error', 'Bạn không có quyền truy cập');
     }
+    public function showPublic($id)
+    {
+        $role_id = null;
+        $role_id = Auth::user()->role_id;
+        $postjob = $this->postJobsRepository->find($id);
+        if (!$postjob) {
+            return redirect('/postjob')->with('error', 'Không tìm thấy công việc.');
+        }
+            return view('interface.postjobPublicDetail', compact('postjob','role_id'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -180,9 +190,18 @@ class PostJobController extends Controller
         return redirect()->route('postjob.index')->with('success', 'Bài đăng tuyển dụng đã được xóa thành công.');
     }
     public function filterStatus(Request $request){
+        $role_id = null;
+        $employer = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        if ($role_id == Base::EMPLOYER) {
+            $user = Auth::user();
+            $employer = $user->employer;
+        }
         $status = $request->status;
-        $result = $this->postJobsRepository->filterStatus($request->status);
-        return view('test',compact('result'));
+        $post_jobs = $this->postJobsRepository->filterStatus($request->status);
+        return view('postjob.index',compact('post_jobs','role_id','employer'));
     }
 
     public function searchTitleJob(Request $request)
