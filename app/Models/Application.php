@@ -21,6 +21,6 @@ class Application extends Model
 
     public function jobSeeker()
     {
-        return $this->belongsTo(JobSeeker::class);
+        return $this->belongsTo(JobSeeker::class, 'jobseeker_id');
     }
 }

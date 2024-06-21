@@ -122,3 +122,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-all',[PaymentController::class,'showAllPayment'])->middleware('checkAdmin')->name('paymentAll');
 });
 
+Route::get('abc',[PostJobController::class,'showListPostJob']);
+Route::get('hehe',[ApplicationController::class,'showUserApply']);
