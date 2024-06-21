@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 
+use App\Enums\Base;
 use App\Models\Payment;
 use Carbon\Carbon;
 
@@ -25,7 +26,7 @@ class PaymentRepository extends BaseRepository{
             ->update(['payment_status' => 'false']);
     }
     public function showPaymentUser($employer_id){
-        $payments =  $this->model->where('employer_id',$employer_id)->get();
+        $payments =  $this->model->where('employer_id',$employer_id)->paginate(Base::PAGE);
         return $payments;
     }
 

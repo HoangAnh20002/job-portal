@@ -20,16 +20,7 @@
     }
 </style>
 @section('content')
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
+    @include('interface.layouts.alert')
     <div class="container">
         <div class="row my-4">
             <h2>Chi tiết Bài đăng tuyển dụng</h2>
@@ -70,15 +61,16 @@
                     @endif
                 @else
                 @endif
-                @if($role_id == \App\Enums\Base::JOBSEEKER || $role_id == null){
-                <form action="{{ route('application.store }}" method="POST">
-                    <input type="hidden" name="status" value="1">
-                    <button type="submit" class="btn btn-primary mt-3">Ứng tuyển</button>
-                </form>
-            }
+                @if($role_id == \App\Enums\Base::JOBSEEKER || $role_id == null)
+                    {
+                    <form action="{{ route('application.store }}" method="POST">
+                        <input type="hidden" name="status" value="1">
+                        <button type="submit" class="btn btn-primary mt-3">Ứng tuyển</button>
+                    </form>
+                    }
                 @endif
-            <a href="{{ URL::previous()  }}" class="btn btn-secondary mt-3">Quay lại</a>
-</div>
-</div>
-</div>
+                <a href="{{ URL::previous()  }}" class="btn btn-secondary mt-3">Quay lại</a>
+            </div>
+        </div>
+    </div>
 @endsection

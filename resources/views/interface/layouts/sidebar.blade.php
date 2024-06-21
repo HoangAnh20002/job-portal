@@ -31,26 +31,34 @@
         </div>
     </div>
     @endif
+        @if($role_id == Base::ADMIN)
         <div class="border border-white p-3">
             <a href="{{ route('company.index') }}" class="text-decoration-none text-white ml-3">Danh sách công ty</a>
-        </div>
+        </div>@endif
         <div class="border border-white p-3">
             <a href="{{ route('postjob.index') }}" class="text-decoration-none text-white ml-3">Quản lí bài đăng</a>
         </div>
         @if($role_id == Base::ADMIN)
             <div class="border border-white p-3">
+                <a href="{{route('paymentAll')}}" class="text-decoration-none text-white ml-3">Danh sách giao dịch</a>
+            </div>
+        @endif
+        @if($role_id == Base::ADMIN)
+            <div class="border border-white p-3">
                 <a href="{{ route('servicesroute.index') }}" class="text-decoration-none text-white ml-3">Dịch vụ</a>
             </div>
         @endif
+        @if($role_id == Base::EMPLOYER)
+            <div class="border border-white p-3">
+                <a href="{{ route('application.index') }}" class="text-decoration-none text-white ml-3">Danh sách ứng tuyển</a>
+            </div>
+        @endif
+        @if($role_id == Base::EMPLOYER)
+            <div class="border border-white p-3">
+                <a href="{{ route('showMyPayment') }}" class="text-decoration-none text-white ml-3">Lịch sử giao dịch</a>
+            </div>
+        @endif
 
-{{--    @if($role == Base::ADMIN)--}}
-{{--        <div class="border border-white p-3">--}}
-{{--            <a href="{{route('student.index')}}" class="text-decoration-none text-white">Student</a>--}}
-{{--        </div>--}}
-{{--        <div class="border border-white p-3">--}}
-{{--            <a href="{{route('result.index')}}" class="text-decoration-none text-white">Result</a>--}}
-{{--        </div>--}}
-{{--    @endif--}}
 {{--    <div class="border border-white p-3">--}}
 {{--        <a href="{{route('course.index')}}" class="text-decoration-none text-white">Course</a>--}}
 {{--    </div>--}}

@@ -1,0 +1,107 @@
+@extends('interface.layouts.home')
+
+@section('sidebar')
+    @include('interface.layouts.sidebar')
+@endsection
+
+@section('content')
+    @include('interface.layouts.alert')
+    <style>
+        .username {
+            max-width: 150px;
+            color: #0079c1;
+            height: 2em;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            word-break: break-all;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .username:hover {
+            overflow: visible;
+            white-space: normal;
+            height: auto;
+            background-color: #f0f0f0;
+        }
+
+        .table-responsive {
+            cursor: grab;
+        }
+
+        .table-responsive:active {
+            cursor: grabbing;
+        }
+    </style>
+    <div class="container">
+        <div class="row my-4">
+            <h2 class="col-8">Danh sách giao dịch</h2>
+            <div class="col-4">
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID Nhà Tuyển Dụng</th>
+                    <th>Thời gian thanh toán</th>
+                    <th>ID dịch vụ</th>
+                    <th>ID bài đăng</th>
+                    <th>Trạng thái thanh toán</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($payments as $payment)
+                    <tr>
+                        <td>{{ $payment->id }}</td>
+                        <td>{{ $payment->employer_id }}</td>
+                        <td>{{ $payment->payment_date }}</td>
+                        <td class="username">{{ $payment->service_id }}</td>
+                        <td class="username">{{ $payment->postjob_id }}</td>
+                        <td class="username">{{ $payment->payment_status }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="mb-5 mt-5">
+        {{ $payments->appends(request()->query())->setPath(route('payment.index'))->links('vendor.pagination.bootstrap-5') }}
+    </div>
+@endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let isMouseDown = false,
+            startX,
+            startScrollLeft;
+
+        const tableResponsive = document.querySelector('.table-responsive');
+
+        tableResponsive.addEventListener('mousedown', (event) => {
+            isMouseDown = true;
+            startX = event.pageX - tableResponsive.offsetLeft;
+            startScrollLeft = tableResponsive.scrollLeft;
+            tableResponsive.style.cursor = 'grabbing';
+        });
+
+        tableResponsive.addEventListener('mousemove', (event) => {
+            if (!isMouseDown) return;
+            event.preventDefault();
+            const x = event.pageX - tableResponsive.offsetLeft;
+            const walk = (x - startX) * 2; // Adjust the scroll speed if necessary
+            tableResponsive.scrollLeft = startScrollLeft - walk;
+        });
+
+        tableResponsive.addEventListener('mouseup', () => {
+            isMouseDown = false;
+            tableResponsive.style.cursor = 'grab';
+        });
+
+        tableResponsive.addEventListener('mouseleave', () => {
+            isMouseDown = false;
+            tableResponsive.style.cursor = 'grab';
+        });
+    });
+</script>

@@ -44,7 +44,7 @@
         font-weight: bold;
         color: black;
         text-align: center;
-        margin-top: 50px;
+        margin-top: 30px;
         text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
        padding: 50px;
     }
@@ -86,6 +86,7 @@
     }
 </style>
 @section('content')
+    @include('interface.layouts.alert')
     <div class="highlighted-text">Job Portal - Website tìm việc số 1 Việt Nam</div>
     <div style="width:100%">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
@@ -262,12 +263,11 @@
                     location: $('select[name="location[]"]').val(),
                     industry: $('select[name="industry[]"]').val()
                 };
-                console.log(formData)
                 $.ajax({
                     type: 'GET',
                     url: '{{ route('home.search') }}',
                     data: formData,
-                    success: function (response) {
+                    success: function (response) { console.log(response)
                         $('#postJobsList').empty();
                         if (response.length > 0) {
                             $.each(response, function (index, postJob) {

@@ -131,8 +131,12 @@ class UserController extends Controller
 
     public function showMyPayment()
     {
-        $payment = $this->paymentRepository->showPaymentUser(Auth::user()->employer->id);
-        return ($payment);
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        $payments = $this->paymentRepository->showPaymentUser(Auth::user()->employer->id);
+        return view('payment.employerPayment',compact('payments','role_id'));
     }
 
     public function searchEmployers(Request $request)
@@ -143,12 +147,18 @@ class UserController extends Controller
         }
         $content = $request->input('content');
         $employers = $this->employerRepository->searchEmployers($content);
+
         return view('employer.index',compact('employers','role_id'));
     }
     public function searchJobSeekers(Request $request)
     {
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
         $content = $request->input('content');
-        $result = $this->jobSeekerRepository->searchJobSeekers($content);
-        return $result;
+        $jobseekers = $this->jobSeekerRepository->searchJobSeekers($content);
+
+        return view('jobseeker.index',compact('jobseekers','role_id'));
     }
 }

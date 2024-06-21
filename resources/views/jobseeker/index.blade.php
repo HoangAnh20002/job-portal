@@ -5,16 +5,7 @@
 @endsection
 
 @section('content')
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if(session(('error')))
-        <div class="alert alert-danger">
-            {{session('error')}}
-        </div>
-    @endif
+    @include('interface.layouts.alert')
     <style>
         .username {
             max-width: 150px;
@@ -47,11 +38,22 @@
             <h2 class="col-8">Danh sách Người ứng tuyển</h2>
             <div class="col-4">
                 <form method="GET" action="{{ route('jobseeker.create') }}">
-                    <button class="bg-primary text-white btn" type="submit">Tạo mới </button>
+                    <button class="bg-primary text-white btn" type="submit">Tạo mới</button>
                 </form>
             </div>
         </div>
-
+        <div class="row mt-4">
+            <div class="col">
+                <form action="{{ route('searchJobSeekers') }}" method="GET" class="form-inline">
+                    <div class="form-group mb-2">
+                        <label for="searchInput" class="sr-only">Tìm kiếm nhà người ứng tuyển</label>
+                        <input style="width: 500px" type="text" class="form-control" id="searchInput" name="content"
+                               placeholder="Nhập từ khóa tên hoặc email">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2 ml-2">Tìm kiếm</button>
+                </form>
+            </div>
+        </div>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>

@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Enums\Base;
 use App\Models\Payment;
 use App\Repositories\PaymentRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class PaymentController extends Controller
@@ -93,8 +95,12 @@ class PaymentController extends Controller
     }
     public function showAllPayment()
     {
-        $payments = $this->paymentRepository->all();
-        return($payments);
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        $payments = $this->paymentRepository->paginate(Base::PAGE);
+        return view('payment.index',compact('payments','role_id'));
     }
 
 }

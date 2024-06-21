@@ -5,16 +5,7 @@
 @endsection
 
 @section('content')
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if(session(('error')))
-        <div class="alert alert-danger">
-            {{session('error')}}
-        </div>
-    @endif
+    @include('interface.layouts.alert')
     <style>
         .username {
             max-width: 150px;
@@ -31,7 +22,7 @@
             overflow: visible;
             white-space: normal;
             height: auto;
-            background-color: #f0f0f0; /* Optional: Add a background color to highlight the text */
+            background-color: #f0f0f0;
         }
 
         .table-responsive {
@@ -47,7 +38,7 @@
             <h2 class="col-8">Danh sách Nhà tuyển dụng</h2>
             <div class="col-4">
                 <form method="GET" action="{{ route('employer.create') }}">
-                    <button class="bg-primary text-white btn" type="submit">Tạo mới </button>
+                    <button class="bg-primary text-white btn" type="submit">Tạo mới</button>
                 </form>
             </div>
         </div>
@@ -56,7 +47,8 @@
                 <form action="{{ route('searchEmployers') }}" method="GET" class="form-inline">
                     <div class="form-group mb-2">
                         <label for="searchInput" class="sr-only">Tìm kiếm nhà tuyển dụng</label>
-                        <input type="text" class="form-control" id="searchInput" name="content" placeholder="Nhập từ khóa...">
+                        <input style="width: 500px" type="text" class="form-control" id="searchInput" name="content"
+                               placeholder="Nhập từ khóa tên hoặc email">
                     </div>
                     <button type="submit" class="btn btn-primary mb-2 ml-2">Tìm kiếm</button>
                 </form>

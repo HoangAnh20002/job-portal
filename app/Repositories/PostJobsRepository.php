@@ -81,7 +81,7 @@ class PostJobsRepository extends BaseRepository implements PostJobRepositoryInte
             $query->where('employment_type', $employment_type);
         }
 
-        if (!empty($industry)&& is_array($location)) {
+        if (!empty($industry)&& is_array($industry)) {
             $query->whereHas('employer.company', function($q) use ($industry) {
                 $q->whereIn('industry', $industry);
             });

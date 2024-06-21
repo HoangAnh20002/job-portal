@@ -10,26 +10,14 @@
         body {
             background-color: #f4f4f4;
         }
+
         .container {
             margin-top: 100px;
         }
     </style>
 </head>
 <body>
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-@if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@include('interface.layouts.alert')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -40,13 +28,15 @@
                         @csrf
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" maxlength="255" value="{{ old('email') }}"
-                            required>
+                            <input type="email" class="form-control" id="email" name="email" maxlength="255"
+                                   value="{{ old('email') }}"
+                                   required>
                         </div>
                         <div class="form-group">
                             <label for="password">Mật khẩu</label>
-                            <input type="password" class="form-control" id="password" name="password" minlength="8" maxlength="16" value="{{ old('email') }}"
-                            required>
+                            <input type="password" class="form-control" id="password" name="password" minlength="8"
+                                   maxlength="16" value="{{ old('email') }}"
+                                   required>
                         </div>
                         <button type="submit" class="btn btn-primary" style="margin-left: 40%">Đăng nhập</button>
                     </form>

@@ -81,18 +81,18 @@ Route::get('/postjobs/{id}', [PostJobController::class, 'showPublic'])->name('sh
 Route::middleware(['auth'])->group(function () {
     Route::get('/adminMain', [UserController::class, 'index_ad'])->middleware('checkAdmin')->name('adminMain');
     Route::get('/admin/search-employer',[UserController::class,'searchEmployers'])->name('searchEmployers')->middleware('checkAdmin');
-    Route::get('/admin/search-jobseeker',[UserController::class,'searchJobSeekers'])->middleware('checkAdmin');
+    Route::get('/admin/search-jobseeker',[UserController::class,'searchJobSeekers'])->name('searchJobSeekers')->middleware('checkAdmin');
     Route::get('/employerMain', [EmployerController::class, 'show'])->middleware('checkEmployer')->name('employerMain');
     Route::get('/jobseekerMain', [JobSeekerController::class, 'show'])->middleware('checkJobSeeker')->name('jobseekerMain');
 
     Route::resource('user', UserController::class);
-    Route::get('/my/payment',[UserController::class,'showMyPayment']);
+    Route::get('/my/payment',[UserController::class,'showMyPayment'])->name('showMyPayment');
 
     // Routes cho jobseeker
     Route::resource('jobseeker', JobseekerController::class);
     Route::resource('employer', EmployerController::class);
 
-    Route::resource('company', CompanyController::class);
+    Route::resource('company', CompanyController::class)->middleware('checkAdmin');
     Route::resource('postjob', PostJobController::class);
     Route::patch('/postjob/{id}/update_status', [PostJobController::class, 'update_status'])->name('postjob.update_status');
 

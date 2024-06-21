@@ -27,7 +27,6 @@ class ApplicationController extends Controller
 
     public function index()
     {
-        //xem tat cac application
         $application = $this->applicationRepo->all();
         return $application;
     }

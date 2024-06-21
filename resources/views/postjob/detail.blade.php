@@ -5,16 +5,7 @@
 @endsection
 
 @section('content')
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
+    @include('interface.layouts.alert')
     <div class="container">
         <div class="row my-4">
             <h2>Chi tiết Bài đăng tuyển dụng</h2>
@@ -26,7 +17,7 @@
                 <p class="card-text"><strong>Mô tả:</strong> {{ $postjob->job_description }}</p>
                 <p class="card-text"><strong>Yêu cầu:</strong> {{ $postjob->job_requirement }}</p>
                 <p class="card-text"><strong>Lương:</strong> {{ $postjob->salary }}</p>
-                <p class="card-text"><strong>Loại công việc:</strong>  @switch($postjob->employment_type)
+                <p class="card-text"><strong>Loại công việc:</strong> @switch($postjob->employment_type)
                         @case(1)
                             Toàn thời gian
                             @break
@@ -41,19 +32,21 @@
                     @endswitch</p>
                 <p class="card-text"><strong>Ngày đăng:</strong> {{ $postjob->post_date }}</p>
                 <p class="card-text"><strong>Ngày hết hạn:</strong> {{ $postjob->expiration_date }}</p>
-                <p class="card-text"><strong>Nổi bật:</strong> {{ $postjob->is_highlighted ? 'Đã làm nổi bật ' : 'Chưa làm nổi bật' }}</p>
-                <p class="card-text"><strong>Trạng thái:</strong> {{ $postjob->status == 1 ? 'Được duyệt' : 'Chưa được duyệt' }}</p>
+                <p class="card-text"><strong>Nổi
+                        bật:</strong> {{ $postjob->is_highlighted ? 'Đã làm nổi bật ' : 'Chưa làm nổi bật' }}</p>
+                <p class="card-text"><strong>Trạng
+                        thái:</strong> {{ $postjob->status == 1 ? 'Được duyệt' : 'Chưa được duyệt' }}</p>
                 @if($role_id == \App\Enums\Base::ADMIN)
-                @if($postjob->status == 2)
-                    <form action="{{ route('postjob.update_status', ['id' => $postjob->id]) }}" method="POST">
-                        @csrf
-                        @method('PATCH')
-                        <input type="hidden" name="status" value="1">
-                        <button type="submit" class="btn btn-primary mt-3">Duyệt bài đăng</button>
-                    </form>
-                @else
-                    <button class="btn btn-success mt-3" disabled>Đã được duyệt</button>
-                @endif
+                    @if($postjob->status == 2)
+                        <form action="{{ route('postjob.update_status', ['id' => $postjob->id]) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="btn btn-primary mt-3">Duyệt bài đăng</button>
+                        </form>
+                    @else
+                        <button class="btn btn-success mt-3" disabled>Đã được duyệt</button>
+                    @endif
                 @else
                 @endif
                 <a href="{{ route('postjob.index') }}" class="btn btn-secondary mt-3">Quay lại</a>

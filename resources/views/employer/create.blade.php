@@ -5,25 +5,7 @@
 @endsection
 
 @section('content')
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if(session(('error')))
-        <div class="alert alert-danger">
-            {{session('error')}}
-        </div>
-    @endif
+    @include('interface.layouts.alert')
     <div class="container">
         <h2 class="my-4">Tạo Nhà Tuyển Dụng Mới</h2>
         <form action="{{ route('employer.store') }}" method="POST" enctype="multipart/form-data">
@@ -33,11 +15,13 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="username" class="form-label">Tên <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" required>
+                        <input type="text" class="form-control" id="username" name="username"
+                               value="{{ old('username') }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}"
+                               required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
@@ -45,17 +29,21 @@
                     </div>
                     <div class="mb-3">
                         <label for="contact_info" class="form-label">Thông Tin Liên Lạc</label>
-                        <textarea class="form-control" id="contact_info" name="contact_info" rows="3">{{ old('contact_info') }}</textarea>
+                        <textarea class="form-control" id="contact_info" name="contact_info"
+                                  rows="3">{{ old('contact_info') }}</textarea>
                     </div>
                     <div class="mb-3">
                         <label for="avatar" class="form-label">Avatar</label>
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="inputGroupFile01">Avatar</label>
-                            <input type="file" class="form-control" id="inputGroupFile01" name="avatar" accept="image/png, image/jpeg" onchange="previewImage1(this)">
+                            <input type="file" class="form-control" id="inputGroupFile01" name="avatar"
+                                   accept="image/png, image/jpeg" onchange="previewImage1(this)">
                         </div>
                         <div id="imagePreview1" class="mt-2 mb-2" style="display: none;">
                             <img id="preview1" src="#" alt="Avatar Preview" style="max-width: 200px;">
-                            <button type="button" class="btn btn-outline-secondary mt-2" onclick="removeImage1()">Remove Image</button>
+                            <button type="button" class="btn btn-outline-secondary mt-2" onclick="removeImage1()">Remove
+                                Image
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -66,19 +54,23 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label for="company_name" class="form-label">Tên Công Ty</label>
-                        <input type="text" class="form-control" id="company_name" name="company_name" value="{{ old('company_name') }}">
+                        <input type="text" class="form-control" id="company_name" name="company_name"
+                               value="{{ old('company_name') }}">
                     </div>
                     <div class="mb-3">
                         <label for="industry" class="form-label">Ngành</label>
-                        <input type="text" class="form-control" id="industry" name="industry" value="{{ old('industry') }}">
+                        <input type="text" class="form-control" id="industry" name="industry"
+                               value="{{ old('industry') }}">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Mô Tả</label>
-                        <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+                        <textarea class="form-control" id="description" name="description"
+                                  rows="3">{{ old('description') }}</textarea>
                     </div>
                     <div class="mb-3">
                         <label for="location" class="form-label">Vị Trí</label>
-                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location') }}">
+                        <input type="text" class="form-control" id="location" name="location"
+                               value="{{ old('location') }}">
                     </div>
                     <div class="mb-3">
                         <label for="website" class="form-label">Website</label>
@@ -88,11 +80,14 @@
                         <label for="logo" class="form-label">Logo</label>
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="inputGroupFile02">Logo</label>
-                            <input type="file" class="form-control" id="inputGroupFile02" name="logo" accept="image/png, image/jpeg" onchange="previewImage2(this)">
+                            <input type="file" class="form-control" id="inputGroupFile02" name="logo"
+                                   accept="image/png, image/jpeg" onchange="previewImage2(this)">
                         </div>
                         <div id="imagePreview2" class="mt-2 mb-2" style="display: none;">
                             <img id="preview2" src="#" alt="Logo Preview" style="max-width: 200px;">
-                            <button type="button" class="btn btn-outline-secondary mt-2" onclick="removeImage2()">Remove Image</button>
+                            <button type="button" class="btn btn-outline-secondary mt-2" onclick="removeImage2()">Remove
+                                Image
+                            </button>
                         </div>
                     </div>
                     <div class="mb-3">

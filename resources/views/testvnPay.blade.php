@@ -1,4 +1,4 @@
-<!-- resources/views/payment.blade.php -->
+<!-- resources/views/index.blade.php -->
 
 <!DOCTYPE html>
 <html lang="en">
