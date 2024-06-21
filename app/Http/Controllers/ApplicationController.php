@@ -6,10 +6,8 @@ use App\Enums\Base;
 use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Repositories\ApplicationRepository;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
 class ApplicationController extends Controller
 {
@@ -137,5 +135,13 @@ class ApplicationController extends Controller
             $application->save();
             return (['message' => 'thanh cong', 'application' => $application]);
         }
+    }
+    //Xewm chi tiet apply
+    public function showUserApply(Request $request) {
+        $postjob_id = $request->postjob_id;
+        if($postjob_id==null){
+            return redirect()->back()->with('error','Không tồn tại');
+        }
+        return $this->applicationRepo->showUserApply($postjob_id);
     }
 }
