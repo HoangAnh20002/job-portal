@@ -22,4 +22,5 @@ class JobSeeker extends Model
     {
         return $this->belongsToMany(PostJob::class,'applications','postjob_id','jobseeker_id');
     }
+    
 }

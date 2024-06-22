@@ -31,7 +31,6 @@ class ApplicationController extends Controller
         if (Auth::check()) {
             $role_id = Auth::user()->role_id;
         }
-
         $listPostJobs = $this->postJobsRepository->showListPostJob();
         return view('application.index',compact('listPostJobs','role_id'));
     }
