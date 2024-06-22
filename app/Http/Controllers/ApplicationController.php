@@ -6,27 +6,34 @@ use App\Enums\Base;
 use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Repositories\ApplicationRepository;
+use App\Repositories\PostJobsRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ApplicationController extends Controller
 {
     protected $applicationRepo;
-
+    protected $postJobsRepository;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct(ApplicationRepository $applicationRepo)
+    public function __construct(ApplicationRepository $applicationRepo, PostJobsRepository $postJobsRepository)
     {
         $this->applicationRepo = $applicationRepo;
+        $this->postJobsRepository = $postJobsRepository;
     }
 
     public function index()
     {
-        $application = $this->applicationRepo->all();
-        return $application;
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+
+        $listPostJobs = $this->postJobsRepository->showListPostJob();
+        return view('application.index',compact('listPostJobs','role_id'));
     }
 
     /**
@@ -112,7 +119,6 @@ class ApplicationController extends Controller
     public function destroy(Application $application)
     {
         $result = false;
-        dd(Auth::user());
         $user = Auth::user();
         if (($user->role_id == Base::JOBSEEKER && $user->jobseeker == $application->jobseeker_id && $application->application_status == "Pending") || $user->role_id == Base::ADMIN) {
             if ($application) {

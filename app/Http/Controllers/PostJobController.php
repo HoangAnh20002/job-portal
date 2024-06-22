@@ -209,8 +209,4 @@ class PostJobController extends Controller
         $result = $this->postJobsRepository->searchTitleJob($request);
         return response()->json($result);
     }
-
-    public function showListPostJob()  {
-        return $this->postJobsRepository->showListPostJob();
-    }
 }

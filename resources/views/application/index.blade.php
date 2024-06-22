@@ -34,8 +34,8 @@
         }
     </style>
     <div class="container">
-        <div class="row my-4">{{dd($applications)}}
-            <h2 class="col-8">Danh sách ứng tuyển</h2>
+        <div class="row my-4">
+            <h2 class="col-8">Danh sách bài đăng có người ứng tuyển</h2>
             <div class="col-4">
             </div>
         </div>
@@ -44,41 +44,40 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Tên Công ty</th>
-                    <th>ID Nhà Tuyển Dụng</th>
-                    <th>Logo</th>
-                    <th>Ngành</th>
-                    <th>Mô Tả</th>
-                    <th>Vị Trí</th>
-                    <th>URL Website</th>
-                    <th>Số Điện Thoại</th>
+                    <th>Tiêu đề công việc</th>
+                    <th>Mô tả công việc</th>
+                    <th>Yêu cầu công việc</th>
+                    <th>Lương</th>
+                    <th>Loại công việc</th>
+                    <th>Ngày đăng</th>
+                    <th>Ngày hết hạn</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($companies as $company)
+                @foreach($listPostJobs as $listPostJob)
                     <tr>
-                        <td>{{ $company->id }}</td>
-                        <td class="username">{{ $company->company_name }}</td>
-                        <td>{{ $company->employer->id }}</td>
+                        <td>{{ $listPostJob->id }}</td>
+                        <td class="username">{{ $listPostJob->job_title }}</td>
+                        <td class="username">{{ $listPostJob->job_description }}</td>
+                        <td class="username">{{ $listPostJob->job_requirement }}</td>
+                        <td>{{ $listPostJob->salary }}</td>
                         <td>
-                            @if($company->logo)
-                                <img src="{{ asset('storage/logos/' . $company->logo) }}" alt="Logo"
-                                     style="width: 50px; height: auto;">
-                            @else
-                                N/A
-                            @endif
+                            @switch($listPostJob->employment_type)
+                                @case(1)
+                                    Toàn thời gian
+                                    @break
+                                @case(2)
+                                    Bán thời gian
+                                    @break
+                                @case(3)
+                                    Thỏa thuận
+                                    @break
+                                @default
+                                    Không xác định
+                            @endswitch
                         </td>
-                        <td>{{ $company->industry }}</td>
-                        <td class="username">{{ $company->description }}</td>
-                        <td class="username">{{ $company->location }}</td>
-                        <td class="username">
-                            @if($company->website)
-                                <a href="{{ $company->website}}" target="_blank">{{ $company->website}}</a>
-                            @else
-                                N/A
-                            @endif
-                        </td>
-                        <td>{{ $company->phone}}</td>
+                        <td>{{ $listPostJob->post_date }}</td>
+                        <td>{{ $listPostJob->expiration_date }}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -86,7 +85,7 @@
         </div>
     </div>
     <div class="mb-5 mt-5">
-        {{ $companies->appends(request()->query())->setPath(route('company.index'))->links('vendor.pagination.bootstrap-5') }}
+{{--        {{ $listPostJobs->links('vendor.pagination.bootstrap-5') }}--}}
     </div>
 @endsection
 
