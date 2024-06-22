@@ -4,7 +4,7 @@ use App\Enums\Base;
 use App\Models\PostJob;
 use App\Repositories\Interfaces\PostJobRepositoryInterface;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Auth;
 
 class PostJobsRepository extends BaseRepository implements PostJobRepositoryInterface
 {
@@ -91,5 +91,12 @@ class PostJobsRepository extends BaseRepository implements PostJobRepositoryInte
             ->get();
     }
 
+    //Hien thi danh sach cac Job da co nguoi applly
+    function showListPostJob(){
+        $user = Auth::user();
+        $employer = $user->employer;
+        $postJobs= $employer->post_jobs;
+        return $postJobs;
+    }
 }
 
