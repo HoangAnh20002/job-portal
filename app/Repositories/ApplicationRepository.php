@@ -18,5 +18,11 @@ class ApplicationRepository extends BaseRepository implements ApplicationReposit
     {
         return $this->model->count();
     }
-    
+    public function findByJobseekerAndPostjob($jobseekerId, $postjobId)
+    {
+        return $this->model->where('jobseeker_id', $jobseekerId)
+            ->where('postjob_id', $postjobId)
+            ->first();
+    }
+
 }

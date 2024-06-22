@@ -45,11 +45,15 @@ class ApplicationController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(ApplicationRequest $request)
     {
         $jobseeker = Auth::user()->jobseeker;
+        $existingApplication = $this->applicationRepo->findByJobseekerAndPostjob($jobseeker->id, $request->postjob_id);
+        if ($existingApplication) {
+            return redirect()->back()->with(['error' => 'Bạn đã ứng tuyển công việc này rồi.']);
+        }
         if (!empty($jobseeker->resume) && !empty($jobseeker->cover_letter) && !empty($jobseeker->contact_info)) {
             $data = [
                 'postjob_id'=>$request->postjob_id,

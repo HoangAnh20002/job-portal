@@ -208,7 +208,7 @@ class EmployerController extends Controller
             'contact_info' => $request->contact_info,
         ]);
 
-        return redirect()->route('employerMain')->with('success', 'Cập nhập thông tin thành công');
+        return redirect()->route('employer.index')->with('success', 'Cập nhập thông tin thành công');
     }
 
     /**

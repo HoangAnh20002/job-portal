@@ -45,7 +45,8 @@
                             @break
                         @default
                             Không xác định
-                    @endswitch</p>
+                    @endswitch
+                </p>
                 <p class="card-text"><strong>Ngày đăng:</strong> {{ $postjob->post_date }}</p>
                 <p class="card-text"><strong>Ngày hết hạn:</strong> {{ $postjob->expiration_date }}</p>
                 @if($role_id == \App\Enums\Base::ADMIN)
@@ -59,17 +60,16 @@
                     @else
                         <button class="btn btn-success mt-3" disabled>Đã được duyệt</button>
                     @endif
-                @else
-                @endif
-                @if($role_id == \App\Enums\Base::JOBSEEKER || $role_id == null)
-                    {
-                    <form action="{{ route('application.store }}" method="POST">
-                        <input type="hidden" name="status" value="1">
+
+                @elseif($role_id == \App\Enums\Base::JOBSEEKER || $role_id == null)
+                    <form action="{{ route('application.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="postjob_id" value="{{ $postjob->id }}">
+                        <input type="hidden" name="application_status" value="Pending">
                         <button type="submit" class="btn btn-primary mt-3">Ứng tuyển</button>
                     </form>
-                    }
                 @endif
-                <a href="{{ URL::previous()  }}" class="btn btn-secondary mt-3">Quay lại</a>
+                <a href="{{ URL::previous() }}" class="btn btn-secondary mt-3">Quay lại</a>
             </div>
         </div>
     </div>
