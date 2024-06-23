@@ -53,6 +53,9 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
+        if (!auth()->check()) {
+            return redirect()->back()->with(['error' => 'Bạn cần đăng nhập để ứng tuyển']);
+        }
         $jobseeker = Auth::user()->jobseeker;
         $existingApplication = $this->applicationRepo->findByJobseekerAndPostjob($jobseeker->id, $request->postjob_id);
         if ($existingApplication) {
@@ -142,15 +145,23 @@ class ApplicationController extends Controller
         if ($validatedData) {
             $application->application_status = $request->application_status;
             $application->save();
-            return (['message' => 'thanh cong', 'application' => $application]);
+            return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
         }
+        return redirect()->back()->with('error', 'Cập nhật trạng thái không thành công');
     }
+
     //Xewm chi tiet apply
     public function showUserApply(Request $request) {
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
         $postjob_id = $request->postjob_id;
+        $job_title = $request->job_title;
         if($postjob_id==null){
             return redirect()->back()->with('error','Không tồn tại');
         }
-        return $this->applicationRepo->showUserApply($postjob_id);
+        $applyUsers = $this->applicationRepo->showUserApply($postjob_id);
+        return view('application.detail',compact('applyUsers','role_id','job_title'));
     }
 }

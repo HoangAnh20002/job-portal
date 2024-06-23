@@ -53,7 +53,7 @@ class JobSeekerController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(JobseekerRequest $request)
-    {   dd($request);
+    {
         $resumeFileName = null;
         if ($request->hasFile('resume')) {
             $resumeFile = $request->file('resume');
@@ -108,9 +108,15 @@ class JobSeekerController extends Controller
         if (Auth::check()) {
             $role_id = Auth::user()->role_id;
         }
-        $jobseeker = $this->jobseekerRepository->find($id);
-        if (!$jobseeker) {
-            return redirect()->route('jobseeker.index')->with('error', 'Người tìm việc không tồn tại.');
+        if (Auth::user()->role_id == Base::ADMIN) {
+            $jobseeker = $this->jobseekerRepository->find($id);
+        } elseif (Auth::user()->role_id != Base::ADMIN) {
+            $jobseeker = $this->jobseekerRepository->getModel()->where('id', $id)->where('user_id', Auth::user()->id)->first();
+        } else {
+            $jobseeker = null;
+        }
+        if ($jobseeker == null) {
+            return redirect()->back()->with('error', 'Bạn không có quyền truy cập.');
         }
 
         return view('jobseeker.edit', compact('jobseeker','role_id'));

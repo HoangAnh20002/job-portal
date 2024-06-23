@@ -51,15 +51,16 @@
                     <th>Loại công việc</th>
                     <th>Ngày đăng</th>
                     <th>Ngày hết hạn</th>
+                    <th>Xem người ứng tuyển</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($listPostJobs as $listPostJob)
                     <tr>
                         <td>{{ $listPostJob->id }}</td>
-                        <td class="username">{{ $listPostJob->job_title }}</td>
-                        <td class="username">{{ $listPostJob->job_description }}</td>
-                        <td class="username">{{ $listPostJob->job_requirement }}</td>
+                        <td>{{ $listPostJob->job_title }}</td>
+                        <td>{{ $listPostJob->job_description }}</td>
+                        <td>{{ $listPostJob->job_requirement }}</td>
                         <td>{{ $listPostJob->salary }}</td>
                         <td>
                             @switch($listPostJob->employment_type)
@@ -78,8 +79,16 @@
                         </td>
                         <td>{{ $listPostJob->post_date }}</td>
                         <td>{{ $listPostJob->expiration_date }}</td>
+                        <td>
+                            <form action="{{ route('application.showUserApply') }}" method="GET">
+                                @csrf
+                                <input type="hidden" name="postjob_id" value="{{ $listPostJob->id }}">
+                                <input type="hidden" name="job_title" value="{{ $listPostJob->job_title }}">
+                                <button type="submit" class="btn btn-info">Xem người ứng tuyển</button>
+                            </form>
+                        </td>
                     </tr>
-                @endforeach
+            @endforeach
                 </tbody>
             </table>
         </div>

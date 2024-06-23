@@ -62,7 +62,7 @@
                     @endif
 
                 @elseif($role_id == \App\Enums\Base::JOBSEEKER || $role_id == null)
-                    <form action="{{ route('application.store') }}" method="POST">
+                    <form action="{{ route('application-store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="postjob_id" value="{{ $postjob->id }}">
                         <input type="hidden" name="application_status" value="Pending">

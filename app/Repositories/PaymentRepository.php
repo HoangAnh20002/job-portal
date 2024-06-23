@@ -26,7 +26,7 @@ class PaymentRepository extends BaseRepository{
             ->update(['payment_status' => 'false']);
     }
     public function showPaymentUser($employer_id){
-        $payments =  $this->model->where('employer_id',$employer_id)->paginate(Base::PAGE);
+        $payments =  $this->model->where('employer_id',$employer_id)->with('employer.post_jobs')->paginate(Base::PAGE);
         return $payments;
     }
 

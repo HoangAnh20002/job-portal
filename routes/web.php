@@ -78,6 +78,7 @@ Route::get('/logout',[\App\Http\Controllers\LoginController::class,'logout'])->n
 Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [LoginController::class, 'register']);
 Route::get('/postjobs/{id}', [PostJobController::class, 'showPublic'])->name('showPublic');
+Route::post('/store', [ApplicationController::class, 'store'])->name('application-store');
 Route::middleware(['auth'])->group(function () {
     Route::get('/adminMain', [UserController::class, 'index_ad'])->middleware('checkAdmin')->name('adminMain');
     Route::get('/admin/search-employer',[UserController::class,'searchEmployers'])->name('searchEmployers')->middleware('checkAdmin');
@@ -101,7 +102,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Application
     Route::resource('application', ApplicationController::class);
-    Route::patch('/application/update-status/{application}', [ApplicationController::class, 'updateStatus']);
+    Route::put('/application/{application}/updateStatus', [ApplicationController::class, 'updateStatus'])->name('application.updateStatus');
 
     // Service
     Route::resource('services', ServiceController::class)->names('servicesroute');
@@ -122,4 +123,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-all',[PaymentController::class,'showAllPayment'])->middleware('checkAdmin')->name('paymentAll');
 });
 
-Route::get('hehe',[ApplicationController::class,'showUserApply']);
+Route::get('/show-user-apply',[ApplicationController::class,'showUserApply'])->name('application.showUserApply');

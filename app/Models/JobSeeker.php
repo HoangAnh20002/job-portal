@@ -14,7 +14,7 @@ class JobSeeker extends Model
         'user_id', 'resume', 'cover_letter', 'contact_info'
     ];
 
-    public function user() //????
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -22,5 +22,5 @@ class JobSeeker extends Model
     {
         return $this->belongsToMany(PostJob::class,'applications','postjob_id','jobseeker_id');
     }
-    
+
 }

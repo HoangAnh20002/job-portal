@@ -145,7 +145,7 @@ class EmployerController extends Controller
             $employer = null;
         }
         if ($employer == null) {
-            return redirect()->route('employer.index')->with('error', 'Không tìm thấy nhà tuyển dụng.');
+            return redirect()->back()->with('error', 'Bạn không có quyền truy cập.');
         }
 
         return view('employer.edit', compact('employer', 'role_id'));

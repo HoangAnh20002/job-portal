@@ -61,7 +61,7 @@
                                 </table>
                                 @if($role_id == \App\Enums\Base::EMPLOYER)
                                 <div class="d-flex justify-content-center mt-3">
-                                    <a href="{{ route('createPayment', ['amount' => 600000, 'service_id' => 1, 'postjob_id' => 1]) }}">
+                                    <a href="{{ route('createPayment', ['amount' => 500000, 'service_id' => 1, 'postjob_id' => $post_job]) }}">
                                         <button class="bg-primary text-white btn">Thanh toán dịch vụ</button>
                                     </a>
                                 </div>
@@ -90,11 +90,11 @@
                                     </tbody>
                                 </table>
                                 @if($role_id ==  \App\Enums\Base::EMPLOYER)
-                                <div class="d-flex justify-content-center mt-3">
-                                    <a href="{{ route('payment.index', ['amount'=>100000]) }}">
-                                        <button class="bg-primary text-white btn">Thanh toán dịch vụ</button>
-                                    </a>
-                                </div>
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <a href="{{ route('createPayment', ['amount' => 100000, 'service_id' => 2, 'postjob_id' => $post_job]) }}">
+                                            <button class="bg-primary text-white btn">Thanh toán dịch vụ</button>
+                                        </a>
+                                    </div>
                                 @endif
                             </div>
                         </div>

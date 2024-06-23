@@ -68,9 +68,7 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    @if($employer == null)
                         <th>ID</th>
-                    @endif
                     @if($employer)
                         <th>Chi tiết</th>
                     @endif
@@ -94,9 +92,9 @@
                 </thead>
                 <tbody>
                 @foreach($post_jobs as $post_job)
-
                     @if($employer && $employer->id == $post_job->employer_id)
                         <tr>
+                            <td>{{ $post_job->id }}</td>
                             <td>
                                 <a href="{{ route('postjob.show', ['postjob' => $post_job->id]) }}"
                                    class="btn btn-info">
@@ -169,10 +167,10 @@
                                         </div>
                                     </div>
                                     @if($employer && $post_job->status == '1')
-                                        <a href="{{ route('servicesroute.index') }}">
-                                            <button class="bg-primary text-white btn">Đăng kí dịch vụ
-                                            </button>
-                                        </a>
+                                        <form action="{{ route('servicesroute.index') }}" method="GET" style="display: inline;">
+                                            <input type="hidden" name="postjob_id" value="{{ $post_job->id }}">
+                                            <button type="submit" class="bg-primary text-white btn">Đăng ký dịch vụ</button>
+                                        </form>
                                     @endif
                                 </div>
                             </td>
