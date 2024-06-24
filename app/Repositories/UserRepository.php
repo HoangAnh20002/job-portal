@@ -1,5 +1,6 @@
 <?php
 namespace App\Repositories;
+use App\Models\Application;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
     public function showApply() {
         $user = Auth::user();
-        return $user->jobseeker->post_jobs;
+        $jobSeekerId = $user->jobseeker->id;
+        return Application::where('jobseeker_id', $jobSeekerId)->with(['postjob'])
+            ->get();
     }
 }

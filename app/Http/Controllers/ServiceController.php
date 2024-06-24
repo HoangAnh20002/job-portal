@@ -21,14 +21,15 @@ class ServiceController extends Controller
        $this->serviceRepo= $serviceRepo;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $role_id = null;
         if (Auth::check()) {
             $role_id = Auth::user()->role_id;
         }
+        $post_job = $request->postjob_id;
         $services = $this->serviceRepo->paginate(Base::PAGE);
-        return view('service.index', compact('services', 'role_id'));
+        return view('service.index', compact('services', 'role_id','post_job'));
     }
 
     /**

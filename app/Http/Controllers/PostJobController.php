@@ -29,7 +29,7 @@ class PostJobController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -104,7 +104,7 @@ class PostJobController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\PostJob  $job
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function show($id)
     {
@@ -122,7 +122,9 @@ class PostJobController extends Controller
     public function showPublic($id)
     {
         $role_id = null;
-        $role_id = Auth::user()->role_id;
+        if (auth()->check()) {
+            $role_id = auth()->user()->role_id;
+        }
         $postjob = $this->postJobsRepository->find($id);
         if (!$postjob) {
             return redirect('/postjob')->with('error', 'Không tìm thấy công việc.');
@@ -208,9 +210,5 @@ class PostJobController extends Controller
     {
         $result = $this->postJobsRepository->searchTitleJob($request);
         return response()->json($result);
-    }
-
-    public function showListPostJob()  {
-        return $this->postJobsRepository->showListPostJob();
     }
 }

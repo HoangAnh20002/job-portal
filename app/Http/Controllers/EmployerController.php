@@ -145,7 +145,7 @@ class EmployerController extends Controller
             $employer = null;
         }
         if ($employer == null) {
-            return redirect()->route('employer.index')->with('error', 'Không tìm thấy nhà tuyển dụng.');
+            return redirect()->back()->with('error', 'Bạn không có quyền truy cập.');
         }
 
         return view('employer.edit', compact('employer', 'role_id'));
@@ -208,7 +208,7 @@ class EmployerController extends Controller
             'contact_info' => $request->contact_info,
         ]);
 
-        return redirect()->route('employerMain')->with('success', 'Cập nhập thông tin thành công');
+        return redirect()->route('employer.index')->with('success', 'Cập nhập thông tin thành công');
     }
 
     /**

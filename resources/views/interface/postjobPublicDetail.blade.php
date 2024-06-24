@@ -45,7 +45,8 @@
                             @break
                         @default
                             Không xác định
-                    @endswitch</p>
+                    @endswitch
+                </p>
                 <p class="card-text"><strong>Ngày đăng:</strong> {{ $postjob->post_date }}</p>
                 <p class="card-text"><strong>Ngày hết hạn:</strong> {{ $postjob->expiration_date }}</p>
                 @if($role_id == \App\Enums\Base::ADMIN)
@@ -59,17 +60,39 @@
                     @else
                         <button class="btn btn-success mt-3" disabled>Đã được duyệt</button>
                     @endif
-                @else
-                @endif
-                @if($role_id == \App\Enums\Base::JOBSEEKER || $role_id == null)
-                    {
-                    <form action="{{ route('application.store }}" method="POST">
-                        <input type="hidden" name="status" value="1">
-                        <button type="submit" class="btn btn-primary mt-3">Ứng tuyển</button>
-                    </form>
-                    }
-                @endif
-                <a href="{{ URL::previous()  }}" class="btn btn-secondary mt-3">Quay lại</a>
+                    @elseif($role_id == \App\Enums\Base::JOBSEEKER || $role_id == null)
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal"
+                                data-target="#confirmModal">
+                            Ứng tuyển
+                        </button>
+                    @endif
+                    <a href="{{route('home')}}" class="btn btn-secondary mt-3">Quay lại</a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+                         aria-labelledby="confirmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">Xác nhận ứng tuyển</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Bạn có chắc chắn muốn ứng tuyển công việc này không?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    <form id="applicationForm" action="{{ route('application-store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="postjob_id" value="{{ $postjob->id }}">
+                                        <input type="hidden" name="application_status" value="Pending">
+                                        <button type="submit" class="btn btn-primary">Xác nhận ứng tuyển</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>

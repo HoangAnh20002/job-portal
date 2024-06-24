@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 use App\Enums\Base;
+use App\Models\Application;
 use App\Models\PostJob;
 use App\Repositories\Interfaces\PostJobRepositoryInterface;
 use Carbon\Carbon;
@@ -92,11 +93,14 @@ class PostJobsRepository extends BaseRepository implements PostJobRepositoryInte
     }
 
     //Hien thi danh sach cac Job da co nguoi applly
-    function showListPostJob(){
-        $user = Auth::user();
-        $employer = $user->employer;
-        $postJobs= $employer->post_jobs;
-        return $postJobs;
-    }
+        function showListPostJob(){
+            $user = Auth::user();
+            $employer = $user->employer;
+            $postJobs = $employer->post_jobs()->where('status', 1)->get();
+            $appliedPostJobs = $postJobs->filter(function($postJob) {
+                return $postJob->applications()->exists();
+            });
+            return $appliedPostJobs;
+        }
 }
 

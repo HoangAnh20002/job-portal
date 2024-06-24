@@ -78,6 +78,7 @@ Route::get('/logout',[\App\Http\Controllers\LoginController::class,'logout'])->n
 Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [LoginController::class, 'register']);
 Route::get('/postjobs/{id}', [PostJobController::class, 'showPublic'])->name('showPublic');
+Route::post('/store', [ApplicationController::class, 'store'])->name('application-store');
 Route::middleware(['auth'])->group(function () {
     Route::get('/adminMain', [UserController::class, 'index_ad'])->middleware('checkAdmin')->name('adminMain');
     Route::get('/admin/search-employer',[UserController::class,'searchEmployers'])->name('searchEmployers')->middleware('checkAdmin');
@@ -90,10 +91,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Routes cho jobseeker
     Route::resource('jobseeker', JobseekerController::class);
+    Route::get('jobseeker', [JobseekerController::class, 'index'])->name('jobseeker.index')->middleware(['checkAdmin']);
     Route::resource('employer', EmployerController::class);
 
     Route::resource('company', CompanyController::class)->middleware('checkAdmin');
-    Route::resource('postjob', PostJobController::class);
+    Route::resource('postjob', PostJobController::class)->middleware('checkAdmin')->middleware('checkEmployer');
+    Route::get('postjob', [PostJobController::class, 'index'])->name('postjob.index')->middleware(['checkAdmin', 'checkEmployer']);
     Route::patch('/postjob/{id}/update_status', [PostJobController::class, 'update_status'])->name('postjob.update_status');
 
     Route::get('/create-payment', [VNpayController::class, 'create']);
@@ -101,7 +104,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Application
     Route::resource('application', ApplicationController::class);
-    Route::patch('/application/update-status/{application}', [ApplicationController::class, 'updateStatus']);
+    Route::put('/application/{application}/updateStatus', [ApplicationController::class, 'updateStatus'])->name('application.updateStatus');
 
     // Service
     Route::resource('services', ServiceController::class)->names('servicesroute');
@@ -112,7 +115,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/return-vnpay', [VNpayController::class, 'return']);
     //Get all apply
-    Route::get('/get-my-apply',[UserController::class,'showApply']);
+    Route::get('/get-my-apply',[UserController::class,'showApply'])->name('showApply');
 // Trong file routes/web.php
     Route::view('/test-vn', 'testvnPay'); // Chỉ cần tên view không cần đuôi .blade.php
 
@@ -122,5 +125,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-all',[PaymentController::class,'showAllPayment'])->middleware('checkAdmin')->name('paymentAll');
 });
 
-Route::get('abc',[PostJobController::class,'showListPostJob']);
-Route::get('hehe',[ApplicationController::class,'showUserApply']);
+Route::get('/show-user-apply',[ApplicationController::class,'showUserApply'])->name('application.showUserApply');

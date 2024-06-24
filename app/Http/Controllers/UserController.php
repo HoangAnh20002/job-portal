@@ -125,8 +125,12 @@ class UserController extends Controller
     }
     //Hien thi tat ca job da apply
     public function showApply(){
-        $result = $this->userRepository->showApply();
-        return view('test',compact('result'));
+        $role_id = null;
+        if (Auth::check()) {
+            $role_id = Auth::user()->role_id;
+        }
+        $applyHistorys = $this->userRepository->showApply();
+        return view('application.applyHistory',compact('applyHistorys','role_id'));
     }
 
     public function showMyPayment()
