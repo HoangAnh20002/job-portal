@@ -69,6 +69,10 @@ use Illuminate\Support\Facades\Route;
 // Route::resource('services',ServiceController::class)->names('servicesroute1');
 
 Route::get('/', [\App\Http\Controllers\interface\HomeController::class,'index'])->name('home');
+Route::get('/about-us', function () {
+    return view('interface.aboutus');
+});
+
 //Route::post('/search', [HomeController::class, 'search'])->name('home.search');
 Route::get('/postjob/search',[PostJobController::class,'searchTitleJob'])->name('home.search');
 

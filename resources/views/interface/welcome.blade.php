@@ -14,7 +14,9 @@
         margin-right: auto;
         margin-left: auto;
     }
-
+    .body{
+        background: linear-gradient(270deg, rgba(135, 170, 255, 0.5) 0%, rgba(135, 150, 180, 0.5) 73.72%);
+    }
     .carousel-item {
         transition: transform 0.3s ease-in-out !important;
     }
@@ -39,7 +41,7 @@
     .highlighted-text {
         font-size: 3em;
         font-weight: bold;
-        color: black;
+        color:#2d3748;
         text-align: center;
         margin-top: 30px;
         text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
@@ -50,7 +52,10 @@
         .highlighted-text {
             font-size: 3em;
             padding: 15px;
-        }
+        } .carousel-caption .d-none.d-sm-block {
+              display: none !important;
+          }
+
     }
 
     @media (max-width: 480px) {
@@ -116,57 +121,65 @@
             </div>
             <div class="carousel-inner">
                 @if ($postJobsWithFirstService->isNotEmpty())
-                    @foreach ($postJobsWithFirstService as $index => $postJob)
-                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}"
-                             style="background-image: url('{{ asset('bg/' . $backgroundImages[$index % count($backgroundImages)]) }}');">
-                            <div class="carousel-caption d-md-block">
-                                <div class="row align-items-center">
-                                    <div class="col-4 row">
-                                        <img src="{{ asset('storage/logos/' . $postJob->employer->company->logo) }}" alt="Logo"
-                                             class="img-fluid">
-                                        <h4 class="text-white mt-2">{{ $postJob->employer->company->company_name }}</h4>
-                                    </div>
-                                    <div class="col-8 text-start">
-                                        <h4 class="text-white">{{ $postJob->job_title }}</h4>
-                                        <p class="text-white">{{ $postJob->job_description }}</p>
-                                        <div class="d-flex mb-2">
-                                            <div class='mt-1'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                                     class="bi bi-cash-coin" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd"
-                                                          d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
-                                                    <path
-                                                        d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
-                                                    <path
-                                                        d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
-                                                    <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567" />
-                                                </svg>
+                    <div class="container-fluid mx-3">
+                        <div class="row">
+                            @foreach ($postJobsWithFirstService as $index => $postJob)
+                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}"
+                                     style="background-image: url('{{ asset('bg/' . $backgroundImages[$index % count($backgroundImages)]) }}');">
+                                    <div class="carousel-caption d-md-block">
+                                        <div class="row gx-5 align-items-center">
+                                            <div class="col-12 col-md-4 mb-3 mb-md-0">
+                                                <div class="row align-items-center">
+                                                    <div class="col-12 mb-3 mb-md-0 text-center">
+                                                        <img style="height: 120px;width: 120px;" src="{{ asset('storage/logos/' . $postJob->employer->company->logo) }}"
+                                                             alt="Logo" class="mb-1">
+                                                        <h4 class="text-white col-md-12">{{ $postJob->employer->company->company_name }}</h4>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="text-white ms-2">: {{ $postJob->salary }}</div>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <div class="mt-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                                     class="bi bi-building-add" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0" />
-                                                    <path
-                                                        d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z" />
-                                                    <path
-                                                        d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z" />
-                                                </svg>
+                                            <div class="col-12 col-md-8 text-start">
+                                                <h4 class="text-white">{{ $postJob->job_title }}</h4>
+                                                <p class="text-white d-none d-sm-block">{{ $postJob->job_description }}</p>
+                                                <div class="d-flex mb-2">
+                                                    <div class='mt-1'>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                                             class="bi bi-cash-coin" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd"
+                                                                  d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
+                                                            <path
+                                                                d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
+                                                            <path
+                                                                d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
+                                                            <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="text-white ms-2">: {{ $postJob->salary }}</div>
+                                                </div>
+                                                <div class="d-flex mb-2">
+                                                    <div class="mt-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                                             class="bi bi-building-add" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0" />
+                                                            <path
+                                                                d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z" />
+                                                            <path
+                                                                d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="text-white ms-2">{{ $postJob->employer->company->location }}</div>
+                                                </div>
+                                                <a href="{{ route('showPublic', $postJob->id) }}" class="btn btn-primary" id="apply"
+                                                   style="background-color: #007bff; border-color: #007bff; border-radius: 25px; padding: 10px 20px; font-size: 16px; font-weight: bold; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s, transform 0.3s;">
+                                                    Ứng tuyển ngay
+                                                </a>
                                             </div>
-                                            <div class="text-white ms-2">{{ $postJob->employer->company->location }}</div>
                                         </div>
-                                        <a href="{{ route('showPublic', $postJob->id) }}" class="btn btn-primary" id="apply"
-                                           style="background-color: #007bff; border-color: #007bff; border-radius: 25px; padding: 10px 20px; font-size: 16px; font-weight: bold; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s, transform 0.3s;">
-                                            Ứng tuyển ngay
-                                        </a>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
-                    @endforeach
+                    </div>
                 @else
                     <div class="carousel-item active"
                          style="background-image: url('{{ asset('bg/banner.jpg') }}'); height: 500px; background-size: cover; background-position: center;">
@@ -289,6 +302,7 @@
                     location: $('select[name="location[]"]').val(),
                     industry: $('select[name="industry[]"]').val()
                 };
+
                 $.ajax({
                     type: 'GET',
                     url: '{{ route('home.search')}}',
@@ -296,6 +310,10 @@
                     success: function(response) {
                         console.log(response)
                         $('#postJobsList').empty();
+
+                        // Hide the pagination div
+                        $('.mb-5.mt-5').hide();
+
                         if (response.length > 0) {
                             $.each(response, function(index, postJob) {
                                 console.log(postJob)
@@ -316,11 +334,11 @@
                                 var logoPath =
                                     `{{ asset('storage/logos/') }}/${postJob.employer.company.logo}`;
                                 var html = `
-                                <div class="col-md-4">
-                                    <div class="card mb-3">
-                                        <div class="card-body">
-                                            <h5 class="card-title">${postJob.job_title}</h5>
-                                            <div class="d-flex">
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${postJob.job_title}</h5>
+                                        <div class="d-flex">
                                             <div class="col-4">
                                                 <img src="${logoPath}" alt="Logo"
                                                      class="img-fluid"
@@ -328,17 +346,17 @@
                                                 <h4 class="text-white mt-2">Công ty :${postJob.employer.company.company_name}</h4>
                                             </div>
                                             <div class="col-8">
-                                            <p class="card-text">${postJob.employer.company.company_name}</p>
-                                            <p class="card-text">Mức lương: ${postJob.salary}</p>
-                                            <p class="card-text">Loại hình công việc: ${employmentType}</p>
-                                            <p class="card-text">Địa điểm: ${postJob.employer.company.location }}</p>
-                                            <a href="/postjob/${postJob.id}" class="btn btn-primary">Chi tiết</a>
-                                            </div>
+                                                <p class="card-text">${postJob.employer.company.company_name}</p>
+                                                <p class="card-text">Mức lương: ${postJob.salary}</p>
+                                                <p class="card-text">Loại hình công việc: ${employmentType}</p>
+                                                <p class="card-text">Địa điểm: ${postJob.employer.company.location }</p>
+                                                <a href="/postjob/${postJob.id}" class="btn btn-primary">Chi tiết</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                        `;
+                            </div>
+                            `;
                                 $('#postJobsList').append(html);
                             });
                         } else {
@@ -352,7 +370,6 @@
                 });
             });
         });
-
         $(document).ready(function() {
             $('#industryDropdown').select2({
                 placeholder: 'Chọn ngành nghề',

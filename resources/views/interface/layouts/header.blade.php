@@ -1,36 +1,56 @@
-<header class="bg-light d-flex align-items-center" style="height: 90px;">
+<style>
+    @media (max-width: 406px) {
+        .header{
+            height: 200px;
+        }
+    }
+    @media (min-width: 406px) {
+        .header{
+            height: 120px;
+        }
+    }
+</style>
+<header class=" header bg-light d-flex align-items-center">
     @php
     use App\Enums\Base;
     @endphp
     <div class="container-fluid mx-3">
-        <div class="d-flex align-items-center justify-content-between">
-            <div class="col-12 col-md-4 text-center text-md-start my-auto">
-                <a href="{{route('home')}}" class="text-decoration-none mx-auto fw-bold text-primary"
-                    style="font-size: 2.5rem; font-family: 'Arial', sans-serif; text-shadow: 1px 1px 2px #000;">
-                    Job Portal
-                </a>
-            </div>
-            <div class="col-12 col-md-8 d-flex justify-content-end align-items-center">
-                <div class="">
-                    @if($role_id == null)
-                    @elseif($role_id == Base::ADMIN)
-                    <a href="{{ route('adminMain') }}" class="btn btn-primary">Admin-Quản lý</a>
-                    @elseif($role_id == Base::EMPLOYER)
-                    <a href="{{ route('employerMain') }}" class="btn btn-primary">Nhà tuyển dụng-Quản lý</a>
-                    @else
-                    <a href="{{ route('jobseekerMain') }}" class="btn btn-primary">Người tìm việc-Quản lý</a>
-                    @endif
+        <div class="row">
+            <div class="col-md-4">
+                <div class="d-flex align-items-center justify-content-center justify-content-sm-start mb-3 mb-sm-0">
+                    <a href="{{ route('home') }}" class="text-decoration-none fw-bold text-primary"
+                       style="font-size: 2.5rem; font-family: 'Arial', sans-serif; text-shadow: 1px 1px 2px #000;">
+                        Job Portal
+                    </a>
                 </div>
-                <div class="ms-3">
-                    @if(is_null($role_id))
-                    <a href="{{ route('login') }}" class="btn btn-primary me-2">Đăng nhập</a>
-                    <a href="{{ route('register') }}" class="btn btn-outline-primary">Đăng ký</a>
-                    @else
-                    <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
-                        data-bs-target="#logoutModal">
-                        Đăng xuất
-                    </button>
-                    @endif
+            </div>
+            <div class="col-md-8">
+                <div class="d-flex justify-content-end align-items-center justify-content-sm-end">
+                    <div style="text-align: center; margin-top: 15px; margin-right: 40px;">
+                        <a href="{{ url('/about-us') }}" style="text-decoration: none; color: #007bff; font-weight: bold; font-size: 18px;">
+                            Về chúng tôi
+                        </a>
+                    </div>
+                    <div class="mr-2">
+                        @if($role_id == null)
+                            <a href="{{ route('login') }}" class="btn btn-primary">Đăng nhập</a>
+                            <a href="{{ route('register') }}" class="btn btn-outline-primary">Đăng ký</a>
+                        @else
+                            <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
+                                    data-bs-target="#logoutModal">
+                                Đăng xuất
+                            </button>
+                        @endif
+                    </div>
+                    <div>
+                        @if($role_id == Base::ADMIN)
+                            <a href="{{ route('adminMain') }}" class="btn btn-primary" style="width: fit-content">Quản lý</a>
+                        @elseif($role_id == Base::EMPLOYER)
+                            <a href="{{ route('employerMain') }}" class="btn btn-primary">Quản lý</a>
+                        @elseif($role_id == Base::JOBSEEKER)
+                            <a href="{{ route('jobseekerMain') }}" class="btn btn-primary">Quản lý</a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
