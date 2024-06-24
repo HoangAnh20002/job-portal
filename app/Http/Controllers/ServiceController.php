@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\Base;
 use App\Models\Service;
+use App\Repositories\ApplicationRepository;
+use App\Repositories\PaymentRepository;
 use App\Repositories\ServiceRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,14 +13,16 @@ use Illuminate\Support\Facades\Auth;
 class ServiceController extends Controller
 {
     protected $serviceRepo;
+    protected $paymentRepository;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct(ServiceRepository $serviceRepo)
+    public function __construct(ServiceRepository $serviceRepo, PaymentRepository $paymentRepository)
     {
        $this->serviceRepo= $serviceRepo;
+       $this->paymentRepository = $paymentRepository;
     }
 
     public function index(Request $request)
@@ -27,10 +31,16 @@ class ServiceController extends Controller
         if (Auth::check()) {
             $role_id = Auth::user()->role_id;
         }
+        $paymentCount = $this->paymentRepository->limitServicePayment();
         $post_job = $request->postjob_id;
+
+        $isService1Registered = $this->paymentRepository->checkServiceRegistration($post_job, 1);
+        $isService2Registered = $this->paymentRepository->checkServiceRegistration($post_job, 2);
+
         $services = $this->serviceRepo->paginate(Base::PAGE);
-        return view('service.index', compact('services', 'role_id','post_job'));
+        return view('service.index', compact('services', 'role_id', 'post_job', 'paymentCount', 'isService1Registered', 'isService2Registered'));
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -17,7 +17,7 @@ class EmployerMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->check()&&auth()->user()->role_id==Base::EMPLOYER){  
+        if(auth()->check()&&auth()->user()->role_id==Base::EMPLOYER){
             return $next($request);
         }
         return redirect('/')->with('error', 'Bạn không có quyền truy cập vào trang này.');

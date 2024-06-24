@@ -17,10 +17,8 @@ class PaymentRepository extends BaseRepository{
 
     public function getExpirationDate()
     {
-        // Lấy thời gian ba tháng trước
         $threeMonthsAgo = Carbon::now()->subMonths(3);
 
-        // Cập nhật trạng thái payment_status của các bản ghi phù hợp
         $this->model->where('created_at', '<', $threeMonthsAgo)
             ->where('payment_status', 'Completed')
             ->update(['payment_status' => 'false']);
@@ -33,12 +31,15 @@ class PaymentRepository extends BaseRepository{
     public function limitServicePayment()
     {
         $paymentCount = $this->model->where('payment_status', 'Success')->where('service_id',1)->count();
-        if($paymentCount>5){
-            return false;
-        }
-        return true;
+        return $paymentCount;
     }
-
+    public function checkServiceRegistration($postjob_id, $service_id)
+    {
+        return $this->model
+            ->where('postjob_id', $postjob_id)
+            ->where('service_id', $service_id)
+            ->exists();
+    }
 
 }
 ?>

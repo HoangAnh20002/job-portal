@@ -96,7 +96,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('company', CompanyController::class)->middleware('checkAdmin');
     Route::resource('postjob', PostJobController::class)->middleware('checkAdmin')->middleware('checkEmployer');
-    Route::get('postjob', [PostJobController::class, 'index'])->name('postjob.index')->middleware(['checkAdmin', 'checkEmployer']);
     Route::patch('/postjob/{id}/update_status', [PostJobController::class, 'update_status'])->name('postjob.update_status');
 
     Route::get('/create-payment', [VNpayController::class, 'create']);
