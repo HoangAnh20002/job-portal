@@ -14,17 +14,6 @@
     margin-left: auto;
 }
 
-<<<<<<< HEAD
-.body {
-    
-}
-=======
-    .body {
-        background-image: url('https://images.deepai.org/art-image/81e8c033b6464e4baf0267f50de18132/back-ground-image-main-color-is-white-with-some-blue-.jpg');
-        background-repeat: repeat;
-    }
->>>>>>> e501e0b4db20596904386d8ca7053930cd6850a8
-
 .carousel-item {
     transition: transform 0.3s ease-in-out !important;
 }
@@ -61,9 +50,6 @@
         font-size: 3em;
         padding: 15px;
     }
-   
-
-
 }
 
 @media (max-width: 480px) {
@@ -75,7 +61,6 @@
     #apply {
         padding: 2px 5px;
     }
-    
 }
 
 .carousel-item {
@@ -108,7 +93,6 @@
       height: 450px;
       transition: transform 0.5s ease-in-out;
     }
-    
     .card:hover {
         transform: scale(1.05);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -180,6 +164,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
                     @endforeach
                 @else
                 <div class="carousel-item active"
