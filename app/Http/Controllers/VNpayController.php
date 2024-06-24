@@ -21,9 +21,7 @@ class VNpayController extends Controller
              'employer_id'=>Auth::user()->employer->id,
              'service_id'=>$request->service_id,
              'postjob_id'=>$request->postjob_id,
-
         ]]);
-        session(['url_prev' => url()->previous()]);
         $vnp_TmnCode = "8MYXNMCB"; //Mã website tại VNPAY
         $vnp_HashSecret = trim(\config('app.vnp_HashSecret')); //Chuỗi bí mật
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -87,18 +85,13 @@ class VNpayController extends Controller
                 $inputData[$key] = $value;
             }
         }
-        // Lấy URL trước đó từ session hoặc mặc định là '/'
-        $url = session('url_prev', '/');
         // Lấy thông tin từ request
         $vnp_ResponseCode = $request->input('vnp_ResponseCode');
-        $vnp_OrderInfo = $request->input('vnp_OrderInfo');
         Carbon::setLocale('vi');
         Carbon::setToStringFormat('Y-m-d H:i:s');
         if ($vnp_ResponseCode == "00") {
             $currentDateTime = Carbon::now()->timezone('Asia/Ho_Chi_Minh');
             $formattedDateTime = $currentDateTime->format('d/m/Y');
-
-            //'employer_id', 'amount', 'payment_date', 'service_id', 'postjob_id', 'payment_status'
             $data = [
                'employer_id' => session('infoService')['employer_id'].'',
                'service_id' => session('infoService')['service_id'],
@@ -111,8 +104,6 @@ class VNpayController extends Controller
             session()->forget('infoService');
             return redirect('/postjob')->with('success', 'Đã thanh toán phí dịch vụ');
         }
-
-        session()->forget('/postjob');
         return redirect()->back()->with('error', 'Lỗi trong quá trình thanh toán phí dịch vụ');
     }
 }
