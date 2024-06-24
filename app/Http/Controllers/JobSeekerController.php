@@ -168,7 +168,7 @@ class JobSeekerController extends Controller
             'contact_info' => $request->contact_info,
         ]);
 
-        return redirect()->route('jobseeker.index')->with('success', 'Cập nhật thông tin người tìm việc thành công.');
+        return redirect()->back()->with('success', 'Cập nhật thông tin thành công.');
     }
 
     /**

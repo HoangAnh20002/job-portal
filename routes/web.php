@@ -91,10 +91,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Routes cho jobseeker
     Route::resource('jobseeker', JobseekerController::class);
+    Route::get('jobseeker', [JobseekerController::class, 'index'])->name('jobseeker.index')->middleware(['checkAdmin']);
     Route::resource('employer', EmployerController::class);
 
     Route::resource('company', CompanyController::class)->middleware('checkAdmin');
-    Route::resource('postjob', PostJobController::class);
+    Route::resource('postjob', PostJobController::class)->middleware('checkAdmin')->middleware('checkEmployer');
+    Route::get('postjob', [PostJobController::class, 'index'])->name('postjob.index')->middleware(['checkAdmin', 'checkEmployer']);
     Route::patch('/postjob/{id}/update_status', [PostJobController::class, 'update_status'])->name('postjob.update_status');
 
     Route::get('/create-payment', [VNpayController::class, 'create']);
@@ -113,7 +115,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/return-vnpay', [VNpayController::class, 'return']);
     //Get all apply
-    Route::get('/get-my-apply',[UserController::class,'showApply']);
+    Route::get('/get-my-apply',[UserController::class,'showApply'])->name('showApply');
 // Trong file routes/web.php
     Route::view('/test-vn', 'testvnPay'); // Chỉ cần tên view không cần đuôi .blade.php
 

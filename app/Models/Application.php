@@ -14,9 +14,9 @@ class Application extends Model
         'postjob_id', 'jobseeker_id', 'application_status'
     ];
 
-    public function job()
+    public function postjob()
     {
-        return $this->belongsTo(PostJob::class);
+        return $this->belongsTo(PostJob::class,'postjob_id');
     }
 
     public function jobSeeker()

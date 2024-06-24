@@ -116,25 +116,28 @@ class ApplicationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Models\Application $application
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Application $application)
     {
         $result = false;
         $user = Auth::user();
-        if (($user->role_id == Base::JOBSEEKER && $user->jobseeker == $application->jobseeker_id && $application->application_status == "Pending") || $user->role_id == Base::ADMIN) {
-            if ($application) {
-                $result = $application->delete();
-            } else {
-                return (['message' => 'not find application']);
-            }
-        }
-        if ($result) {
-            return (['message' => 'Application deleted successfully']);
+
+        if ($user->role_id == Base::JOBSEEKER && $user->jobseeker && $user->jobseeker->id == $application->jobseeker_id && $application->application_status == "Pending") {
+            $result = $application->delete();
+        } elseif ($user->role_id == Base::ADMIN) {
+            $result = $application->delete();
         } else {
-            return (['message' => 'Failed to delete application']);
+            return back()->with('error', 'Bạn không có quyền xóa đơn ứng tuyển này.');
+        }
+
+        if ($result) {
+            return back()->with('success', 'Xóa đơn ứng tuyển thành công.');
+        } else {
+            return back()->with('error', 'Không thể xóa đơn ứng tuyển.');
         }
     }
+
 
     public function updateStatus(Request $request, Application $application)
     {

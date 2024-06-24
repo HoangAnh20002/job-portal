@@ -58,9 +58,9 @@
                 @foreach($listPostJobs as $listPostJob)
                     <tr>
                         <td>{{ $listPostJob->id }}</td>
-                        <td>{{ $listPostJob->job_title }}</td>
-                        <td>{{ $listPostJob->job_description }}</td>
-                        <td>{{ $listPostJob->job_requirement }}</td>
+                        <td class="username">{{ $listPostJob->job_title }}</td>
+                        <td class="username">{{ $listPostJob->job_description }}</td>
+                        <td class="username">{{ $listPostJob->job_requirement }}</td>
                         <td>{{ $listPostJob->salary }}</td>
                         <td>
                             @switch($listPostJob->employment_type)

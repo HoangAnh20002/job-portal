@@ -35,9 +35,11 @@
         <div class="border border-white p-3">
             <a href="{{ route('company.index') }}" class="text-decoration-none text-white ml-3">Danh sách công ty</a>
         </div>@endif
+        @if(!$role_id == Base::JOBSEEKER)
         <div class="border border-white p-3">
             <a href="{{ route('postjob.index') }}" class="text-decoration-none text-white ml-3">Quản lí bài đăng</a>
         </div>
+        @endif
         @if($role_id == Base::ADMIN)
             <div class="border border-white p-3">
                 <a href="{{route('paymentAll')}}" class="text-decoration-none text-white ml-3">Danh sách giao dịch</a>
@@ -58,10 +60,10 @@
                 <a href="{{ route('showMyPayment') }}" class="text-decoration-none text-white ml-3">Lịch sử giao dịch</a>
             </div>
         @endif
-
-{{--    <div class="border border-white p-3">--}}
-{{--        <a href="{{route('course.index')}}" class="text-decoration-none text-white">Course</a>--}}
-{{--    </div>--}}
-
+        @if($role_id == Base::JOBSEEKER)
+            <div class="border border-white p-3">
+                <a href="{{ route('showApply') }}" class="text-decoration-none text-white ml-3">Lịch sử ứng tuyển</a>
+            </div>
+        @endif
 </div>
 
