@@ -78,7 +78,7 @@
                                         @if($paymentCount > 5)
                                             <button class="bg-secondary text-white btn" disabled>Dịch vụ đã đạt giới hạn</button>
                                         @elseif($isService1Registered)
-                                            <button class="bg-secondary text-white btn" disabled>Bạn đã đăng ký dịch vụ 1</button>
+                                            <button class="bg-secondary text-white btn" disabled>Bạn đã đăng ký dịch vụ này</button>
                                         @else
                                             <a href="{{ route('createPayment', ['amount' => 500000, 'service_id' => 1, 'postjob_id' => $post_job]) }}">
                                                 <button class="bg-primary text-white btn">Thanh toán dịch vụ</button>
@@ -112,7 +112,7 @@
                                 @if($role_id == \App\Enums\Base::EMPLOYER)
                                     <div class="d-flex justify-content-center mt-3">
                                         @if($isService2Registered)
-                                            <button class="bg-secondary text-white btn" disabled>Bạn đã đăng ký dịch vụ 2</button>
+                                            <button class="bg-secondary text-white btn" disabled>Bạn đã đăng ký dịch vụ này</button>
                                         @else
                                             <a href="{{ route('createPayment', ['amount' => 100000, 'service_id' => 2, 'postjob_id' => $post_job]) }}">
                                                 <button class="bg-primary text-white btn">Thanh toán dịch vụ</button>

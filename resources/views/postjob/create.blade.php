@@ -1,7 +1,7 @@
 @extends('interface.layouts.home')
 
 @section('sidebar')
-    <div class="sidebar d-none d-lg-block">
+    <div class="sidebar d-none d-lg-block" style="height: 1000px">
         @include('interface.layouts.sidebar')
     </div>
     <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">

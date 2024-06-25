@@ -403,7 +403,7 @@
                                                 <p class="card-text">Mức lương: ${postJob.salary}</p>
                                                 <p class="card-text">Loại hình công việc: ${employmentType}</p>
                                                 <p class="card-text">Địa điểm: ${postJob.employer.company.location }</p>
-                                                <a href="/postjob/${postJob.id}" class="btn btn-primary">Chi tiết</a>
+                                                <a href="/postjobs/${postJob.id}" class="btn btn-primary">Chi tiết</a>
                                             </div>
                                         </div>
                                     </div>
