@@ -72,21 +72,18 @@
         width: 100%;
     }
 
-    /* Adjust width for screens larger than 767px */
     @media (min-width: 767px) {
         .select2-selection--multiple {
             width: 90%;
         }
     }
 
-    /* Adjust width for screens larger than 1350px */
     @media (min-width: 1350px) {
         .select2-selection--multiple {
             width: 100%;
         }
     }
 
-    /* Increase width for screens smaller than or equal to 767px */
     @media (max-width: 767px) {
         .select2-selection--multiple {
             width: 490px;
