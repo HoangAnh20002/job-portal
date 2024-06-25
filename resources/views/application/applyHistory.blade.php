@@ -1,8 +1,21 @@
 @extends('interface.layouts.home')
 @section('sidebar')
-    @include('interface.layouts.sidebar')
+    <div class="sidebar d-none d-lg-block" style="height: 700px">
+        @include('interface.layouts.sidebar')
+    </div>
+    <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Sidebar</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            @include('interface.layouts.sidebar')
+        </div>
+    </div>
+    <button id="toggleSidebar" class="btn btn-secondary d-lg-none mt-3 ml-3 py-2 px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+        <i class="bi bi-layout-text-sidebar"></i>
+    </button>
 @endsection
-
 @section('content')
     @include('interface.layouts.alert')
     <style>
@@ -54,8 +67,21 @@
                     <td class="username">{{ $application->postjob->job_requirement }}</td>
                     <td>{{ $application->postjob->salary }}</td>
                     <td>{{ $application->postjob->expiration_date }}</td>
-                    <td>{{ $application->application_status }}</td>
                     <td>
+                        @switch($application->application_status)
+                            @case('Pending')
+                                Đang chờ xử lý
+                                @break
+                            @case('Accepted')
+                                Đã được chấp thuận
+                                @break
+                            @case('Rejected')
+                                Đã bị từ chối
+                                @break
+                            @default
+                                Không rõ
+                        @endswitch
+                    </td>                    <td>
                         @if($application->application_status == 'Pending')
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmCancelModal" data-id="{{ $application->id }}">
                                 Hủy trạng thái

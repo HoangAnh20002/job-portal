@@ -1,7 +1,21 @@
 @extends('interface.layouts.home')
 
 @section('sidebar')
-    @include('interface.layouts.sidebar')
+    <div class="sidebar d-none d-lg-block">
+        @include('interface.layouts.sidebar')
+    </div>
+    <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Sidebar</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            @include('interface.layouts.sidebar')
+        </div>
+    </div>
+    <button id="toggleSidebar" class="btn btn-secondary d-lg-none mt-3 ml-3 py-2 px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+        <i class="bi bi-layout-text-sidebar"></i>
+    </button>
 @endsection
 
 @section('content')
@@ -47,7 +61,7 @@
                 <form action="{{ route('searchJobSeekers') }}" method="GET" class="form-inline">
                     <div class="form-group mb-2">
                         <label for="searchInput" class="sr-only">Tìm kiếm nhà người ứng tuyển</label>
-                        <input style="width: 500px" type="text" class="form-control" id="searchInput" name="content"
+                        <input style="width: 300px" type="text" class="form-control" id="searchInput" name="content"
                                placeholder="Nhập từ khóa tên hoặc email">
                     </div>
                     <button type="submit" class="btn btn-primary mb-2 ml-2">Tìm kiếm</button>

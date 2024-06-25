@@ -33,7 +33,7 @@ li {
 
 .footer-section {
     margin: 0 20px;
-    
+
 }
 
 .footer-section h2 {
@@ -86,7 +86,7 @@ li {
     margin: 0 auto;
     padding: 0 20px;
 }
-    
+
 
 }
 
@@ -99,7 +99,7 @@ li {
 
 
 </style>
-<footer class="footer">
+<footer class="footer border border-top">
     <div class="footer-container">
         <div class="footer-section">
             <h2>Về chúng tôi</h2>
@@ -134,7 +134,7 @@ li {
                 <a href=""><i class="bi bi-zalo"></i></a>
                 <a href="https://www.tiktok.com/"><i class="bi bi-tiktok"></i></a>
             </div>
-           
+
         </div>
     </div>
     <div class="footer-bottom">

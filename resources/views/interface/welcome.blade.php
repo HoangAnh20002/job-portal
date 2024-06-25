@@ -68,6 +68,41 @@
             padding: 2px 5px;
         }
     }
+    .select2-selection--multiple {
+        width: 100%;
+    }
+
+    /* Adjust width for screens larger than 767px */
+    @media (min-width: 767px) {
+        .select2-selection--multiple {
+            width: 90%;
+        }
+    }
+
+    /* Adjust width for screens larger than 1350px */
+    @media (min-width: 1350px) {
+        .select2-selection--multiple {
+            width: 100%;
+        }
+    }
+
+    /* Increase width for screens smaller than or equal to 767px */
+    @media (max-width: 767px) {
+        .select2-selection--multiple {
+            width: 490px;
+        }
+        .select2-container--default{
+            padding-bottom: 10px;
+        }
+    }
+    @media (max-width: 649px) {
+        .select2-selection--multiple {
+            width: 90%;
+        }
+        .select2-container--default{
+            padding-bottom: 10px;
+        }
+    }
 
     .carousel-item {
         height: 350px;
@@ -81,36 +116,56 @@
         border-radius: 10px;
     }
 
-    .carousel-caption h4,
-    .carousel-caption p,
-    .carousel-caption .btn {
+    .carousel-caption p {
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     }
 
     .carousel-caption img {
-        width: 150px;
+        width: 120px;
         height: auto;
         border-radius: 10%;
         background: #fff;
         padding: 5px;
     }
+    .carousel-caption .btn{
+        background-color: #007bff;
+        border-color: #007bff;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s, transform 0.3s;
+    }
+    @media (max-width: 621px) {
+        .carousel-caption img {
+            height: 70px;
+            width: 70px;
+        }
+        .carousel-caption h4{
+            font-size: 16px;
+            margin-left: 15px;
+        }
+    }
     .card-body {
         margin-top: 20px;
         height: 450px;
         transition: transform 0.5s ease-in-out;
+        background: linear-gradient(270deg, rgba(135, 170, 255, 0.5) 0%, rgba(135, 150, 180, 0.5) 73.72%); color: #ffffff;
     }
     .card:hover {
         transform: scale(1.05);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     .card-bor{
-        border-radius: 50px;
+        border-radius: 40px;
     }
 </style>
 @section('content')
     @include('interface.layouts.alert')
     <div class="highlighted-text">Job Portal - Website tìm việc số 1 Việt Nam</div>
-    <div style="width:100%">
+    <div style="width:100%;height: fit-content">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 @foreach ($postJobsWithFirstService as $index => $postJob)
@@ -127,15 +182,17 @@
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}"
                                      style="background-image: url('{{ asset('bg/' . $backgroundImages[$index % count($backgroundImages)]) }}');">
                                     <div class="carousel-caption d-md-block">
-                                        <div class="row gx-5 align-items-center">
+                                        <div class="row align-items-center">
                                             <div class="col-12 col-md-4 mb-3 mb-md-0">
                                                 <div class="row align-items-center">
-                                                    <div class="col-12 mb-3 mb-md-0 text-center">
-                                                        <img style="height: 120px;width: 120px;" src="{{ asset('storage/logos/' . $postJob->employer->company->logo) }}"
-                                                             alt="Logo" class="mb-1">
-                                                        <h4 class="text-white col-md-12">{{ $postJob->employer->company->company_name }}</h4>
+                                                    <div class="col-4 col-md-12 text-center text-md-left">
+                                                        <img src="{{ asset('storage/logos/' . $postJob->employer->company->logo) }}" alt="Logo" class="mb-1 company-logo">
+                                                    </div>
+                                                    <div class="col-8 col-md-12 text-center text-md-left">
+                                                        <h4 class="text-white">{{ $postJob->employer->company->company_name }}</h4>
                                                     </div>
                                                 </div>
+
                                             </div>
                                             <div class="col-12 col-md-8 text-start">
                                                 <h4 class="text-white">{{ $postJob->job_title }}</h4>
@@ -153,7 +210,7 @@
                                                             <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567" />
                                                         </svg>
                                                     </div>
-                                                    <div class="text-white ms-2">: {{ $postJob->salary }}</div>
+                                                    <div class="text-white ms-2">: {{ $postJob->salary }} vnđ</div>
                                                 </div>
                                                 <div class="d-flex mb-2">
                                                     <div class="mt-1">
@@ -170,7 +227,7 @@
                                                     <div class="text-white ms-2">{{ $postJob->employer->company->location }}</div>
                                                 </div>
                                                 <a href="{{ route('showPublic', $postJob->id) }}" class="btn btn-primary" id="apply"
-                                                   style="background-color: #007bff; border-color: #007bff; border-radius: 25px; padding: 10px 20px; font-size: 16px; font-weight: bold; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s, transform 0.3s;">
+                                                   style="">
                                                     Ứng tuyển ngay
                                                 </a>
                                             </div>
@@ -204,7 +261,8 @@
     </div>
 
     {{--    search --}}
-    <div class="container mt-5 border border-primary-subtle p-4 shadow rounded bg-body-tertiary">
+    <div class="container mt-5 border border-primary-subtle p-4 shadow rounded bg-body-tertiary" style="background: linear-gradient(180deg, rgba(135, 180, 155, 0.5) 0%, rgba(135, 180, 180, 0.5) 73.72%);
+">
         <form id="searchForm" method="POST">
             @csrf
             <div class="row">
@@ -212,14 +270,14 @@
                     <input type="text" name="job_title" id="job_title" class="form-control mb-3"
                            placeholder="Nhập tiêu đề công việc">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <select id="locationDropdown" name="location[]" class="form-control mb-3" multiple>
                         @foreach($companies as $company)
                             <option value="{{ $company->location }}">{{ $company->location }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <select name="salary" id="salary" class="form-control mb-3">
                         <option value="">Mức lương</option>
                         <option value="5-10">5-10 triệu</option>
@@ -227,7 +285,7 @@
                         <option value="20+">Trên 20 triệu</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <select name="employment_type" id="employment_type" class="form-control mb-3">
                         <option value="">Loại hình công việc</option>
                         <option value="1">Full time</option>
@@ -235,14 +293,14 @@
                         <option value="3">Hợp đồng</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <select id="industryDropdown" name="industry[]" class="form-control mb-3" multiple>
                         @foreach($companies as $company)
                             <option value="{{ $company->industry }}">{{ $company->industry }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 </div>
             </div>
@@ -260,7 +318,6 @@
                                 <img src="{{ asset('storage/logos/' . $postJob->employer->company->logo) }}" alt="Logo"
                                      class="img-fluid"
                                      style="width: 150px; height: auto; border-radius: 10%; background: #fff; padding: 5px;">
-                                <h4 class="text-white mt-2">{{ $postJob->employer->company->company_name }}</h4>
                             </div>
                             <div>
                                 <p class="card-text">Công ty: {{ $postJob->employer->company->company_name }}</p>
@@ -343,10 +400,9 @@
                                                 <img src="${logoPath}" alt="Logo"
                                                      class="img-fluid"
                                                      style="width: 150px; height: auto; border-radius: 10%; background: #fff; padding: 5px;">
-                                                <h4 class="text-white mt-2">Công ty :${postJob.employer.company.company_name}</h4>
                                             </div>
                                             <div class="col-8">
-                                                <p class="card-text">${postJob.employer.company.company_name}</p>
+                                                <p class="card-text">Công ty: ${postJob.employer.company.company_name}</p>
                                                 <p class="card-text">Mức lương: ${postJob.salary}</p>
                                                 <p class="card-text">Loại hình công việc: ${employmentType}</p>
                                                 <p class="card-text">Địa điểm: ${postJob.employer.company.location }</p>

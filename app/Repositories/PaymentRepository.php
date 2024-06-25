@@ -14,6 +14,9 @@ class PaymentRepository extends BaseRepository{
     {
         return $this->model = app()->make(Payment::class);
     }
+    public function getSumAmount(){
+        return $this->model->sum('amount');
+    }
 
     public function getExpirationDate()
     {

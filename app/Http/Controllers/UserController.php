@@ -19,20 +19,18 @@ class UserController extends Controller
     protected $userRepository;
     protected $employerRepository;
     protected $jobSeekerRepository;
-    protected $companyRepository;
     protected $applicationRepository;
     protected $postJobsRepository;
 
     protected $paymentRepository;
     public function __construct(UserRepository        $userRepository, EmployerRepository $employerRepository,
-                                JobSeekerRepository   $jobSeekerRepository, CompanyRepository $companyRepository,
+                                JobSeekerRepository   $jobSeekerRepository,
                                 ApplicationRepository $applicationRepository, PostJobsRepository $postJobsRepository,
                                 PaymentRepository $paymentRepository)
     {
         $this->userRepository = $userRepository;
         $this->employerRepository = $employerRepository;
         $this->jobSeekerRepository = $jobSeekerRepository;
-        $this->companyRepository = $companyRepository;
         $this->applicationRepository = $applicationRepository;
         $this->postJobsRepository = $postJobsRepository;
         $this->paymentRepository=$paymentRepository;
@@ -48,14 +46,14 @@ class UserController extends Controller
         if (Auth::check()) {
             $role_id = Auth::user()->role_id;
         }
+        $sumAmounts = $this->paymentRepository->getSumAmount();
         $totalUsers = $this->userRepository->getTotalUsers();
         $totalEmployers = $this->employerRepository->getTotalEmployers();
         $totalJobSeekers = $this->jobSeekerRepository->getTotalJobSeekers();
-        $totalCompanies = $this->companyRepository->getTotalCompanies();
         $totalApplications = $this->applicationRepository->getTotalApplications();
         $totalPostJobs = $this->postJobsRepository->getTotalPostJobs();
         $users = $this->userRepository->getAllUsers();
-        return view('admin.adminMain',compact('role_id','users','totalUsers','totalEmployers','totalJobSeekers','totalCompanies','totalApplications','totalPostJobs'));
+        return view('admin.adminMain',compact('role_id','users','totalUsers','totalEmployers','totalJobSeekers','sumAmounts','totalApplications','totalPostJobs'));
     }
 
     /**

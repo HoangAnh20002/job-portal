@@ -24,56 +24,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', [\App\Http\Controllers\HomeController::class,'index'])->name('home');
-
-// Route::get('/login', [\App\Http\Controllers\LoginController::class,'showLoginForm'])->name('login');
-// Route::post('/login', [\App\Http\Controllers\LoginController::class,'login']);
-// Route::get('/logout',[\App\Http\Controllers\LoginController::class,'logout'])->name('logout');
-// Route::get('/register', [LoginController::class, 'showRegistrationForm'])->name('register');
-// Route::post('/register', [LoginController::class, 'register']);
-
-// Route::get('/adminMain', [UserController::class, 'index_ad'])->name('adminMain');
-// Route::get('/employerMain', [EmployerController::class, 'show'])->name('employerMain');
-// Route::get('/jobseekerMain', [JobSeekerController::class, 'show'])->name('jobseekerMain');
-
-// Route::resource('user', UserController::class);
-// // Routes cho jobseeker
-// Route::resource('jobseeker', JobseekerController::class);
-// Route::resource('employer', EmployerController::class);
-// // Route::middleware(['auth', 'checkAccess'])->group(function () {
-
-
-// //     Route::get('/jobseeker/create', [JobseekerController::class, 'create'])->name('jobseeker.create');
-// //     Route::post('/jobseeker', [JobseekerController::class, 'store'])->name('jobseeker.store');
-
-// //     // Routes cho employer
-
-// //     Route::get('/employer/create', [EmployerController::class, 'create'])->name('employer.create');
-// //     Route::post('/employer', [EmployerController::class, 'store'])->name('employer.store');
-// // });
-
-// Route::resource('company', CompanyController::class);
-// Route::resource('postjob', PostJobController::class);
-// Route::patch('/postjob/{id}/update_status', [PostJobController::class, 'update_status'])->name('postjob.update_status');
-
-// Route::get('/create-payment', [VNpayController::class, 'create']);
-// Route::get('/return-vnpay', [VNpayController::class, 'return']);
-
-// //Application
-// Route::resource('/', ApplicationController::class);
-// Route::patch('/application/update-status/{application}',[ApplicationController::class,'updateStatus']);
-
-
-// //Service
-
-// Route::resource('services',ServiceController::class)->names('servicesroute1');
-
 Route::get('/', [\App\Http\Controllers\interface\HomeController::class,'index'])->name('home');
 Route::get('/about-us', function () {
     return view('interface.aboutus');
 });
 
-//Route::post('/search', [HomeController::class, 'search'])->name('home.search');
 Route::get('/postjob/search',[PostJobController::class,'searchTitleJob'])->name('home.search');
 
 Route::get('/login', [\App\Http\Controllers\LoginController::class,'showLoginForm'])->name('login');
@@ -108,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
     // Application
     Route::resource('application', ApplicationController::class);
     Route::put('/application/{application}/updateStatus', [ApplicationController::class, 'updateStatus'])->name('application.updateStatus');
+    Route::get('/show-user-apply',[ApplicationController::class,'showUserApply'])->name('application.showUserApply')->middleware('checkEmployer');
 
     // Service
     Route::resource('services', ServiceController::class)->names('servicesroute');
@@ -128,4 +84,3 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-all',[PaymentController::class,'showAllPayment'])->middleware('checkAdmin')->name('paymentAll');
 });
 
-Route::get('/show-user-apply',[ApplicationController::class,'showUserApply'])->name('application.showUserApply');

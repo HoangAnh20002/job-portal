@@ -27,14 +27,14 @@
             <div class="col-md-8">
                 <div class="d-flex justify-content-end align-items-center justify-content-sm-end">
                     <div style="text-align: center; margin-top: 15px; margin-right: 40px;">
-                        <a href="{{ url('/about-us') }}" style="text-decoration: none; color: #007bff; font-weight: bold; font-size: 18px;">
+                        <a href="{{ url('/about-us') }}" style="text-decoration: none; color: #007bff; font-weight: bold; font-size: 18px; margin-bottom: 3px   ">
                             Về chúng tôi
                         </a>
                     </div>
                     <div class="mr-2">
                         @if($role_id == null)
-                            <a href="{{ route('login') }}" class="btn btn-primary">Đăng nhập</a>
-                            <a href="{{ route('register') }}" class="btn btn-outline-primary">Đăng ký</a>
+                            <a href="{{ route('login') }}" class="btn btn-primary mb-1">Đăng nhập</a>
+                            <a href="{{ route('register') }}" class="btn btn-outline-primary mb-1">Đăng ký</a>
                         @else
                             <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
                                     data-bs-target="#logoutModal">

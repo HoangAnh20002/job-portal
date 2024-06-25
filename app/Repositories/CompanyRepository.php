@@ -14,8 +14,4 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     {
         return $this->model = app()->make(Company::class);
     }
-    public function getTotalCompanies()
-    {
-        return $this->model->count();
-    }
 }
