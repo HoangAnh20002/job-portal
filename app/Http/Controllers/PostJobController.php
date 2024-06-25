@@ -42,6 +42,9 @@ class PostJobController extends Controller
             $user = Auth::user();
             $employer = $user->employer;
         }
+        if ($role_id == Base::JOBSEEKER) {
+            return view('home')->with('error','Bạn không có quyền truy cập');
+        }
         $post_jobs = $this->postJobsRepository->paginate(Base::PAGE);
         return view('postjob.index', compact('post_jobs', 'role_id', 'employer'));
     }
