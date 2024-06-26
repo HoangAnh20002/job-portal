@@ -63,7 +63,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach($services as $index => $service)
-                                        @if($index % 2 == 0)
+                                        @if($index % 2 != 0)
                                             <tr>
                                                 <td>{{ $service->name }}</td>
                                                 <td>{{ $service->description }}</td>
@@ -99,7 +99,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach($services as $index => $service)
-                                        @if($index % 2 != 0)
+                                        @if($index % 2 == 0)
                                             <tr>
                                                 <td>{{ $service->name }}</td>
                                                 <td>{{ $service->description }}</td>

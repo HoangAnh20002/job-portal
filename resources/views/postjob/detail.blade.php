@@ -52,16 +52,39 @@
                         thái:</strong> {{ $postjob->status == 1 ? 'Được duyệt' : 'Chưa được duyệt' }}</p>
                 @if($role_id == \App\Enums\Base::ADMIN)
                     @if($postjob->status == 2)
-                        <form action="{{ route('postjob.update_status', ['id' => $postjob->id]) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="status" value="1">
-                            <button type="submit" class="btn btn-primary mt-3">Duyệt bài đăng</button>
-                        </form>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#confirmModal">
+                            Duyệt bài đăng
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmModalLabel">Xác nhận duyệt bài đăng</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc chắn muốn duyệt bài đăng này không?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                        <form action="{{ route('postjob.update_status', ['id' => $postjob->id]) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="1">
+                                            <button type="submit" class="btn btn-primary">Duyệt bài đăng</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @else
                         <button class="btn btn-success mt-3" disabled>Đã được duyệt</button>
                     @endif
-                @else
                 @endif
                 <a href="{{ route('postjob.index') }}" class="btn btn-secondary mt-3">Quay lại</a>
             </div>

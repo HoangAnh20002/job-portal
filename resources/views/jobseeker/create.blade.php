@@ -1,7 +1,7 @@
 @extends('interface.layouts.home')
 
 @section('sidebar')
-    <div class="sidebar d-none d-lg-block">
+    <div class="sidebar d-none d-lg-block" style="height: 1000px">
         @include('interface.layouts.sidebar')
     </div>
     <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
@@ -52,8 +52,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="cove_letter" class="form-label">Lời Nhắn Thêm</label>
-                        <textarea class="form-control" id="cove_letter" name="cove_letter"
+                        <label for="cover_letter" class="form-label">Lời Nhắn Thêm</label>
+                        <textarea class="form-control" id="cover_letter" name="cover_letter"
                                   rows="3">{{ old('additional_message') }}</textarea>
                     </div>
 

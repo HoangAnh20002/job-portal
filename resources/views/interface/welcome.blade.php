@@ -15,7 +15,7 @@
         margin-left: auto;
     }
     .body{
-        background: linear-gradient(270deg, rgba(135, 170, 255, 0.5) 0%, rgba(135, 150, 180, 0.5) 73.72%);
+        background: linear-gradient(270deg, rgba(255, 170, 255, 0.5) 0%, rgba(135, 150, 180, 0.5) 99.72%);
     }
     .carousel-item {
         transition: transform 0.3s ease-in-out !important;
@@ -43,7 +43,7 @@
         font-weight: bold;
         color:#2d3748;
         text-align: center;
-        margin-top: 30px;
+        margin-top: 15px;
         text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
         padding: 50px;
     }
@@ -102,7 +102,7 @@
     }
 
     .carousel-item {
-        height: 350px;
+        height: 400px;
         background-size: cover;
         background-position: center;
     }
@@ -146,8 +146,7 @@
         }
     }
     .card-body {
-        margin-top: 20px;
-        height: 450px;
+        height: 350px;
         transition: transform 0.5s ease-in-out;
         background: linear-gradient(270deg, rgba(135, 170, 255, 0.5) 0%, rgba(135, 150, 180, 0.5) 73.72%); color: #ffffff;
     }
@@ -269,8 +268,8 @@
                 </div>
                 <div class="col-md-4">
                     <select id="locationDropdown" name="location[]" class="form-control mb-3" multiple>
-                        @foreach($companies as $company)
-                            <option value="{{ $company->location }}">{{ $company->location }}</option>
+                        @foreach($locations as $location)
+                            <option value="{{ $location }}">{{ $location }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -292,8 +291,8 @@
                 </div>
                 <div class="col-md-4">
                     <select id="industryDropdown" name="industry[]" class="form-control mb-3" multiple>
-                        @foreach($companies as $company)
-                            <option value="{{ $company->industry }}">{{ $company->industry }}</option>
+                        @foreach($industries as $industry)
+                            <option value="{{ $industry }}">{{ $industry }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -318,7 +317,7 @@
                             </div>
                             <div>
                                 <p class="card-text">Công ty: {{ $postJob->employer->company->company_name }}</p>
-                                <p class="card-text">Mức lương: {{ $postJob->salary }}</p>
+                                <p class="card-text">Mức lương: {{ $postJob->salary }} VNĐ</p>
                                 <p class="card-text">Loại hình công việc: @switch($postJob->employment_type)
                                         @case(1)
                                             Toàn thời gian
@@ -400,7 +399,7 @@
                                             </div>
                                             <div class="col-8">
                                                 <p class="card-text">Công ty: ${postJob.employer.company.company_name}</p>
-                                                <p class="card-text">Mức lương: ${postJob.salary}</p>
+                                                <p class="card-text">Mức lương: ${postJob.salary} VNĐ</p>
                                                 <p class="card-text">Loại hình công việc: ${employmentType}</p>
                                                 <p class="card-text">Địa điểm: ${postJob.employer.company.location }</p>
                                                 <a href="/postjobs/${postJob.id}" class="btn btn-primary">Chi tiết</a>

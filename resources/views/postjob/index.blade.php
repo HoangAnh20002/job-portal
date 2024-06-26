@@ -4,7 +4,8 @@
     <div class="sidebar d-none d-lg-block">
         @include('interface.layouts.sidebar')
     </div>
-    <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+    <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar"
+         aria-labelledby="offcanvasSidebarLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Sidebar</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -13,7 +14,8 @@
             @include('interface.layouts.sidebar')
         </div>
     </div>
-    <button id="toggleSidebar" class="btn btn-secondary d-lg-none mt-3 ml-3 py-2 px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+    <button id="toggleSidebar" class="btn btn-secondary d-lg-none mt-3 ml-3 py-2 px-3" type="button"
+            data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
         <i class="bi bi-layout-text-sidebar"></i>
     </button>
 @endsection
@@ -82,7 +84,7 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                        <th>ID</th>
+                    <th>ID</th>
                     @if($employer)
                         <th>Chi tiết</th>
                     @endif
@@ -101,95 +103,107 @@
                     @if($employer)
                         <th>Thao tác</th>
                     @endif
-
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($post_jobs as $post_job)
-                    @if($employer && $employer->id == $post_job->employer_id)
-                        <tr>
-                            <td>{{ $post_job->id }}</td>
-                            <td>
-                                <a href="{{ route('postjob.show', ['postjob' => $post_job->id]) }}"
-                                   class="btn btn-info">
-                                    Chi tiết
-                                </a>
-                            </td>
-                            <td>{{ $post_job->status == 1 ? 'Được duyệt' : 'Chưa duyệt' }}  </td>
-                            <td class="truncate">{{ $post_job->job_title }}</td>
-                            <td class="truncate">{{ $post_job->job_description }}</td>
-                            <td class="truncate">{{ $post_job->job_requirement }}</td>
-                            <td>{{ $post_job->salary }}</td>
-                            <td>
-                                @switch($post_job->employment_type)
-                                    @case(1)
-                                        Toàn thời gian
-                                        @break
-                                    @case(2)
-                                        Bán thời gian
-                                        @break
-                                    @case(3)
-                                        Thỏa thuận
-                                        @break
-                                    @default
-                                        Không xác định
-                                @endswitch
-                            </td>
-                            <td>{{ $post_job->post_date }}</td>
-                            <td>{{ $post_job->expiration_date }}</td>
-                            <td>{{ $post_job->is_highlighted ? 'Có' : 'Không' }}</td>
-                            <td>
-                                <div>
-                                    <div class="d-flex mb-2">
-                                        <a href="{{ route('postjob.edit', ['postjob' => $post_job->id]) }}">
-                                            <button class="bg-success text-white btn">Sửa</button>
-                                        </a>
-                                        <button type="button" class="ml-2 bg-danger text-white btn"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal{{ $post_job->id }}">
-                                            Xóa
-                                        </button>
-                                        <div class="modal fade" id="exampleModal{{ $post_job->id }}" tabindex="-1"
-                                             aria-labelledby="exampleModalLabel{{ $post_job->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5"
-                                                            id="exampleModalLabel{{ $post_job->id }}">
-                                                            Xóa bài đăng {{$post_job->job_title}}</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Bạn có chắc chắn muốn xóa bài đăng này?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">
-                                                            Đóng
-                                                        </button>
-                                                        <form
-                                                            action="{{ route('postjob.destroy', ['postjob' => $post_job->id]) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">Xóa</button>
-                                                        </form>
+                @if($employer)
+                    @foreach($employer_posts_jobs as $employer_posts_job)
+                        @if($employer_posts_job->employer_id == $employer->id)
+                            <tr>
+                                <td>{{ $employer_posts_job->id }}</td>
+                                <td>
+                                    <a href="{{ route('postjob.show', ['postjob' => $employer_posts_job->id]) }}"
+                                       class="btn btn-info">
+                                        Chi tiết
+                                    </a>
+                                </td>
+                                <td>{{ $employer_posts_job->status == 1 ? 'Được duyệt' : 'Chưa duyệt' }}  </td>
+                                <td class="truncate">{{ $employer_posts_job->job_title }}</td>
+                                <td class="truncate">{{ $employer_posts_job->job_description }}</td>
+                                <td class="truncate">{{ $employer_posts_job->job_requirement }}</td>
+                                <td>{{ $employer_posts_job->salary }}</td>
+                                <td>
+                                    @switch($employer_posts_job->employment_type)
+                                        @case(1)
+                                            Toàn thời gian
+                                            @break
+                                        @case(2)
+                                            Bán thời gian
+                                            @break
+                                        @case(3)
+                                            Thỏa thuận
+                                            @break
+                                        @default
+                                            Không xác định
+                                    @endswitch
+                                </td>
+                                <td>{{ $employer_posts_job->post_date }}</td>
+                                <td>{{ $employer_posts_job->expiration_date }}</td>
+                                <td>{{ $employer_posts_job->is_highlighted ? 'Có' : 'Không' }}</td>
+                                <td>
+                                    <div>
+                                        <div class="d-flex mb-2">
+                                            <a href="{{ route('postjob.edit', ['postjob' => $employer_posts_job->id]) }}">
+                                                <button class="bg-success text-white btn">Sửa</button>
+                                            </a>
+                                            <button type="button" class="ml-2 bg-danger text-white btn"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal{{ $employer_posts_job->id }}">
+                                                Xóa
+                                            </button>
+                                            <div class="modal fade" id="exampleModal{{ $employer_posts_job->id }}"
+                                                 tabindex="-1"
+                                                 aria-labelledby="exampleModalLabel{{ $employer_posts_job->id }}"
+                                                 aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5"
+                                                                id="exampleModalLabel{{ $employer_posts_job->id }}">
+                                                                Xóa bài đăng {{$employer_posts_job->job_title}}</h1>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Bạn có chắc chắn muốn xóa bài đăng này?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">
+                                                                Đóng
+                                                            </button>
+                                                            <form
+                                                                action="{{ route('postjob.destroy', ['postjob' => $employer_posts_job->id]) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger">Xóa
+                                                                </button>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        @if($employer && $employer_posts_job->status == '1')
+                                            <form action="{{ route('servicesroute.index') }}" method="GET"
+                                                  style="display: inline;">
+                                                <input type="hidden" name="postjob_id"
+                                                       value="{{ $employer_posts_job->id }}">
+                                                <button type="submit" class="bg-primary text-white btn">Đăng ký dịch
+                                                    vụ
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
-                                    @if($employer && $post_job->status == '1')
-                                        <form action="{{ route('servicesroute.index') }}" method="GET" style="display: inline;">
-                                            <input type="hidden" name="postjob_id" value="{{ $post_job->id }}">
-                                            <button type="submit" class="bg-primary text-white btn">Đăng ký dịch vụ</button>
-                                        </form>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
-                    @elseif($employer == null)
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                @else
+                    @foreach($post_jobs as $post_job)
                         <tr>
                             <td>{{ $post_job->id }}</td>
                             <td>
@@ -222,15 +236,15 @@
                             <td>{{ $post_job->expiration_date }}</td>
                             <td>{{ $post_job->is_highlighted ? 'Có' : 'Không' }}</td>
                         </tr>
-                    @endif
-                @endforeach
+                    @endforeach
+                @endif
                 </tbody>
             </table>
         </div>
     </div>
     @if($employer == null)
         <div class="mb-5 mt-5">
-            {{ $post_jobs->appends(request()->query())->setPath(route('postjob.index'))->links('vendor.pagination.bootstrap-5') }}
+            {{ $post_jobs->appends(request()->query())->links('vendor.pagination.bootstrap-5') }}
         </div>
     @endif
 @endsection

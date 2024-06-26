@@ -1,6 +1,7 @@
 @extends('interface.layouts.home')
 
 @section('content')
+    @include('interface.layouts.alert')
     <style>
         .side-bar {
             display: none;

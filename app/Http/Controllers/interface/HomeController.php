@@ -35,12 +35,19 @@ class HomeController extends Controller
         if (auth()->check()) {
             $role_id = auth()->user()->role_id;
         }
+
         $postJobsWithFirstService = $this->postJobsRepository->getByServiceId(1);
         $companies = $this->companyRepository->all();
         $backgroundImages = ['bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg'];
         $postJobs = $this->postJobsRepository->getlist();
-        return view('interface.welcome', compact('role_id', 'postJobsWithFirstService', 'backgroundImages', 'companies','postJobs'));
+
+        $locations = $companies->pluck('location')->unique();
+        $industries = $companies->pluck('industry')->unique();
+
+        return view('interface.welcome', compact('role_id', 'postJobsWithFirstService', 'backgroundImages', 'companies', 'postJobs', 'locations', 'industries'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.

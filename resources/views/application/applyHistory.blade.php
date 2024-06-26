@@ -81,7 +81,8 @@
                             @default
                                 Không rõ
                         @endswitch
-                    </td>                    <td>
+                    </td>
+                    <td>
                         @if($application->application_status == 'Pending')
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmCancelModal" data-id="{{ $application->id }}">
                                 Hủy trạng thái

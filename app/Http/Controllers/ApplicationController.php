@@ -141,7 +141,6 @@ class ApplicationController extends Controller
 
     public function updateStatus(Request $request, Application $application)
     {
-        // Validate the request data
         $validatedData = $request->validate([
             'application_status' => 'required|string|in:Accepted,Rejected,Pending',
         ]);
@@ -153,7 +152,6 @@ class ApplicationController extends Controller
         return redirect()->back()->with('error', 'Cập nhật trạng thái không thành công');
     }
 
-    //Xewm chi tiet apply
     public function showUserApply(Request $request) {
         $role_id = null;
         if (Auth::check()) {

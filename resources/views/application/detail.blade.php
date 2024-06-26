@@ -48,11 +48,24 @@
                                 <td> <a href="{{ asset('storage/resumes/' . $application->jobSeeker->resume) }}" target="_blank">Xem CV</a></td>
                                 <td>{{ $application->jobSeeker->cover_letter }}</td>
                                 <td>{{ $application->jobSeeker->contact_info }}</td>
-                                <td>{{ $application->application_status }}</td>
+                                <td>@switch($application->application_status)
+                                        @case('Pending')
+                                            Đang chờ xử lý
+                                            @break
+                                        @case('Accepted')
+                                            Đã được chấp thuận
+                                            @break
+                                        @case('Rejected')
+                                            Đã bị từ chối
+                                            @break
+                                        @default
+                                            Không rõ
+                                    @endswitch
+                                </td>
                                 <td>
                                     <button class="btn btn-success" data-toggle="modal" data-target="#confirmModal" data-id="{{ $application->id }}" data-status="Accepted">Chấp thuận</button>
                                     <button class="btn btn-danger mt-1" data-toggle="modal" data-target="#confirmModal" data-id="{{ $application->id }}" data-status="Rejected">Từ chối</button>
-                                    <button class="btn btn-warning mt-1" data-toggle="modal" data-target="#confirmModal" data-id="{{ $application->id }}" data-status="Pending">Hủy xác nhận</button>
+                                    <button class="btn btn-warning mt-1" data-toggle="modal" data-target="#confirmModal" data-id="{{ $application->id }}" data-status="Pending">Hủy hành động </button>
                                 </td>
                             </tr>
                         @endforeach
