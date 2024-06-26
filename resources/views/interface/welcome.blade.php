@@ -15,7 +15,8 @@
         margin-left: auto;
     }
     .body{
-        background: linear-gradient(270deg, rgba(255, 170, 255, 0.5) 0%, rgba(135, 150, 180, 0.5) 99.72%);
+        background-image: url('{{ asset('bg/body.jpg') }}');
+        background-repeat: repeat;
     }
     .carousel-item {
         transition: transform 0.3s ease-in-out !important;

@@ -10,7 +10,7 @@
         }
     }
 </style>
-<header class=" header bg-light d-flex align-items-center">
+<header class=" header bg-light d-flex align-items-center border border-bottom">
     @php
     use App\Enums\Base;
     @endphp
@@ -31,7 +31,7 @@
                             Về chúng tôi
                         </a>
                     </div>
-                    <div class="mr-2">
+                    <div class="mr-2 mt-1">
                         @if($role_id == null)
                             <a href="{{ route('login') }}" class="btn btn-primary mb-1">Đăng nhập</a>
                             <a href="{{ route('register') }}" class="btn btn-outline-primary mb-1">Đăng ký</a>
@@ -42,7 +42,7 @@
                             </button>
                         @endif
                     </div>
-                    <div>
+                    <div class="mt-1">
                         @if($role_id == Base::ADMIN)
                             <a href="{{ route('adminMain') }}" class="btn btn-primary" style="width: fit-content">Quản lý</a>
                         @elseif($role_id == Base::EMPLOYER)

@@ -18,7 +18,8 @@
         }
 
         body {
-            background: linear-gradient(270deg, rgba(135, 170, 255, 0.5) 0%, rgba(135, 150, 180, 0.5) 73.72%);
+            background-image: url('{{ asset('bg/body.jpg') }}');
+            background-repeat: repeat;
         }
 
         .highlight {
