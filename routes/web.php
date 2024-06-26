@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('jobseeker', JobseekerController::class);
     Route::get('jobseeker', [JobseekerController::class, 'index'])->name('jobseeker.index')->middleware(['checkAdmin']);
     Route::resource('employer', EmployerController::class);
+    Route::get('employer',[EmployerController::class,'index'])->name('employer.index')->middleware(['checkAdmin']);
 
     Route::resource('company', CompanyController::class)->middleware('checkAdmin');
     Route::resource('postjob', PostJobController::class);
