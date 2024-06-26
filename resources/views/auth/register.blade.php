@@ -8,7 +8,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f4f4f4;
+            background-image: url('{{ asset('bg/body.jpg') }}');
+            background-repeat: repeat;
         }
 
         .container {
