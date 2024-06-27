@@ -58,9 +58,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('postjob', PostJobController::class);
     Route::patch('/postjob/{id}/update_status', [PostJobController::class, 'update_status'])->name('postjob.update_status');
 
-    Route::get('/create-payment', [VNpayController::class, 'create']);
-    Route::get('/return-vnpay', [VNpayController::class, 'return']);
-
     // Application
     Route::resource('application', ApplicationController::class);
     Route::put('/application/{application}/updateStatus', [ApplicationController::class, 'updateStatus'])->name('application.updateStatus');
@@ -70,7 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('services', ServiceController::class)->names('servicesroute');
 
     //VNPAY
-    Route::get('create-payment', [VNpayController::class, 'create'])->name('createPayment');
+    Route::get('/create-payment', [VNpayController::class, 'create'])->name('createPayment');
 
     Route::get('/return-vnpay', [VNpayController::class, 'return']);
     //Get all apply

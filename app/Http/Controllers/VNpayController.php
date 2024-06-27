@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class VNpayController extends Controller
 {
-    protected $paymentRepository;
     protected $postJobsRepository;
-
+    protected $paymentRepository;
+    
     function __construct(PaymentRepository $paymentRepository, PostJobsRepository $postJobsRepository)
     {
         $this->paymentRepository= $paymentRepository;
@@ -88,6 +88,7 @@ class VNpayController extends Controller
                 $inputData[$key] = $value;
             }
         }
+        // Lấy thông tin từ request
         $vnp_ResponseCode = $request->input('vnp_ResponseCode');
         Carbon::setLocale('vi');
         Carbon::setToStringFormat('Y-m-d H:i:s');
@@ -112,6 +113,6 @@ class VNpayController extends Controller
             session()->forget('infoService');
             return redirect('/postjob')->with('success', 'Đã thanh toán phí dịch vụ');
         }
-        return redirect()->back()->with('error', 'Lỗi trong quá trình thanh toán phí dịch vụ');
+        return redirect()->back('/postjob')->with('error', 'Lỗi trong quá trình thanh toán phí dịch vụ');
     }
 }
