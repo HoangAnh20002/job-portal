@@ -2,17 +2,20 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\PaymentRepository;
+use App\Repositories\PostJobsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class VNpayController extends Controller
 {
+    protected $postJobsRepository;
     protected $paymentRepository;
-
-    function __construct(PaymentRepository $paymentRepository)
+    
+    function __construct(PaymentRepository $paymentRepository, PostJobsRepository $postJobsRepository)
     {
-        $this->paymentRepository=$paymentRepository;
+        $this->paymentRepository= $paymentRepository;
+        $this->postJobsRepository = $postJobsRepository;
     }
     public function create(Request $request)
     {
@@ -101,9 +104,15 @@ class VNpayController extends Controller
                 'payment_status'=>'Success'
             ];
             $this->paymentRepository->create($data);
+            $serviceId = session('infoService')['service_id'];
+            $postJobId = session('infoService')['postjob_id'];
+            $dataToUpdate = [
+                'service_id' => $serviceId,
+            ];
+            $this->postJobsRepository->update($postJobId, $dataToUpdate);
             session()->forget('infoService');
             return redirect('/postjob')->with('success', 'Đã thanh toán phí dịch vụ');
         }
-        return redirect()->back('/123')->with('error', 'Lỗi trong quá trình thanh toán phí dịch vụ');
+        return redirect()->back('/postjob')->with('error', 'Lỗi trong quá trình thanh toán phí dịch vụ');
     }
 }
