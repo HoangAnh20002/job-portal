@@ -90,7 +90,7 @@ class PostJobsRepository extends BaseRepository implements PostJobRepositoryInte
         }
         return $query->where('status', 1)
             ->orderByRaw("service_id = 2 DESC, created_at ASC")
-            ->get();
+            ->paginate(9);
     }
     public function showListPostJob()
     {

@@ -342,7 +342,8 @@
                             <div>
                                 <p class="card-text">Công ty: {{ $postJob->employer->company->company_name }}</p>
                                 <p class="card-text">Mức lương: {{ $postJob->salary }} VNĐ</p>
-                                <p class="card-text">Loại hình công việc: @switch($postJob->employment_type)
+                                <p class="card-text">Loại hình công việc:
+                                    @switch($postJob->employment_type)
                                         @case(1)
                                             Toàn thời gian
                                             @break
@@ -354,7 +355,8 @@
                                             @break
                                         @default
                                             Không xác định
-                                    @endswitch</p>
+                                    @endswitch
+                                </p>
                                 <p class="card-text">Địa điểm: {{ $postJob->employer->company->location }}</p>
                                 <a href="{{ route('showPublic', $postJob->id) }}" class="btn btn-primary">Chi tiết</a>
                             </div>
@@ -364,62 +366,67 @@
             </div>
         @endforeach
     </div>
-    <div class="mb-5 mt-5">
+    <div class="mb-5 mt-5" id="paginationLinks">
         {{ $postJobs->links('vendor.pagination.bootstrap-5') }}
     </div>
+
     <script>
-        $(document).ready(function() {
-            $('#searchForm').submit(function(event) {
-                event.preventDefault();
+            $(document).ready(function() {
+                $('#searchForm').submit(function(event) {
+                    event.preventDefault();
+                    fetchPosts();
+                });
 
-                var formData = {
-                    job_title: $('input[name=job_title]').val(),
-                    salary: $('select[name=salary]').val(),
-                    employment_type: $('select[name=employment_type]').val(),
-                    location: $('select[name="location[]"]').val(),
-                    industry: $('select[name="industry[]"]').val()
-                };
+                $(document).on('click', '.pagination a', function(event) {
+                    event.preventDefault();
+                    var page = $(this).attr('href').split('page=')[1];
+                    fetchPosts(page);
+                });
 
-                $.ajax({
-                    type: 'GET',
-                    url: '{{ route('home.search')}}',
-                    data: formData,
-                    success: function(response) {
-                        console.log(response)
-                        $('#postJobsList').empty();
+                function fetchPosts(page = 1) {
+                    var formData = {
+                        job_title: $('input[name=job_title]').val(),
+                        salary: $('select[name=salary]').val(),
+                        employment_type: $('select[name=employment_type]').val(),
+                        location: $('select[name="location[]"]').val(),
+                        industry: $('select[name="industry[]"]').val(),
+                        page: page
+                    };
 
-                        // Hide the pagination div
-                        $('.mb-5.mt-5').hide();
+                    $.ajax({
+                        type: 'GET',
+                        url: '{{ route('home.search')}}',
+                        data: formData,
+                        success: function(response) {
+                            $('#postJobsList').empty();
 
-                        if (response.length > 0) {
-                            $.each(response, function(index, postJob) {
-                                console.log(postJob)
-                                var employmentType = '';
-                                switch (postJob.employment_type) {
-                                    case 1:
-                                        employmentType = 'Toàn thời gian';
-                                        break;
-                                    case 2:
-                                        employmentType = 'Bán thời gian';
-                                        break;
-                                    case 3:
-                                        employmentType = 'Thỏa thuận';
-                                        break;
-                                    default:
-                                        employmentType = 'Không xác định';
-                                }
-                                var logoPath =
-                                    `{{ asset('storage/logos/') }}/${postJob.employer.company.logo}`;
-                                var html = `
-                            <div class="col-md-4">
-                                <div class="card mb-3">
+                            if (response.data.length > 0) {
+                                $.each(response.data, function(index, postJob) {
+                                    var employmentType = '';
+                                    switch (postJob.employment_type) {
+                                        case 1:
+                                            employmentType = 'Toàn thời gian';
+                                            break;
+                                        case 2:
+                                            employmentType = 'Bán thời gian';
+                                            break;
+                                        case 3:
+                                            employmentType = 'Thỏa thuận';
+                                            break;
+                                        default:
+                                            employmentType = 'Không xác định';
+                                    }
+                                    var logoPath = `{{ asset('storage/logos/') }}/${postJob.employer.company.logo}`;
+                                    var html = `
+                            <div class="col-md-4 col-sm-6 mb-4 card-bor">
+                                <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">${postJob.job_title}</h5>
                                         <div class="d-flex">
                                             <div class="col-4">
                                                 <img src="${logoPath}" alt="Logo"
-                                                     class="img-fluid"
-                                                     style="width: 150px; height: auto; border-radius: 10%; background: #fff; padding: 5px;">
+                                                    class="img-fluid"
+                                                    style="width: 150px; height: auto; border-radius: 10%; background: #fff; padding: 5px;">
                                             </div>
                                             <div class="col-8">
                                                 <p class="card-text">Công ty: ${postJob.employer.company.company_name}</p>
@@ -432,31 +439,47 @@
                                     </div>
                                 </div>
                             </div>
-                            `;
-                                $('#postJobsList').append(html);
-                            });
-                        } else {
-                            $('#postJobsList').html('<p>Không tìm thấy công việc phù hợp.</p>');
+                        `;
+                                    $('#postJobsList').append(html);
+                                });
+                            } else {
+                                $('#postJobsList').html('<p>Không tìm thấy công việc phù hợp.</p>');
+                            }
+
+                            // Update pagination links
+                            $('#paginationLinks').html(createPaginationLinks(response));
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            $('#postJobsList').html('<p>Có lỗi xảy ra khi tìm kiếm công việc.</p>');
                         }
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                        $('#postJobsList').html('<p>Có lỗi xảy ra khi tìm kiếm công việc.</p>');
-                    }
+                    });
+                }
+            });
+            function createPaginationLinks(response) {
+                var linksHtml = '';
+                if (response.links.length > 0) {
+                    $.each(response.links, function(index, link) {
+                        linksHtml += `<li class="page-item ${link.active ? 'active' : ''}"><a class="page-link" href="${link.url}">${link.label}</a></li>`;
+                    });
+                }
+                return `<nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        ${linksHtml}
+                    </ul>
+                </nav>`;
+            }
+
+            $(document).ready(function() {
+                $('#industryDropdown').select2({
+                    placeholder: 'Chọn ngành nghề',
+                    allowClear: true
+                });
+
+                $('#locationDropdown').select2({
+                    placeholder: 'Chọn địa điểm',
+                    allowClear: true
                 });
             });
-        });
-        $(document).ready(function() {
-            $('#industryDropdown').select2({
-                placeholder: 'Chọn ngành nghề',
-                allowClear: true
-            });
-
-            $('#locationDropdown').select2({
-                placeholder: 'Chọn địa điểm',
-                allowClear: true
-            });
-        });
     </script>
-
 @endsection
