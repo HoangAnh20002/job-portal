@@ -460,15 +460,22 @@
                 var linksHtml = '';
                 if (response.links.length > 0) {
                     $.each(response.links, function(index, link) {
-                        linksHtml += `<li class="page-item ${link.active ? 'active' : ''}"><a class="page-link" href="${link.url}">${link.label}</a></li>`;
+                        var label = link.label;
+                        if (label === '« Previous') {
+                            label = '<';
+                        } else if (label === 'Next »') {
+                            label = '>';
+                        }
+                        linksHtml += `<li class="page-item ${link.active ? 'active' : ''}"><a class="page-link" href="${link.url}">${label}</a></li>`;
                     });
                 }
                 return `<nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        ${linksHtml}
-                    </ul>
-                </nav>`;
+                <ul class="pagination justify-content-center">
+                    ${linksHtml}
+                </ul>
+            </nav>`;
             }
+
 
             $(document).ready(function() {
                 $('#industryDropdown').select2({
