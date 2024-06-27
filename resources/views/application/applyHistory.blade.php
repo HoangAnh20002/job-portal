@@ -94,34 +94,33 @@
                         @endif
                     </td>
                 </tr>
+                <!-- Modal -->
+                <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmCancelModalLabel">Xác nhận hủy trạng thái</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Bạn có chắc chắn muốn hủy trạng thái ứng tuyển này?
+                            </div>
+                            <div class="modal-footer">
+                                <form id="cancelForm" action="{{ route('application.destroy', $application->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-danger">Hủy trạng thái</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endforeach
             </tbody>
         </table>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmCancelModalLabel">Xác nhận hủy trạng thái</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Bạn có chắc chắn muốn hủy trạng thái ứng tuyển này?
-                </div>
-                <div class="modal-footer">
-                    <form id="cancelForm" action="{{ route('application.destroy', $application->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-danger">Hủy trạng thái</button>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
 

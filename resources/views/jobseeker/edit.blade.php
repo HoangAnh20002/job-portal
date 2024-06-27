@@ -110,12 +110,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="contact_info">Thông tin liên hệ</label>
-                                        <input type="text" name="contact_info" id="contact_info" class="form-control"
-                                               value="{{ old('contact_info', $jobseeker->contact_info) }}">
+                                        <textarea name="contact_info" id="contact_info" class="form-control">{{ old('contact_info', $jobseeker->contact_info) }}</textarea>
                                     </div>
                                 </div>
                             </div>
-
                             <button type="submit" class="btn btn-primary mt-4">Cập nhật thông tin</button>
                         </form>
                     </div>
