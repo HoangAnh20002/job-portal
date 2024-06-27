@@ -1,4 +1,3 @@
-
 @extends('interface.layouts.home')
 <style>
     .side-bar {
@@ -146,8 +145,32 @@
             margin-left: 15px;
         }
     }
+    @media (min-width: 1433px) {
+        .card-body{
+            height: 350px;
+        }
+    }
+    @media (max-width: 1433px) {
+        .card-body{
+            height: 370px;
+        }
+    }
+    @media (max-width: 1120px) {
+        .card-body{
+            height: 420px;
+        }
+    }
+    @media (max-width: 969px) {
+        .card-body{
+            height: 470px;
+        }
+    }
+    @media (max-width: 813px) {
+        .card-body{
+            height: 510px;
+        }
+    }
     .card-body {
-        height: 350px;
         transition: transform 0.5s ease-in-out;
         background: linear-gradient(270deg, rgba(135, 170, 255, 0.5) 0%, rgba(135, 150, 180, 0.5) 73.72%); color: #ffffff;
     }
@@ -306,7 +329,7 @@
     {{--    list --}}
     <div id="postJobsList" class="row mt-4">
         @foreach($postJobs as $postJob)
-            <div class="col-md-4 mb-4 card-bor">
+            <div class="col-md-4 col-sm-6 mb-4 card-bor">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{ $postJob->job_title }}</h5>
