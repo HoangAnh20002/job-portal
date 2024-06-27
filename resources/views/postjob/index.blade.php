@@ -29,7 +29,6 @@
             height: 2em;
             text-overflow: ellipsis;
             cursor: pointer;
-            word-break: break-all;
             overflow: hidden;
             white-space: nowrap;
         }
@@ -99,7 +98,6 @@
                     <th>Loại công việc</th>
                     <th>Ngày đăng</th>
                     <th>Ngày hết hạn</th>
-                    <th>Nổi bật</th>
                     @if($employer)
                         <th>Thao tác</th>
                     @endif
@@ -139,7 +137,6 @@
                                 </td>
                                 <td>{{ $employer_posts_job->post_date }}</td>
                                 <td>{{ $employer_posts_job->expiration_date }}</td>
-                                <td>{{ $employer_posts_job->is_highlighted ? 'Có' : 'Không' }}</td>
                                 <td>
                                     <div>
                                         <div class="d-flex mb-2">
@@ -234,7 +231,6 @@
                             </td>
                             <td>{{ $post_job->post_date }}</td>
                             <td>{{ $post_job->expiration_date }}</td>
-                            <td>{{ $post_job->is_highlighted ? 'Có' : 'Không' }}</td>
                         </tr>
                     @endforeach
                 @endif

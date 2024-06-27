@@ -77,7 +77,18 @@
                         <td>{{ $payment->payment_date }}</td>
                         <td class="username">{{ $payment->amount }}</td>
                         <td class="username">{{ $payment->postjob_id }}</td>
-                        <td class="username">{{ $payment->payment_status }}</td>
+                        <td>
+                            @switch($payment->payment_status)
+                                @case('Success')
+                                    Thành công
+                                    @break
+                                @case('Completed')
+                                    Đã hết hạn
+                                    @break
+                                @default
+                                    Không rõ
+                            @endswitch
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

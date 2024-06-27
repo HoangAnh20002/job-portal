@@ -25,7 +25,6 @@
             height: 2em;
             text-overflow: ellipsis;
             cursor: pointer;
-            word-break: break-all;
             overflow: hidden;
             white-space: nowrap;
         }

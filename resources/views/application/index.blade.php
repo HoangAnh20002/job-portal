@@ -26,7 +26,6 @@
             height: 2em;
             text-overflow: ellipsis;
             cursor: pointer;
-            word-break: break-all;
             overflow: hidden;
             white-space: nowrap;
         }
@@ -107,7 +106,7 @@
         </div>
     </div>
     <div class="mb-5 mt-5">
-{{--        {{ $listPostJobs->links('vendor.pagination.bootstrap-5') }}--}}
+        {{ $listPostJobs->links('vendor.pagination.bootstrap-5') }}
     </div>
 @endsection
 

@@ -5,6 +5,7 @@ use App\Models\Application;
 use App\Models\PostJob;
 use App\Repositories\Interfaces\PostJobRepositoryInterface;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 class PostJobsRepository extends BaseRepository implements PostJobRepositoryInterface
@@ -91,16 +92,24 @@ class PostJobsRepository extends BaseRepository implements PostJobRepositoryInte
             ->orderByRaw("service_id = 2 DESC, created_at ASC")
             ->get();
     }
+    public function showListPostJob()
+    {
+        $user = Auth::user();
+        $employer = $user->employer;
+        $postJobs = $employer->post_jobs()->where('status', 1)->get();
 
-    //Hien thi danh sach cac Job da co nguoi applly
-        function showListPostJob(){
-            $user = Auth::user();
-            $employer = $user->employer;
-            $postJobs = $employer->post_jobs()->where('status', 1)->get();
-            $appliedPostJobs = $postJobs->filter(function($postJob) {
-                return $postJob->applications()->exists();
-            });
-            return $appliedPostJobs;
-        }
+        $appliedPostJobs = $postJobs->filter(function($postJob) {
+            return $postJob->applications()->exists();
+        });
+
+        $perPage = 10;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentItems = $appliedPostJobs->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedItems = new LengthAwarePaginator($currentItems, $appliedPostJobs->count(), $perPage, $currentPage, [
+            'path' => LengthAwarePaginator::resolveCurrentPath()
+        ]);
+
+        return $paginatedItems;
+    }
 }
 

@@ -41,6 +41,30 @@
         .table {
             margin-bottom: 0;
         }
+        @media (max-width: 576px) {
+            .table-container {
+                display: block;
+            !important;
+            }
+
+            .truncate {
+                max-width: 100px;
+                height: 2em;
+                text-overflow: ellipsis;
+                cursor: pointer;
+                overflow: hidden;
+                white-space: nowrap;
+                transition: width 0.3s ease, height 0.3s ease;
+            }
+
+            .truncate:hover {
+                overflow: visible;
+                white-space: normal;
+                height: auto;
+                width: 300px !important;
+                background-color: #f0f0f0;
+            }
+        }
     </style>
     <div class="container">
         <div class="row my-4">
@@ -49,10 +73,11 @@
                     <div class="card-header">
                         <h4>Dịch vụ</h4>
                     </div>
+                    <h3 class="text-center mt-3"> Chọn thanh toán 1 trong 2 dịch vụ </h3>
                     <div class="card-body">
-                        <div class="table-container">
+                        <div class="table-container row">
                             <!-- Table 1 -->
-                            <div class="table-wrapper">
+                            <div class="table-wrapper col-md-6 col-sm-12">
                                 <table class="table table-bordered table-hover">
                                     <thead class="thead-dark">
                                     <tr>
@@ -66,7 +91,7 @@
                                         @if($index % 2 != 0)
                                             <tr>
                                                 <td>{{ $service->name }}</td>
-                                                <td>{{ $service->description }}</td>
+                                                <td class="truncate">{{ $service->description }}</td>
                                                 <td>{{ $service->price }}</td>
                                             </tr>
                                         @endif
@@ -79,6 +104,8 @@
                                             <button class="bg-secondary text-white btn" disabled>Dịch vụ đã đạt giới hạn</button>
                                         @elseif($isService1Registered)
                                             <button class="bg-secondary text-white btn" disabled>Bạn đã đăng ký dịch vụ này</button>
+                                        @elseif($isService2Registered)
+                                            <button class="bg-secondary text-white btn" disabled>Bạn chỉ có thể đăng ký một dịch vụ</button>
                                         @else
                                             <a href="{{ route('createPayment', ['amount' => 500000, 'service_id' => 1, 'postjob_id' => $post_job]) }}">
                                                 <button class="bg-primary text-white btn">Thanh toán dịch vụ</button>
@@ -88,7 +115,7 @@
                                 @endif
                             </div>
                             <!-- Table 2 -->
-                            <div class="table-wrapper">
+                            <div class="table-wrapper col-md-6 col-sm-12">
                                 <table class="table table-bordered table-hover">
                                     <thead class="thead-dark">
                                     <tr>
@@ -102,7 +129,7 @@
                                         @if($index % 2 == 0)
                                             <tr>
                                                 <td>{{ $service->name }}</td>
-                                                <td>{{ $service->description }}</td>
+                                                <td class="truncate">{{ $service->description }}</td>
                                                 <td>{{ $service->price }}</td>
                                             </tr>
                                         @endif
@@ -113,6 +140,8 @@
                                     <div class="d-flex justify-content-center mt-3">
                                         @if($isService2Registered)
                                             <button class="bg-secondary text-white btn" disabled>Bạn đã đăng ký dịch vụ này</button>
+                                        @elseif($isService1Registered)
+                                            <button class="bg-secondary text-white btn" disabled>Bạn chỉ có thể đăng ký một dịch vụ</button>
                                         @else
                                             <a href="{{ route('createPayment', ['amount' => 100000, 'service_id' => 2, 'postjob_id' => $post_job]) }}">
                                                 <button class="bg-primary text-white btn">Thanh toán dịch vụ</button>
@@ -122,6 +151,7 @@
                                 @endif
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

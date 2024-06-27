@@ -43,6 +43,5 @@ class PaymentRepository extends BaseRepository{
             ->where('service_id', $service_id)
             ->exists();
     }
-
 }
 ?>
