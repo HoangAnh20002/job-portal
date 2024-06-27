@@ -366,127 +366,143 @@
             </div>
         @endforeach
     </div>
-    <div class="mb-5 mt-5" id="paginationLinks">
+    <div class="mb-5 mt-5 d-flex" id="paginationLinks">
         {{ $postJobs->links('vendor.pagination.bootstrap-5') }}
     </div>
 
     <script>
-            $(document).ready(function() {
-                $('#searchForm').submit(function(event) {
-                    event.preventDefault();
-                    fetchPosts();
-                });
+        $(document).ready(function() {
+            $('#searchForm').submit(function(event) {
+                event.preventDefault();
+                fetchPosts();
+            });
 
-                $(document).on('click', '.pagination a', function(event) {
-                    event.preventDefault();
-                    var page = $(this).attr('href').split('page=')[1];
-                    fetchPosts(page);
-                });
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                fetchPosts(page);
+            });
 
-                function fetchPosts(page = 1) {
-                    var formData = {
-                        job_title: $('input[name=job_title]').val(),
-                        salary: $('select[name=salary]').val(),
-                        employment_type: $('select[name=employment_type]').val(),
-                        location: $('select[name="location[]"]').val(),
-                        industry: $('select[name="industry[]"]').val(),
-                        page: page
-                    };
+            function fetchPosts(page = 1) {
+                var formData = {
+                    job_title: $('input[name=job_title]').val(),
+                    salary: $('select[name=salary]').val(),
+                    employment_type: $('select[name=employment_type]').val(),
+                    location: $('select[name="location[]"]').val(),
+                    industry: $('select[name="industry[]"]').val(),
+                    page: page
+                };
 
-                    $.ajax({
-                        type: 'GET',
-                        url: '{{ route('home.search')}}',
-                        data: formData,
-                        success: function(response) {
-                            $('#postJobsList').empty();
+                $.ajax({
+                    type: 'GET',
+                    url: '{{ route('home.search')}}',
+                    data: formData,
+                    success: function(response) {
+                        $('#postJobsList').empty();
 
-                            if (response.data.length > 0) {
-                                $.each(response.data, function(index, postJob) {
-                                    var employmentType = '';
-                                    switch (postJob.employment_type) {
-                                        case 1:
-                                            employmentType = 'Toàn thời gian';
-                                            break;
-                                        case 2:
-                                            employmentType = 'Bán thời gian';
-                                            break;
-                                        case 3:
-                                            employmentType = 'Thỏa thuận';
-                                            break;
-                                        default:
-                                            employmentType = 'Không xác định';
-                                    }
-                                    var logoPath = `{{ asset('storage/logos/') }}/${postJob.employer.company.logo}`;
-                                    var html = `
-                            <div class="col-md-4 col-sm-6 mb-4 card-bor">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${postJob.job_title}</h5>
-                                        <div class="d-flex">
-                                            <div class="col-4">
-                                                <img src="${logoPath}" alt="Logo"
-                                                    class="img-fluid"
-                                                    style="width: 150px; height: auto; border-radius: 10%; background: #fff; padding: 5px;">
-                                            </div>
-                                            <div class="col-8">
-                                                <p class="card-text">Công ty: ${postJob.employer.company.company_name}</p>
-                                                <p class="card-text">Mức lương: ${postJob.salary} VNĐ</p>
-                                                <p class="card-text">Loại hình công việc: ${employmentType}</p>
-                                                <p class="card-text">Địa điểm: ${postJob.employer.company.location }</p>
-                                                <a href="/postjobs/${postJob.id}" class="btn btn-primary">Chi tiết</a>
+                        if (response.data.length > 0) {
+                            $.each(response.data, function(index, postJob) {
+                                var employmentType = '';
+                                switch (postJob.employment_type) {
+                                    case 1:
+                                        employmentType = 'Toàn thời gian';
+                                        break;
+                                    case 2:
+                                        employmentType = 'Bán thời gian';
+                                        break;
+                                    case 3:
+                                        employmentType = 'Thỏa thuận';
+                                        break;
+                                    default:
+                                        employmentType = 'Không xác định';
+                                }
+                                var logoPath = `{{ asset('storage/logos/') }}/${postJob.employer.company.logo}`;
+                                var html = `
+                                <div class="col-md-4 col-sm-6 mb-4 card-bor">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${postJob.job_title}</h5>
+                                            <div class="d-flex">
+                                                <div class="col-4">
+                                                    <img src="${logoPath}" alt="Logo"
+                                                        class="img-fluid"
+                                                        style="width: 150px; height: auto; border-radius: 10%; background: #fff; padding: 5px;">
+                                                </div>
+                                                <div class="col-8">
+                                                    <p class="card-text">Công ty: ${postJob.employer.company.company_name}</p>
+                                                    <p class="card-text">Mức lương: ${postJob.salary} VNĐ</p>
+                                                    <p class="card-text">Loại hình công việc: ${employmentType}</p>
+                                                    <p class="card-text">Địa điểm: ${postJob.employer.company.location }</p>
+                                                    <a href="/postjobs/${postJob.id}" class="btn btn-primary">Chi tiết</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        `;
-                                    $('#postJobsList').append(html);
-                                });
-                            } else {
-                                $('#postJobsList').html('<p>Không tìm thấy công việc phù hợp.</p>');
-                            }
+                            `;
+                                $('#postJobsList').append(html);
+                            });
+                        } else {
+                            $('#postJobsList').html('<p>Không tìm thấy công việc phù hợp.</p>');
+                        }
 
-                            // Update pagination links
-                            $('#paginationLinks').html(createPaginationLinks(response));
-                        },
-                        error: function(xhr) {
-                            console.log(xhr.responseText);
-                            $('#postJobsList').html('<p>Có lỗi xảy ra khi tìm kiếm công việc.</p>');
-                        }
-                    });
-                }
-            });
-            function createPaginationLinks(response) {
-                var linksHtml = '';
-                if (response.links.length > 0) {
-                    $.each(response.links, function(index, link) {
-                        var label = link.label;
-                        if (label === '« Previous') {
-                            label = '<';
-                        } else if (label === 'Next »') {
-                            label = '>';
-                        }
-                        linksHtml += `<li class="page-item ${link.active ? 'active' : ''}"><a class="page-link" href="${link.url}">${label}</a></li>`;
-                    });
-                }
-                return `<nav aria-label="Page navigation example">
+                        // Update pagination links
+                        $('#paginationLinks').html(createPaginationLinks(response));
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        $('#postJobsList').html('<p>Có lỗi xảy ra khi tìm kiếm công việc.</p>');
+                    }
+                });
+            }
+        });
+
+        function createPaginationLinks(response) {
+            var linksHtml = '';
+            if (response.links.length > 0) {
+                $.each(response.links, function(index, link) {
+                    var label = link.label; console.log(label)
+                    if (label.includes('Previous')) {
+                        label = '<';
+                    } else if (label.includes('Next')) {
+                        label = '>';
+                    }
+                    linksHtml += `<li class="page-item ${link.active ? 'active' : ''}"><a class="page-link" href="${link.url}">${label}</a></li>`;
+                });
+            }
+
+            var paginationHtml = `<nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     ${linksHtml}
                 </ul>
             </nav>`;
-            }
 
+            var pageInfoHtml = `<div class="d-flex justify-content-start">
+                <p class="small text-muted mr-3 mt-2">
+                    {!! __('Hiển thị bài đăng từ') !!}
+            <span class="fw-semibold">${response.from}</span>
+                    {!! __('đến') !!}
+            <span class="fw-semibold">${response.to}</span>
+                    {!! __('của') !!}
+            <span class="fw-semibold">${response.total}</span>
+                    {!! __('bài đăng') !!}
+            </p>
+        </div>`;
 
-            $(document).ready(function() {
-                $('#industryDropdown').select2({
-                    placeholder: 'Chọn ngành nghề',
-                    allowClear: true
-                });
+            return  pageInfoHtml + paginationHtml;
+        }
 
-                $('#locationDropdown').select2({
-                    placeholder: 'Chọn địa điểm',
-                    allowClear: true
-                });
+        $(document).ready(function() {
+            $('#industryDropdown').select2({
+                placeholder: 'Chọn ngành nghề',
+                allowClear: true
             });
+
+            $('#locationDropdown').select2({
+                placeholder: 'Chọn địa điểm',
+                allowClear: true
+            });
+        });
     </script>
+
 @endsection
