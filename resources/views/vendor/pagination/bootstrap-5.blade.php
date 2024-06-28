@@ -29,13 +29,13 @@
         <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-around">
             <div>
                 <p class="small text-muted mr-3">
-                    {!! __('Hiển thị bài đăng từ') !!}
+                    {!! __('Hiển thị kết quả từ') !!}
                     <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
                     {!! __('đến') !!}
                     <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
                     {!! __('của') !!}
                     <span class="fw-semibold">{{ $paginator->total() }}</span>
-                    {!! __('bài đăng') !!}
+                    {!! __('kết quả') !!}
                 </p>
             </div>
 
