@@ -36,10 +36,10 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|string|min:8',
         ], [
-            'email.required' => 'The email field is required.',
-            'email.email' => 'Please enter a valid email address.',
-            'password.required' => 'The password field is required.',
-            'password.min' => 'The password must be at least 8 characters long.',
+            'email.required' => 'Bạn cần nhập email.',
+            'email.email' => 'Hãy nhập đúng dạng email.',
+            'password.required' => 'Bạn cần nhập mật khẩu.',
+            'password.min' => 'Mật khẩu cần dài ít nhất 8 kí tự.',
         ]);
         if ($this->authRepository->authenticate($request->only('email', 'password'))) {
             if(Auth::user()->role_id == Base::ADMIN){
@@ -51,7 +51,7 @@ class LoginController extends Controller
             return redirect()->intended();
         }
         return redirect('login')->withInput()->withErrors([
-            'email' => 'Invalid email or password.'
+            'email' => 'Email hoặc mật khẩu không hợp lệ'
         ]);
     }
     public function showRegistrationForm()
@@ -65,21 +65,33 @@ class LoginController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required',
+        ], [
+            'username.required' => 'Tên đăng nhập là bắt buộc.',
+            'username.string' => 'Tên đăng nhập phải là chuỗi ký tự.',
+            'username.max' => 'Tên đăng nhập không được vượt quá 255 ký tự.',
+            'email.required' => 'Email là bắt buộc.',
+            'email.string' => 'Email phải là chuỗi ký tự.',
+            'email.email' => 'Email không đúng định dạng.',
+            'email.max' => 'Email không được vượt quá 255 ký tự.',
+            'email.unique' => 'Email đã tồn tại.',
+            'password.required' => 'Mật khẩu là bắt buộc.',
+            'password.string' => 'Mật khẩu phải là chuỗi ký tự.',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự.',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+            'role.required' => 'Vai trò là bắt buộc.',
         ]);
 
         $user = $this->authRepository->registerUser($request->all());
 
         return redirect()->route('login')->with('success', 'Tạo tài khoản thành công');
     }
+
     public function logout()
     {
-        // Đăng xuất người dùng
         Auth::logout();
 
-        // Xoá tất cả dữ liệu trong session
         session()->flush();
 
-        // Chuyển hướng người dùng về trang chủ
         return redirect('/');
     }
 
