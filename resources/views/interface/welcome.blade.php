@@ -479,13 +479,13 @@
 
             var pageInfoHtml = `<div class="d-flex justify-content-start">
                 <p class="small text-muted mr-3 mt-2">
-                    {!! __('Hiển thị bài đăng từ') !!}
+                    {!! __('Hiển kết quả từ') !!}
             <span class="fw-semibold">${response.from}</span>
                     {!! __('đến') !!}
             <span class="fw-semibold">${response.to}</span>
                     {!! __('của') !!}
             <span class="fw-semibold">${response.total}</span>
-                    {!! __('bài đăng') !!}
+                    {!! __('kết quả') !!}
             </p>
         </div>`;
 
