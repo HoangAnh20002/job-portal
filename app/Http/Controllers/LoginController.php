@@ -42,6 +42,10 @@ class LoginController extends Controller
             'password.min' => 'The password must be at least 8 characters long.',
         ]);
         if ($this->authRepository->authenticate($request->only('email', 'password'))) {
+            $user = Auth::user();
+            session([
+                'auth'=>$user
+            ]);
             if(Auth::user()->role_id == Base::ADMIN){
                 return redirect()->intended();
             }
@@ -75,7 +79,7 @@ class LoginController extends Controller
     {
         // Đăng xuất người dùng
         Auth::logout();
-
+        
         // Xoá tất cả dữ liệu trong session
         session()->flush();
 
