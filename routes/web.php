@@ -67,9 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('services', ServiceController::class)->names('servicesroute');
 
     //VNPAY
-    Route::get('/create-payment', [VNpayController::class, 'create'])->name('createPayment');
-
-    Route::get('/return-vnpay', [VNpayController::class, 'return']);
+   
     //Get all apply
     Route::get('/get-my-apply',[UserController::class,'showApply'])->name('showApply');
     //Search job
@@ -78,3 +76,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-all',[PaymentController::class,'showAllPayment'])->middleware('checkAdmin')->name('paymentAll');
 });
 
+Route::get('/create-payment', [VNpayController::class, 'create'])->name('createPayment');
+
+Route::get('/return-vnpay', [VNpayController::class, 'return'])->name('Vnpay_return');

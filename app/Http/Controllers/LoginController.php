@@ -42,6 +42,10 @@ class LoginController extends Controller
             'password.min' => 'Mật khẩu cần dài ít nhất 8 kí tự.',
         ]);
         if ($this->authRepository->authenticate($request->only('email', 'password'))) {
+            $user = Auth::user();
+            session([
+                'auth'=>$user
+            ]);
             if(Auth::user()->role_id == Base::ADMIN){
                 return redirect()->intended();
             }
@@ -90,6 +94,8 @@ class LoginController extends Controller
     {
         Auth::logout();
 
+        
+        // Xoá tất cả dữ liệu trong session
         session()->flush();
 
         return redirect('/');
